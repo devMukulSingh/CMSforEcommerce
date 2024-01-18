@@ -1,20 +1,6 @@
 "use client"
-import {
-  Command,
-  CommandDialog,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-  CommandShortcut,
-} from "@/components/ui/command"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
+import {Command,CommandEmpty,CommandGroup,CommandInput,CommandItem,CommandList,CommandSeparator,} from "@/components/ui/command"
+import {Popover,PopoverContent,PopoverTrigger} from "@/components/ui/popover"
 import { Store } from "@prisma/client"
 import { ChevronsUpDown, PlusCircle, Store as StoreIcon } from "lucide-react"
 import { useParams } from "next/navigation"
@@ -22,6 +8,7 @@ import { Button } from "./ui/button"
 import { useState } from "react"
 import { setDialog } from "@/store/slice"
 import { useAppDispatch } from "@/store/hooks"
+import { useRouter } from "next/navigation"
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>
 
@@ -29,19 +16,23 @@ interface StoreSwitcherProps extends PopoverTriggerProps{
   items: Store[]
 }
 
-const StoreSwitcher = ({ items = []} ) => {
+
+const StoreSwitcher = ({ items} : {items : Store[]} ) => {
 
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const params = useParams();
-  const formattedItems = items.map( (item) => ({
+  const formattedItems = items.map( (item :Store) => ({
     label : item.name,
-    value : item.id
+    id : item.id
   }));
 
-  const currentStore = formattedItems.find( (item) => item.value === params.storeId)
-  const onStoreSelect = ( store : { label : string, value:string}) => {
+  const currentStore = formattedItems.find( (item) => item.id === params.storeId);
 
+  const onStoreSelect = ( store : { label : string, id:string}) => {
+      setOpen(false);
+      router.push(`/${store.id}`)
   }
 
   return (
@@ -55,7 +46,7 @@ const StoreSwitcher = ({ items = []} ) => {
           aria-expanded = {open}
           aria-label="Select a store"
           className="w-52 justify-between "
-          onClick={ () => setOpen(true)}
+          onClick={ () => setOpen(prev => !prev)}
         >
           <StoreIcon/>
           {currentStore?.label}
@@ -71,7 +62,7 @@ const StoreSwitcher = ({ items = []} ) => {
                 <CommandGroup>
                   {
                     formattedItems.map( (store) => 
-                      <CommandItem key={store.value}
+                      <CommandItem key={store.id}
                         onSelect = { () => onStoreSelect(store)}
                       >
                         {store.label}
@@ -87,7 +78,7 @@ const StoreSwitcher = ({ items = []} ) => {
                 <CommandItem
                  onSelect={ () => {
                   setOpen(false);
-                  dispatch( setDialog())
+                  dispatch( setDialog(true))
                  }}
                  className="cursor-pointer"
                 >

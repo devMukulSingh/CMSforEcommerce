@@ -1,3 +1,4 @@
+"use client"
 import * as z from "zod";
 import axios from "axios";
 
@@ -10,6 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 
 const formSchema = z.object({
@@ -17,6 +19,7 @@ const formSchema = z.object({
 })
 
 export const StoreModal = () => {
+    const router = useRouter();
     const [loading, setLoading] = useState<boolean>(false);
     const isOpen = useAppSelector( state => state.adminSlice.isOpen);
     const dispatch = useAppDispatch();
@@ -33,6 +36,8 @@ export const StoreModal = () => {
             setLoading(true);
             const { data } = await axios.post(`/api/stores`,values);
             console.log(data);
+            dispatch( setDialog(false));
+            router.refresh();
         } catch (error) {
             console.log(`Error in onSubmit handler ${error}`);   
         }
@@ -46,7 +51,7 @@ export const StoreModal = () => {
             title="Create Store"
             description="Add a new store"
             isOpen={isOpen}
-            onClose={ () => { dispatch(setDialog() ) } }
+            onClose={ () => { dispatch(setDialog(false) ) } }
             >
             <div>
                 <Form {...form}>
@@ -70,8 +75,12 @@ export const StoreModal = () => {
                             gap-4
                             mt-5
                         ">
-                            <Button disabled={loading} type="submit">Continue</Button>
-                            <Button disabled={loading} onClick={ () => dispatch(setDialog())} variant="outline">Cancel</Button>
+                            <Button disabled={loading} type="submit">
+                                Continue
+                            </Button>
+                            <Button disabled={loading} onClick={ () => dispatch(setDialog(false))} variant="outline">
+                                Cancel
+                            </Button>
                         </footer>
                     </form>
                 </Form>

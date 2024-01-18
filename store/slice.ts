@@ -11,8 +11,8 @@ export const adminSlice = createSlice({
     name :"admin",
     initialState,
     reducers:{
-        setDialog : (state) => {
-            state.isOpen = !state.isOpen;
+        setDialog : (state,action) => {
+            state.isOpen = action.payload;
         }
     },
 })

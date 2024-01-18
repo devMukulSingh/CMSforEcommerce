@@ -17,7 +17,9 @@ export default function Home() {
     <>
       <main>
         <StoreModal/>  
-          <Button onClick={ () => dispatch( setDialog())}>Add Store</Button>
+          <Button onClick={ () => dispatch( setDialog(true))}>
+            Add Store
+          </Button>
       </main>
     </>
   )
