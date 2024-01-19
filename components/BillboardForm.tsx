@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { TrashIcon } from "lucide-react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Store } from "@prisma/client";
+import { Billboard } from "@prisma/client";
 import React, { useState } from "react";
 import { Separator } from "./ui/separator";
 import axios from "axios";
@@ -14,28 +14,33 @@ import { useParams } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { AlertModal } from "./modals/AlertModal";
+import ImageUpload from "./ui/image-upload";
 
-interface IsettingsFormProps{
-    initialValues : Store
+interface IbillboardFormProps{
+    initialValues : Billboard | null
 }
 
 const formSchema = z.object({
-    name: z.string().min(1)
+    label: z.string().min(1),
+    imageUrl : z.string().min(1)
 })
-type SettingFormValues = z.infer<typeof formSchema>;
+type BillboardFormValues = z.infer<typeof formSchema>;
 
-const SettingsForm : React.FC<IsettingsFormProps> = ( {initialValues} ) => {
+const BillboardForm : React.FC<IbillboardFormProps> = ( {initialValues} ) => {
     const [openDeleteAlert, setOpenDeleteAlert] = useState<boolean>(false);
     const params = useParams();
     const router = useRouter();
     const { storeId } = params;
     const [loading, setLoading] = useState(false);
 
-    const form = useForm<SettingFormValues>({
+    const form = useForm<BillboardFormValues>({
         resolver : zodResolver(formSchema),
-        defaultValues : initialValues
+        defaultValues : initialValues || {
+            label: '',
+            imageUrl:''
+        } 
     });
-    const handleSubmit = async( data:SettingFormValues) => {
+    const handleSubmit = async( data:BillboardFormValues) => {
         try {
             setLoading(true);
             const res = await axios.patch(`/api/stores/${storeId}`,data);
@@ -77,8 +82,8 @@ const SettingsForm : React.FC<IsettingsFormProps> = ( {initialValues} ) => {
             <main className="flex flex-col gap-6 px-10 py-2">
                 <header className="flex justify-between ">
                     <section>
-                        <h1 className="text-2xl font-bold">Settings</h1>
-                        <p className="text-sm">Manage Store Preferences</p>
+                        <h1 className="text-2xl font-bold">Billboards</h1>
+                        <p className="text-sm">Manage Billboard Preferences</p>
                     </section>
                     <Button onClick={ () => setOpenDeleteAlert(true) }
                         disabled={loading}
@@ -89,15 +94,33 @@ const SettingsForm : React.FC<IsettingsFormProps> = ( {initialValues} ) => {
                 <Separator/>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(handleSubmit)}>
-                        <div className="flex flex-col gap-4">
+                      <div className="flex gap-4 flex-col">
                         <FormField
                             control={form.control}
-                            name='name'
+                            name="imageUrl"                            
                             render = { ({field}) => (
                             <FormItem>
-                                <FormLabel>Store name</FormLabel>
+                                <FormLabel>Add Image</FormLabel>
+                                <FormControl>
+                                <ImageUpload
+                                    onRemove={ () => field.onChange }
+                                    disabled={loading}
+                                    onChange={ () => {}}
+                                    value={ field.value ? [field.value] : [] } />
+                                </FormControl>
+                                </FormItem>
+                                )}
+                                >
+                                </FormField>
+
+                        <FormField
+                            control={form.control}
+                            name="label"                            
+                            render = { ({field}) => (
+                            <FormItem>
+                                <FormLabel>Billboard name</FormLabel>
                             <FormControl>
-                            <Input placeholder="store name" {...field} autoComplete="off" />
+                            <Input placeholder="name" {...field} autoComplete="off" />
                                 </FormControl>
                                 </FormItem>
                                 )}
@@ -105,17 +128,18 @@ const SettingsForm : React.FC<IsettingsFormProps> = ( {initialValues} ) => {
                             </FormField>
 
                             <Button type="submit" 
-                                className="cursor-pointer w-32"
+                                className="w-32 cursor-pointer"
                                 disabled={loading}
                                 >
-                                Save changes 
+                                Create 
                             </Button>
-                            </div>
-                        </form>
+                        </div>
+                    </form>
                 </Form>
             </main>
     </>
   )
 }
 
-export default SettingsForm;
+export default BillboardForm;
+

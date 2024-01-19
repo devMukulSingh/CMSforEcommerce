@@ -17,7 +17,16 @@ const Navbar = async( {storeId} : {storeId : string} ) => {
     console.log(store);
     const routes = [
         {
-            href:`/${storeId}/settings`
+            href:`/${storeId}`,
+            label:'Overview'
+        },
+        {
+            href:`/${storeId}/billboards`,
+            label : 'Billboards'
+        },
+        {
+            href:`/${storeId}/settings`,
+            label : 'Settings'
         },
         
     ]
@@ -26,7 +35,7 @@ const Navbar = async( {storeId} : {storeId : string} ) => {
         <nav className="w-full
             h-24
             flex
-            gap-4
+            gap-10
             px-5
             items-center
             ">
@@ -35,7 +44,7 @@ const Navbar = async( {storeId} : {storeId : string} ) => {
                 routes.map( (route) => (
                     <Link  href={route.href} 
                         className="text-xl  ">
-                        Settings
+                        {route.label}
                     </Link>
                 ))
             }
