@@ -30,7 +30,7 @@ const BillboardForm : React.FC<IbillboardFormProps> = ( {initialValues} ) => {
     const [openDeleteAlert, setOpenDeleteAlert] = useState<boolean>(false);
     const params = useParams();
     const router = useRouter();
-    const { storeId } = params;
+    const { storeId,billboardId } = params;
     const [loading, setLoading] = useState(false);
 
     const form = useForm<BillboardFormValues>({
@@ -40,15 +40,21 @@ const BillboardForm : React.FC<IbillboardFormProps> = ( {initialValues} ) => {
             imageUrl:''
         } 
     });
-    const handleSubmit = async( data:BillboardFormValues) => {
+    const onSubmit = async( data:BillboardFormValues) => {
         try {
             setLoading(true);
-            const res = await axios.patch(`/api/stores/${storeId}`,data);
-            toast.success("Store updated");
+            if(initialValues){
+                const res = await axios.patch(`/api/${storeId}/billboard/${billboardId}`,data);
+                toast.success("Billboard updated");
+            }
+            else{
+                const res = await axios.post(`/api/${storeId}/billboard`,data);
+                toast.success("Billboard created");
+            }
             router.refresh();
         } catch (error) {
             toast.error("Something went wrong");
-            console.log(`Error in handleSubmit ${error}`);
+            console.log(`Error in onSubmit ${error}`);
         }
     finally{
         setLoading(false);
@@ -57,8 +63,8 @@ const BillboardForm : React.FC<IbillboardFormProps> = ( {initialValues} ) => {
     const handleDeleteStore = async() => {
         try{
             setLoading(true);
-            const res = await axios.delete(`/api/stores/${storeId}`);
-            toast.success("Store Deleted");
+            const res = await axios.delete(`/api/${storeId}/billboard/${billboardId}`);
+            toast.success("Billboard Deleted");
             router.refresh();
 
         }
@@ -82,7 +88,9 @@ const BillboardForm : React.FC<IbillboardFormProps> = ( {initialValues} ) => {
             <main className="flex flex-col gap-6 px-10 py-2">
                 <header className="flex justify-between ">
                     <section>
-                        <h1 className="text-2xl font-bold">Billboards</h1>
+                        <h1 className="text-2xl font-bold">
+                           { initialValues ? `Edit Billboard`: `Create Billboard` }
+                        </h1>
                         <p className="text-sm">Manage Billboard Preferences</p>
                     </section>
                     <Button onClick={ () => setOpenDeleteAlert(true) }
@@ -92,8 +100,9 @@ const BillboardForm : React.FC<IbillboardFormProps> = ( {initialValues} ) => {
                     </Button>
                 </header>
                 <Separator/>
+
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(handleSubmit)}>
+                    <form onSubmit={form.handleSubmit(onSubmit)}>
                       <div className="flex gap-4 flex-col">
                         <FormField
                             control={form.control}
@@ -103,9 +112,9 @@ const BillboardForm : React.FC<IbillboardFormProps> = ( {initialValues} ) => {
                                 <FormLabel>Add Image</FormLabel>
                                 <FormControl>
                                 <ImageUpload
-                                    onRemove={ () => field.onChange }
+                                    onRemove={ () => field.onChange("") }
                                     disabled={loading}
-                                    onChange={ () => {}}
+                                    onChange={ (url) => field.onChange(url) }
                                     value={ field.value ? [field.value] : [] } />
                                 </FormControl>
                                 </FormItem>
@@ -131,7 +140,7 @@ const BillboardForm : React.FC<IbillboardFormProps> = ( {initialValues} ) => {
                                 className="w-32 cursor-pointer"
                                 disabled={loading}
                                 >
-                                Create 
+                                { initialValues ? 'Save Changes' : 'Create'} 
                             </Button>
                         </div>
                     </form>

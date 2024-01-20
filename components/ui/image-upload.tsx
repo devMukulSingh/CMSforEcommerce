@@ -8,8 +8,8 @@ import Image from "next/image";
 
 interface IimageUploadProps{
     disabled:boolean;
-    onChange : () => void;
-    onRemove : () => void;
+    onChange : (value: string) => void;
+    onRemove : (value: string) => void;
     value : string[]
 }
 
@@ -27,10 +27,12 @@ const ImageUpload:React.FC<IimageUploadProps> = ({
     },[]);
     
     const onUpload = ( result:any) => {
-        console.log(result.info.secure_url);
+        onChange(result.info.secure_url);
     }
 
     if(!isMounted) return null;
+    console.log(value);
+    
 
 
 return(
@@ -38,11 +40,12 @@ return(
         <main>
             <section>
                 {
-                    value?.map( (url ) => (
-                        <figure className="w-[200px] h-[200px]">
+                    value.map( (url ) => (
+                        <figure className="w-[200px] h-[200px] relative overflow-hidden ">
                             <Image src={url}
                                 alt="uploadedImage"
                                 fill
+                                className="object-contain"
                             />
                         </figure>
                     ))
@@ -56,12 +59,13 @@ return(
                     }
                     return(
                         <Button
+                            disabled={disabled}
                             type="button"
                             variant="secondary"
                             onClick={onClick}
                             className="flex gap-3"
                         >
-                            <ImagePlus/>
+                            <ImagePlus />
                             Upload an image
                         </Button>
                     )
