@@ -1,6 +1,7 @@
+"use client"
 import { UserButton, auth } from "@clerk/nextjs"
 import StoreSwitcher from "./StoreSwitcher"
-import { redirect, useParams } from "next/navigation";
+import { redirect, useParams, usePathname } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { Separator } from "./ui/separator";
 import Link from "next/link";
@@ -8,6 +9,7 @@ import Link from "next/link";
 const Navbar = async( {storeId} : {storeId : string} ) => {
 
     const { userId } = auth();
+    const pathName = usePathname();
     if( !userId) redirect("/");
     const store = await prisma.store.findMany({
         where:{
@@ -18,15 +20,18 @@ const Navbar = async( {storeId} : {storeId : string} ) => {
     const routes = [
         {
             href:`/${storeId}`,
-            label:'Overview'
+            label:'Overview',
+            active : pathName === `/${storeId}`
         },
         {
             href:`/${storeId}/billboards`,
-            label : 'Billboards'
+            label : 'Billboards',
+            active : pathName === `/${storeId}/billboards`
         },
         {
             href:`/${storeId}/settings`,
-            label : 'Settings'
+            label : 'Settings',
+            active : pathName === `/${storeId}/settings`
         },
         
     ]
@@ -43,7 +48,7 @@ const Navbar = async( {storeId} : {storeId : string} ) => {
             {
                 routes.map( (route) => (
                     <Link  href={route.href} 
-                        className="text-xl  ">
+                        className={` ${route.active ? 'font-bold' : ''} text-xl`}>
                         {route.label}
                     </Link>
                 ))

@@ -50,6 +50,7 @@ const BillboardForm : React.FC<IbillboardFormProps> = ( {initialValues} ) => {
             else{
                 const res = await axios.post(`/api/${storeId}/billboard`,data);
                 toast.success("Billboard created");
+                router.push(`/${storeId}/billboards`)
             }
             router.refresh();
         } catch (error) {
@@ -65,8 +66,8 @@ const BillboardForm : React.FC<IbillboardFormProps> = ( {initialValues} ) => {
             setLoading(true);
             const res = await axios.delete(`/api/${storeId}/billboard/${billboardId}`);
             toast.success("Billboard Deleted");
-            router.refresh();
-
+            setOpenDeleteAlert(false);
+            router.push(`/${storeId}/billboards`);
         }
         catch(e){
             toast.error("Something went wrong");
