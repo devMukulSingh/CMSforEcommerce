@@ -5,7 +5,7 @@ import { Button } from "./ui/button"
 import { useParams, useRouter } from "next/navigation";
 import {DataTable} from "./DataTable";
 import { Billboard } from "@prisma/client";
-import { BillboardColumn, columns } from "./ui/table-column";
+import { BillboardColumn, columns } from "./ui/BillboardColumn";
 import ApiList from "./ApiList";
 import { Separator } from "./ui/separator";
 
@@ -17,8 +17,7 @@ const BillBoardsClientComp:React.FC<BillBoardClientCompProps> = ({
     billboard,
 }) => {
 
-    const params = useParams();
-    const { storeId} = params;
+    const { storeId} = useParams();
     const router = useRouter();
   return (
     <main className="flex flex-col gap-4 p-5">
@@ -27,8 +26,7 @@ const BillBoardsClientComp:React.FC<BillBoardClientCompProps> = ({
                 <h1 className="text-2xl font-bold">BillBoards({billboard.length})</h1>
                 <p className="text-sm text-slate-500">Manage Billboards</p>
             </div>
-            <Button className="flex gap-2"
-                onClick={ () => router.push(`/${storeId}/billboards/new`)}>
+            <Button onClick={ () => router.push(`/${storeId}/billboards/new`)} className="flex gap-2">
                 <PlusCircle/>
                 Add New
             </Button>

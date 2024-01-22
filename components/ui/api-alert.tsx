@@ -43,7 +43,7 @@ export const ApiAlert:React.FC<IapiAlertProps> = ({
                             {textMap[variant]}
                         </Badge>
                     </AlertTitle>                 
-                    <AlertDescription className="flex justify-between">
+                    <AlertDescription className="flex justify-between bg-slate-100 items-center rounded-md px-2">
                         {description}
                         <Button variant="ghost" onClick={ () => handleCopy() }>
                             <Copy className=""/>

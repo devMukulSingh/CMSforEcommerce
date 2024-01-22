@@ -1,10 +1,10 @@
 import { useParams } from "next/navigation"
-import { ApiAlert } from "./ui/api-alert"
-import useOrigin from "@/hooks/useOrigin";
+import { ApiAlert } from "./ui/api-alert";
+import { BASE_URL } from "@/constants/constants";
+
 
 const ApiList = () => {
     const { storeId } = useParams();
-    const origin = useOrigin();
   return (
     <main className="space-y-5">
         <header>
@@ -12,19 +12,29 @@ const ApiList = () => {
             <p className="text-sm text-slate-400">View Api calls</p>
         </header>
         <ApiAlert
-            description={`${origin}/api/${storeId}/billboards/{billboardId}`}
+            description={`${BASE_URL}/api/${storeId}/billboards`}
             title="GET"
             variant="public"
         />
         <ApiAlert
-            description={`${origin}/api/${storeId}/billboards/{billboardId}`}
+            description={`${BASE_URL}/api/${storeId}/billboards/{billboardId}`}
             title="GET"
             variant="public"
         />
         <ApiAlert
-            description={`${origin}/api/${storeId}/billboards/{billboardId}`}
-            title="GET"
-            variant="public"
+            description={`${BASE_URL}/api/${storeId}/billboards/{billboardId}`}
+            title="POST"
+            variant="admin"
+        />
+         <ApiAlert
+            description={`${BASE_URL}/api/${storeId}/billboards/{billboardId}`}
+            title="POST"
+            variant="admin"
+        />
+         <ApiAlert
+            description={`${BASE_URL}/api/${storeId}/billboards/{billboardId}`}
+            title="DELETE"
+            variant="admin"
         />
     </main>
   )

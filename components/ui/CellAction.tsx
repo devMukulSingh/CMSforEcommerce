@@ -6,7 +6,7 @@ import {  useRouter, useParams } from 'next/navigation'
 import axios from 'axios'
 import { AlertModal } from '../modals/AlertModal'
 import { toast } from 'react-hot-toast';
-import { BillboardColumn } from './table-column'
+import { BillboardColumn } from './BillboardColumn'
 
 
 interface IcellActionProps{
