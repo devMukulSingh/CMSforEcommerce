@@ -31,8 +31,9 @@ const NavLinks = () => {
     <main className="flex gap-10">
         {
             routes.map( (route) => (
-                <Link href={route.href} 
-                        className={` ${route.active ? 'font-bold' : ''} text-xl`}>
+                <Link href={route.href}
+                    key={route.href}
+                    className={` ${route.active ? 'font-bold' : ''} text-xl`}>
                     {route.label}
                 </Link>
             ))

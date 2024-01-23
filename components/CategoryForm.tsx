@@ -32,9 +32,8 @@ const CategoryForm : React.FC<IcategoryFormProps> = (
      {initialValues,billboards} 
      ) => {
     const [openDeleteAlert, setOpenDeleteAlert] = useState<boolean>(false);
-    const params = useParams();
+    const {storeId,categoryId} = useParams();
     const router = useRouter();
-    const { storeId,billboardId } = params;
     const [loading, setLoading] = useState(false);
 
     const form = useForm<CategoryFormValues>({
@@ -48,13 +47,13 @@ const CategoryForm : React.FC<IcategoryFormProps> = (
         try {
             setLoading(true);
             if(initialValues){
-                const res = await axios.patch(`/api/${storeId}/billboard/${billboardId}`,data);
-                toast.success("Billboard updated");
+                const res = await axios.patch(`/api/${storeId}/category/${categoryId}`,data);
+                toast.success("Category updated");
             }
             else{
-                const res = await axios.post(`/api/${storeId}/billboard`,data);
-                toast.success("Billboard created");
-                router.push(`/${storeId}/billboards`)
+                const res = await axios.post(`/api/${storeId}/category`,data);
+                toast.success("Category created");
+                router.push(`/${storeId}/categories`)
             }
             router.refresh();
         } catch (error) {
@@ -68,10 +67,10 @@ const CategoryForm : React.FC<IcategoryFormProps> = (
     const handleDeleteStore = async() => {
         try{
             setLoading(true);
-            const res = await axios.delete(`/api/${storeId}/billboard/${billboardId}`);
-            toast.success("Billboard Deleted");
+            await axios.delete(`/api/${storeId}/category/${categoryId}`);
+            toast.success("Category deleted");
             setOpenDeleteAlert(false);
-            router.push(`/${storeId}/billboards`);  
+            router.push(`/${storeId}/categories`);  
         }
         catch(e){
             toast.error("Something went wrong");
@@ -96,7 +95,7 @@ const CategoryForm : React.FC<IcategoryFormProps> = (
                         <h1 className="text-2xl font-bold">
                            { initialValues ? `Edit Category`: `Create Category` }
                         </h1>
-                        <p className="text-sm">Manage Category Preferences</p>
+                        <p className="text-sm text-slate-500">Manage Category Preferences</p>
                     </section>
                     <Button onClick={ () => setOpenDeleteAlert(true) }
                         disabled={loading}
