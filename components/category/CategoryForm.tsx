@@ -8,14 +8,14 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Billboard, Category } from "@prisma/client";
 import React, { useState } from "react";
-import { Separator } from "./ui/separator";
+import { Separator } from "../ui/separator";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { AlertModal } from "./modals/AlertModal";
-import ImageUpload from "./ui/image-upload";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import { AlertModal } from "../modals/AlertModal";
+import ImageUpload from "../ui/image-upload";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
 interface IcategoryFormProps{
     initialValues : Category | null,

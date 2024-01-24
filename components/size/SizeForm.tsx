@@ -6,44 +6,55 @@ import { Input } from "@/components/ui/input";
 import { TrashIcon } from "lucide-react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Store } from "@prisma/client";
+import { Size } from "@prisma/client";
 import React, { useState } from "react";
-import { Separator } from "./ui/separator";
+import { Separator } from "../ui/separator";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { AlertModal } from "./modals/AlertModal";
+import { AlertModal } from "../modals/AlertModal";
 
-interface IsettingsFormProps{
-    initialValues : Store
+interface IclientFormProps{
+    initialValues : Size | null
 }
 
 const formSchema = z.object({
-    name: z.string().min(1)
+    name: z.string().min(1),
+    value : z.string().min(1)
 })
-type SettingFormValues = z.infer<typeof formSchema>;
+type ClientFormValues = z.infer<typeof formSchema>;
 
-const SettingsForm : React.FC<IsettingsFormProps> = ( {initialValues} ) => {
+const SizeForm : React.FC<IclientFormProps> = ( {initialValues} ) => {
     const [openDeleteAlert, setOpenDeleteAlert] = useState<boolean>(false);
     const params = useParams();
     const router = useRouter();
-    const { storeId } = params;
+    const { storeId,sizeId } = params;
     const [loading, setLoading] = useState(false);
 
-    const form = useForm<SettingFormValues>({
+    const form = useForm<ClientFormValues>({
         resolver : zodResolver(formSchema),
-        defaultValues : initialValues
+        defaultValues : initialValues || {
+            name: '',
+            value:''
+        } 
     });
-    const handleSubmit = async( data:SettingFormValues) => {
+    const onSubmit = async( data:ClientFormValues) => {
         try {
             setLoading(true);
-            const res = await axios.patch(`/api/stores/${storeId}`,data);
-            toast.success("Store updated");
+            if(initialValues){
+                const res = await axios.patch(`/api/${storeId}/size/${sizeId}`,data);
+                toast.success("Size updated");
+            }
+            else{
+                const res = await axios.post(`/api/${storeId}/size`,data);
+                toast.success("Size created");
+                router.push(`/${storeId}/sizes`)
+            }
             router.refresh();
         } catch (error) {
             toast.error("Something went wrong");
-            console.log(`Error in handleSubmit ${error}`);
+            console.log(`Error in onSubmit ${error}`);
         }
     finally{
         setLoading(false);
@@ -52,10 +63,10 @@ const SettingsForm : React.FC<IsettingsFormProps> = ( {initialValues} ) => {
     const handleDeleteStore = async() => {
         try{
             setLoading(true);
-            const res = await axios.delete(`/api/stores/${storeId}`);
-            toast.success("Store Deleted");
-            router.refresh();
-
+            const res = await axios.delete(`/api/${storeId}/size/${sizeId}`);
+            toast.success("Size Deleted");
+            setOpenDeleteAlert(false);
+            router.push(`/${storeId}/sizes`);  
         }
         catch(e){
             toast.error("Something went wrong");
@@ -77,8 +88,10 @@ const SettingsForm : React.FC<IsettingsFormProps> = ( {initialValues} ) => {
             <main className="flex flex-col gap-6 px-10 py-2">
                 <header className="flex justify-between ">
                     <section>
-                        <h1 className="text-2xl font-bold">Settings</h1>
-                        <p className="text-sm">Manage Store Preferences</p>
+                        <h1 className="text-2xl font-bold">
+                           { initialValues ? `Edit size`: `Create size` }
+                        </h1>
+                        <p className="text-sm">Manage size Preferences</p>
                     </section>
                     <Button onClick={ () => setOpenDeleteAlert(true) }
                         disabled={loading}
@@ -87,17 +100,32 @@ const SettingsForm : React.FC<IsettingsFormProps> = ( {initialValues} ) => {
                     </Button>
                 </header>
                 <Separator/>
+
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(handleSubmit)}>
-                        <div className="flex flex-col gap-4">
+                    <form onSubmit={form.handleSubmit(onSubmit)}>
+                      <div className="flex gap-4 flex-col">
                         <FormField
                             control={form.control}
-                            name='name'
+                            name="name"                            
                             render = { ({field}) => (
                             <FormItem>
-                                <FormLabel>Store name</FormLabel>
+                                <FormLabel>Size</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="Size" {...field} autoComplete="off" />
+                                </FormControl>
+                                </FormItem>
+                                )}
+                                >
+                                </FormField>
+
+                        <FormField
+                            control={form.control}
+                            name="value"                            
+                            render = { ({field}) => (
+                            <FormItem>
+                                <FormLabel>Size value</FormLabel>
                             <FormControl>
-                            <Input placeholder="store name" {...field} autoComplete="off" />
+                            <Input placeholder="size value" {...field} autoComplete="off" />
                                 </FormControl>
                                 </FormItem>
                                 )}
@@ -105,17 +133,18 @@ const SettingsForm : React.FC<IsettingsFormProps> = ( {initialValues} ) => {
                             </FormField>
 
                             <Button type="submit" 
-                                className="cursor-pointer w-32"
+                                className="w-32 cursor-pointer"
                                 disabled={loading}
                                 >
-                                Save changes 
+                                { initialValues ? 'Save Changes' : 'Create'} 
                             </Button>
-                            </div>
-                        </form>
+                        </div>
+                    </form>
                 </Form>
             </main>
     </>
   )
 }
 
-export default SettingsForm;
+export default SizeForm;
+

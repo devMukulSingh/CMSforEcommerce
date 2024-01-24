@@ -6,51 +6,49 @@ import { Input } from "@/components/ui/input";
 import { TrashIcon } from "lucide-react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Billboard } from "@prisma/client";
+import { Color } from "@prisma/client";
 import React, { useState } from "react";
-import { Separator } from "./ui/separator";
+import { Separator } from "../ui/separator";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { AlertModal } from "./modals/AlertModal";
-import ImageUpload from "./ui/image-upload";
+import { AlertModal } from "../modals/AlertModal";
+import ImageUpload from "../ui/image-upload";
 
-interface IbillboardFormProps{
-    initialValues : Billboard | null
+interface IcolorFormProps{
+    initialValues : Color | null
 }
 
 const formSchema = z.object({
-    label: z.string().min(1),
-    imageUrl : z.string().min(1)
+    value: z.string().min(1),
 })
-type BillboardFormValues = z.infer<typeof formSchema>;
+type colorFormValues = z.infer<typeof formSchema>;
 
-const BillboardForm : React.FC<IbillboardFormProps> = ( {initialValues} ) => {
+const colorForm : React.FC<IcolorFormProps> = ( {initialValues} ) => {
     const [openDeleteAlert, setOpenDeleteAlert] = useState<boolean>(false);
     const params = useParams();
     const router = useRouter();
-    const { storeId,billboardId } = params;
+    const { storeId,colorId } = params;
     const [loading, setLoading] = useState(false);
 
-    const form = useForm<BillboardFormValues>({
+    const form = useForm<colorFormValues>({
         resolver : zodResolver(formSchema),
         defaultValues : initialValues || {
-            label: '',
-            imageUrl:''
+            value: '',
         } 
     });
-    const onSubmit = async( data:BillboardFormValues) => {
+    const onSubmit = async( data:colorFormValues) => {
         try {
             setLoading(true);
             if(initialValues){
-                const res = await axios.patch(`/api/${storeId}/billboard/${billboardId}`,data);
-                toast.success("Billboard updated");
+                const res = await axios.patch(`/api/${storeId}/color/${colorId}`,data);
+                toast.success("color updated");
             }
             else{
-                const res = await axios.post(`/api/${storeId}/billboard`,data);
-                toast.success("Billboard created");
-                router.push(`/${storeId}/billboards`)
+                const res = await axios.post(`/api/${storeId}/color`,data);
+                toast.success("color created");
+                router.push(`/${storeId}/colors`)
             }
             router.refresh();
         } catch (error) {
@@ -64,10 +62,10 @@ const BillboardForm : React.FC<IbillboardFormProps> = ( {initialValues} ) => {
     const handleDeleteStore = async() => {
         try{
             setLoading(true);
-            const res = await axios.delete(`/api/${storeId}/billboard/${billboardId}`);
-            toast.success("Billboard Deleted");
+            const res = await axios.delete(`/api/${storeId}/color/${colorId}`);
+            toast.success("color Deleted");
             setOpenDeleteAlert(false);
-            router.push(`/${storeId}/billboards`);  
+            router.push(`/${storeId}/colors`);  
         }
         catch(e){
             toast.error("Something went wrong");
@@ -90,9 +88,9 @@ const BillboardForm : React.FC<IbillboardFormProps> = ( {initialValues} ) => {
                 <header className="flex justify-between ">
                     <section>
                         <h1 className="text-2xl font-bold">
-                           { initialValues ? `Edit Billboard`: `Create Billboard` }
+                           { initialValues ? `Edit color`: `Create color` }
                         </h1>
-                        <p className="text-sm">Manage Billboard Preferences</p>
+                        <p className="text-sm">Manage color Preferences</p>
                     </section>
                     <Button onClick={ () => setOpenDeleteAlert(true) }
                         disabled={loading}
@@ -105,30 +103,13 @@ const BillboardForm : React.FC<IbillboardFormProps> = ( {initialValues} ) => {
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)}>
                       <div className="flex gap-4 flex-col">
-                        <FormField
-                            control={form.control}
-                            name="imageUrl"                            
-                            render = { ({field}) => (
-                            <FormItem>
-                                <FormLabel>Add Image</FormLabel>
-                                <FormControl>
-                                <ImageUpload
-                                    onRemove={ () => field.onChange("") }
-                                    disabled={loading}
-                                    onChange={ (url) => field.onChange(url) }
-                                    value={ field.value ? [field.value] : [] } />
-                                </FormControl>
-                                </FormItem>
-                                )}
-                                >
-                                </FormField>
 
                         <FormField
                             control={form.control}
-                            name="label"                            
+                            name="value"                            
                             render = { ({field}) => (
                             <FormItem>
-                                <FormLabel>Billboard name</FormLabel>
+                                <FormLabel>color name</FormLabel>
                             <FormControl>
                             <Input placeholder="name" {...field} autoComplete="off" />
                                 </FormControl>
@@ -151,5 +132,5 @@ const BillboardForm : React.FC<IbillboardFormProps> = ( {initialValues} ) => {
   )
 }
 
-export default BillboardForm;
+export default colorForm;
 

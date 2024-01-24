@@ -62,7 +62,7 @@ export async function PATCH(
             }
         });
     
-        return NextResponse.json({ updatedBillboard, status:200});
+        return NextResponse.json({ updatedBillboard, status:201});
     
 } catch (error) {
     console.log(`Error in Billboard PATCH req ${error}`);

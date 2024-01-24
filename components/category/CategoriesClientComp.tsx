@@ -1,13 +1,13 @@
 "use client"
 
 import { PlusCircle } from "lucide-react"
-import { Button } from "./ui/button"
+import { Button } from "../ui/button"
 import { useParams, useRouter } from "next/navigation";
-import {DataTable} from "./DataTable";
+import {DataTable} from "../commons/DataTable";
 import { Category } from "@prisma/client";
-import { CategoryColumn, columns } from "./ui/CategoryColumn";
-import ApiList from "./ApiList";
-import { Separator } from "./ui/separator";
+import { CategoryColumn, columns } from "../ui/CategoryColumn";
+import ApiList from "../commons/ApiList";
+import { Separator } from "../ui/separator";
 
 interface CategoriesClientCompProps{
     categories : CategoryColumn[];

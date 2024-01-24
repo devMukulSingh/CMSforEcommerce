@@ -1,13 +1,13 @@
 "use client"
 
 import { PlusCircle, Router } from "lucide-react"
-import { Button } from "./ui/button"
+import { Button } from "../ui/button"
 import { useParams, useRouter } from "next/navigation";
-import {DataTable} from "./DataTable";
+import {DataTable} from "../commons/DataTable";
 import { Billboard } from "@prisma/client";
-import { BillboardColumn, columns } from "./ui/BillboardColumn";
-import ApiList from "./ApiList";
-import { Separator } from "./ui/separator";
+import { BillboardColumn, columns } from "../ui/BillboardColumn";
+import ApiList from "../commons/ApiList";
+import { Separator } from "../ui/separator";
 
 interface BillBoardClientCompProps{
     billboard : BillboardColumn[];

@@ -32,7 +32,7 @@ export async function POST(
                 storeId
             }
         });
-        return NextResponse.json({ billboard, status:200 });
+        return NextResponse.json({ billboard, status:201 });
     
     } catch (error) {
         console.log(`Error in Billboard POST req ${error}`);

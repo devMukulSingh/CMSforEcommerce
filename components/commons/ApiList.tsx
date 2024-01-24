@@ -1,5 +1,5 @@
 import { useParams } from "next/navigation"
-import { ApiAlert } from "./ui/api-alert";
+import { ApiAlert } from "../ui/api-alert";
 import { BASE_URL } from "@/constants/constants";
 
 

@@ -1,10 +1,7 @@
 "use client"
-import Image from 'next/image';
 
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { Button } from '@/components/ui/button'
-import { UserButton } from '@clerk/nextjs';
-import { Modal } from '@/components/ui/modal';
 import { setDialog } from '@/store/slice';
 import { StoreModal } from '@/components/modals/StoreModal';
 

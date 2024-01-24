@@ -20,7 +20,21 @@ const NavLinks = () => {
             label : 'Categories',
             active : pathName === `/${storeId}/categories`
         },
-        
+        {
+            href:`/${storeId}/sizes`,
+            label : 'Size',
+            active : pathName === `/${storeId}/sizes`
+        },
+        {
+            href:`/${storeId}/colors`,
+            label : 'Color',
+            active : pathName === `/${storeId}/colors`
+        },
+        {
+            href:`/${storeId}/products`,
+            label : 'Products',
+            active : pathName === `/${storeId}/products`
+        },
         {
             href:`/${storeId}/settings`,
             label : 'Settings',

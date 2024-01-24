@@ -1,4 +1,4 @@
-import SettingsForm from "@/components/SettingsForm";
+import SettingsForm from "@/components/settings/SettingsForm";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";

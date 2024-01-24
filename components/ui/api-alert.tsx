@@ -29,7 +29,6 @@ export const ApiAlert:React.FC<IapiAlertProps> = ({
 }) => {
     
     const handleCopy = () => {
-        alert('cpou')
         navigator.clipboard.writeText(description);
         toast.success(`Copied to clipboard`);
     }

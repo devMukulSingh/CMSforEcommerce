@@ -1,4 +1,4 @@
-import CategoriesClientComp from "@/components/CategoriesClientComp";
+import CategoriesClientComp from "@/components/category/CategoriesClientComp";
 import { CategoryColumn } from "@/components/ui/CategoryColumn";
 import { prisma } from "@/lib/prisma";
 import { Billboard } from "@prisma/client";
