@@ -1,20 +1,19 @@
 "use client"
 
-import { PlusCircle, Router } from "lucide-react"
+import { PlusCircle } from "lucide-react"
 import { Button } from "../ui/button"
 import { useParams, useRouter } from "next/navigation";
 import {DataTable} from "../commons/DataTable";
-import { Billboard } from "@prisma/client";
-import { SizeColumn, columns } from "../ui/SizeColumn";
+import { ProductColumn, columns } from "../ui/ProductColumn";
 import ApiList from "../commons/ApiList";
 import { Separator } from "../ui/separator";
 
-interface SizeClientCompProps{
-    size : SizeColumn[];
+interface ProductClientCompProps{
+    products : ProductColumn[];
 }
 
-const SizeClientComp:React.FC<SizeClientCompProps> = ({
-    size,
+const ProductClientComp:React.FC<ProductClientCompProps> = ({
+    products,
 }) => {
 
     const { storeId} = useParams();
@@ -23,17 +22,17 @@ const SizeClientComp:React.FC<SizeClientCompProps> = ({
     <main className="flex flex-col gap-4 p-5">
         <header className="flex justify-between">
             <div>
-                <h1 className="text-2xl font-bold">Size({size.length})</h1>
-                <p className="text-sm text-slate-500">Manage Sizes</p>
+                <h1 className="text-2xl font-bold">Products({products.length})</h1>
+                <p className="text-sm text-slate-500">Manage Products</p>
             </div>
-            <Button onClick={ () => router.push(`/${storeId}/sizes/new`)} className="flex gap-2">
+            <Button onClick={ () => router.push(`/${storeId}/products/new`)} className="flex gap-2">
                 <PlusCircle/>
                 Add New
             </Button>
         </header>
         <DataTable
             columns={columns}
-            data={size}
+            data={products}
         />
         <Separator/>
         <ApiList/>
@@ -41,4 +40,4 @@ const SizeClientComp:React.FC<SizeClientCompProps> = ({
   )
 }
 
-export default SizeClientComp
+export default ProductClientComp

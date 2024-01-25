@@ -1,31 +1,44 @@
-import BillBoardsClientComp from "@/components/billboard/BillBoardsClientComp";
-import { BillboardColumn } from "@/components/ui/BillboardColumn";
+import ProductClientComp from "@/components/product/ProductClientComp"
+import { ProductColumn } from "@/components/ui/ProductColumn";
 import { prisma } from "@/lib/prisma";
-import { Billboard } from "@prisma/client";
 import { format } from "date-fns";
 
 
-const BillboardsPage = async( {params} : {
+const ProductsPage = async( {params} : {
     params: { storeId:string}
 }) => {
-    const billboard = await prisma.billboard.findMany({
+
+    const products = await prisma.product.findMany({
         where: {
             storeId:params.storeId
+        },
+        include : {
+            category:true,
+            size:true,
+            color:true,
+            images:true,
         }
-    })
-    const formattedBillboards:BillboardColumn[] = billboard.map( item => ({
+    });
+
+    const formattedProducts:ProductColumn[] = products.map( item => ({
         id: item.id,
-        label:item.label,
+        name:item.name,
+        price:item.price,   
+        category:item.category.name,
+        color:item.color.value,
+        size: item.size.value,
+        isFeatured:item.isFeatured,
+        isArchived:item.isArchived,
         createdAt : format(item.createdAt,"MMMM do, yyyy")
     }))
     return(
         <>
-            BillboardsPage
-            <BillBoardsClientComp 
-                billboard = {formattedBillboards}
+            ProductsPage
+            <ProductClientComp 
+                products = {formattedProducts}
             />
         </>
     )
 }
 
-export default BillboardsPage;
+export default ProductsPage;

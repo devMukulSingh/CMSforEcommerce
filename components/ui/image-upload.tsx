@@ -1,6 +1,6 @@
 "use client"
 
-import { ImagePlus } from "lucide-react";
+import { ImagePlus, Trash } from "lucide-react";
 import { Button } from "./button";
 import { CldUploadWidget } from "next-cloudinary";
 import { useEffect, useState } from "react";
@@ -38,17 +38,28 @@ const ImageUpload:React.FC<IimageUploadProps> = ({
 return(
     <>
         <main>
-            <section>
+            <section className="flex gap-3">
+
                 {
-                    value.map( (url ) => (
-                        <figure className="w-[200px] h-[200px] relative overflow-hidden ">
-                            <Image src={url}
-                                alt="uploadedImage"
-                                fill
-                                className="object-contain"
-                            />
-                        </figure>
-                    ))
+                    value.map( (url ) => {
+                        return(
+                            <>
+                                <figure className="w-[200px] h-[200px] relative overflow-hidden">
+                                    <span className="absolute left-1 top-1 z-10">
+                                        <Trash 
+                                            className="w-5 h-5 cursor-pointer"
+                                            onClick={() => onRemove(url)}
+                                            />
+                                    </span>
+                                    <Image src={url}
+                                        alt="uploadedImage"
+                                        fill
+                                        className="object-contain border"
+                                        />
+                                </figure>
+                            </>
+                    )
+                })
                 }
             </section>
 
