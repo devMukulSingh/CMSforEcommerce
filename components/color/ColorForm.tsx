@@ -17,7 +17,7 @@ import { AlertModal } from "../modals/AlertModal";
 import ImageUpload from "../ui/image-upload";
 
 interface IcolorFormProps{
-    initialValues : Color | null
+    initialValues : Color,
 }
 
 const formSchema = z.object({

@@ -77,7 +77,7 @@ model Color{
 model Product{
   id          String      @id@default(uuid())
   name        String        
-  price       Decimal  
+  price       Int  
   storeId     String      //foreign key to Store
   store       Store       @relation("StoreToProduct",fields:[storeId],references: [id])
   sizeId      String      //foreign key to Size
@@ -102,7 +102,7 @@ model Image{
   id            String        @id@default(uuid())
   url           String
   productId      String       //foreign key to Product
-  product       Product       @relation("ImageToProduct",fields: [productId],references: [id])
+  product       Product       @relation("ImageToProduct",fields: [productId],references: [id],onDelete: Cascade)
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt()
 

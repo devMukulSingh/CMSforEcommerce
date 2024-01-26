@@ -9,7 +9,7 @@ export async function POST(
     try {
         const { userId } = auth();
         const body = await req.json();
-        const { name, price, colorId,sizeId, images,categoryId } = body;
+        const { name, price, colorId,sizeId, images,categoryId, isArchived,isFeatured } = body;
         const { storeId } = params;
         
         if(!userId) return NextResponse.json({msg:'Unauthenticated',status:401});
@@ -28,7 +28,7 @@ export async function POST(
 
         if(!sizeId) return NextResponse.json({ msg:'sizeId is required',status:400});
 
-        if(!images || images.length() < 0) return NextResponse.json({ msg:'imageId is required',status:400});
+        if(!images || images.length < 0) return NextResponse.json({ msg:'image is required',status:400});
 
         if(!price) return NextResponse.json({ msg:'price is required',status:400});
 
@@ -44,6 +44,8 @@ export async function POST(
                 colorId,
                 sizeId,
                 categoryId,
+                isArchived,
+                isFeatured,
                 images:{
                     createMany : {
                         data : [...images.map( (img : {url:string}) => img)]

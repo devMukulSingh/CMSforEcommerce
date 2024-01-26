@@ -36,7 +36,7 @@ export async function PATCH(
         const { storeId, productId } = params;
         const { userId } = auth();
         const body = await req.json();
-        const { name, price, color,size, images,category,isArchived,isFeatured } = body;
+        const { name, price, colorId,sizeId, images,categoryId,isArchived,isFeatured } = body;
 
         if( !userId ) return NextResponse.json({ msg:'Unauthenticated',status:401});
 
@@ -44,15 +44,15 @@ export async function PATCH(
     
         if(!name) return NextResponse.json({ msg:'name required',status:400});
 
-        if(!color) return NextResponse.json({ msg:'color is required',status:400});
+        if(!colorId) return NextResponse.json({ msg:'colorId is required',status:400});
 
-        if(!size) return NextResponse.json({ msg:'size is required',status:400});
+        if(!sizeId) return NextResponse.json({ msg:'sizeId is required',status:400});
 
-        if(!images || images.length() < 0) return NextResponse.json({ msg:'image is required',status:400});
+        if(!images || images.length < 0) return NextResponse.json({ msg:'image is required',status:400});
 
         if(!price) return NextResponse.json({ msg:'price is required',status:400});
 
-        if(!category) return NextResponse.json({ msg:'category is required',status:400});
+        if(!categoryId) return NextResponse.json({ msg:'categoryId is required',status:400});
 
 
          const storeByUserId = await prisma.store.findUnique({
@@ -77,9 +77,9 @@ export async function PATCH(
             data : {
                 name,
                 price,
-                color,
-                size,
-                category,
+                colorId,
+                sizeId,
+                categoryId,
                 isArchived,
                 isFeatured,
                 images:{
@@ -134,6 +134,12 @@ try {
             where: {
                 userId,
                 id : storeId,
+            },
+            include:{
+                categories:true,
+                colors:true,
+                products:true,
+                sizes:true,
             }
         })
     

@@ -1,6 +1,8 @@
 import ProductForm from "@/components/product/ProductForm"
+import { ProductColumn } from "@/components/ui/ProductColumn";
 import { prisma } from "@/lib/prisma";
-import { Category, Color, Product, Size } from "@prisma/client";
+import { Category, Color, Image, Product, Size } from "@prisma/client";
+
 
 const SingleProductPage = async(
   {params} : { params : {productId : string, storeId : string} }

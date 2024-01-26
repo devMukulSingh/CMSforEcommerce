@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { TrashIcon } from "lucide-react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Category, Color, Product, Size } from "@prisma/client";
+import { Category, Color, Image, Product, Size } from "@prisma/client";
 import React, { useState } from "react";
 import { Separator } from "../ui/separator";
 import axios from "axios";
@@ -15,24 +15,30 @@ import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { AlertModal } from "../modals/AlertModal";
 import ImageUpload from "../ui/image-upload";
-import { Select, SelectContent, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { Checkbox } from "../ui/checkbox";
+import { ProductColumn } from "../ui/ProductColumn";
+
+
 
 interface IproductFormProps{
-    initialValues : Product[],
+    initialValues : ProductColumn &
+    {
+        images: Image[]
+    } | null
+    ,
     categories : Category[],
     colors : Color[],
     sizes : Size[],
-
 }
 
 const formSchema = z.object({
     name: z.string().min(1),
-    price: z.coerce.number().min(1),
-    image: z.object({ url: z.string() }).array(),
-    category : z.string().min(1),
-    color:z.string().min(1),
-    size : z.string().min(1),
+    price: z.coerce.number().positive(),
+    images: z.object({ url: z.string() }).array(),
+    categoryId : z.string().min(1),
+    colorId:z.string().min(1),
+    sizeId : z.string().min(1),
     isFeatured : z.boolean().default(false).optional(),
     isArchived : z.boolean().default(false).optional(),
 })
@@ -54,15 +60,15 @@ const ProductForm : React.FC<IproductFormProps> = ( {
     const form = useForm<productFormValues>({
         resolver : zodResolver(formSchema),
         defaultValues : initialValues ? 
-        { ...initialValues, price: parseFloat(String(initialValues ))}
+        { ...initialValues }
         :
          {
             name: "",
             price: 0,
-            image: [],
-            category : "",
-            color:"",
-            size : "",
+            images: [],
+            categoryId : "",
+            colorId:"",
+            sizeId : "",
             isFeatured :false,
             isArchived : false
         }
@@ -140,8 +146,8 @@ const ProductForm : React.FC<IproductFormProps> = ( {
                             render = { ({field}) => (
                             <FormItem>
                                 <FormLabel>product name</FormLabel>
-                            <FormControl>
-                            <Input placeholder="name" {...field} autoComplete="off" />
+                                <FormControl>
+                                    <Input placeholder="name" {...field} autoComplete="off" />
                                 </FormControl>
                                 </FormItem>
                                 )}
@@ -150,48 +156,62 @@ const ProductForm : React.FC<IproductFormProps> = ( {
                             
                             {/* price */}
                             <FormField
-                            control={form.control}
-                            name="price"                            
-                            render = { ({field}) => (
-                            <FormItem>
-                                <FormLabel>Price</FormLabel>
-                            <FormControl>
-                            <Input placeholder="price" {...field} autoComplete="off" />
-                                </FormControl>
+                                control={form.control}
+                                name="price"                            
+                                render = { ({field}) => (
+                                <FormItem>
+                                    <FormLabel>Price</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="price" {...field} autoComplete="off" />
+                                    </FormControl>
                                 </FormItem>
                                 )}
                                 >
                             </FormField>
 
-                              
+                            {/* <FormField>(internally it uses <Controller> component) 
+                            is a wrapper component, so that we can use react hook form with external libraries
+                            it provides field object, which contains methods, such as onChange,onBlur,value to the child component*/}
+ 
                             <FormField
                                 control={form.control}
-                                name="color"                            
+                                name="colorId"                            
                                 render = { ({field}) => (
                                 <FormItem>
                                     <FormLabel>Color</FormLabel>
                                     <Select
-                                        onValueChange={field.onChange}
-                                        disabled={loading}
-                                        value={field.value}
+                                        // onValueChange => triggers as soon any value changes in the select field
+                                        // field.onChange => is a method of react-hook-form, which will get the values 
+                                        // of the field as soon as the value of the (Select) field changes and pass it to the react form
+                                        onValueChange={field.onChange}  //2nd step
+                                        // value prop => contains, what is the current value of the <Select> field selected               
+                                        //field.value => contains the value of the field which is selected by the user, using the 
+                                        // select dropdown
+                                        value={field.value} //3rd step
+                                        disabled={loading}              
                                     >
-                                        <SelectItem value={field.value}>
-                                    <FormControl>
-                                        <SelectTrigger>
-                                            <SelectLabel>Select Color</SelectLabel>
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                        {
-                                            colors.map( (color) => (
-                                                <SelectItem 
-                                                    value={color.id}
-                                                    key={color.id}
-                                                >{color.value}</SelectItem>
-                                            ))
-                                        }
-                                    </SelectContent>
-                                        </SelectItem>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="SelectColor"/>
+                                            </SelectTrigger>
+                                        </FormControl>
+
+                                        <SelectContent>
+                                            {
+                                                colors.map( (color) => (
+                                                    <SelectItem
+                                                        // value referred to what value is selected, using select dropdown
+                                                        // this value is then passed to the react form using <Form Control>,
+                                                        // so that we can get what value is selected (above)
+                                                        value={color.id} //1st step
+                                                        key={color.id}
+                                                    >
+                                                        {color.value}
+                                                    </SelectItem>
+                                                ))
+                                            }
+                                        </SelectContent>
+                            
                                     </Select>
                                 </FormItem>
                                 )}
@@ -201,21 +221,43 @@ const ProductForm : React.FC<IproductFormProps> = ( {
                                 {/* size */}
                             <FormField
                                 control={form.control}
-                                name="size"                            
+                                name="sizeId"                            
                                 render = { ({field}) => (
                                 <FormItem>
                                     <FormLabel>Size</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="Size" {...field} autoComplete="off" />
-                                    </FormControl>
+                                    <Select
+                                        onValueChange={field.onChange} 
+                                        value={field.value}             
+                                        disabled={loading}              
+                                        defaultValue={field.value} 
+                                    >
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="SelectSize"/>
+                                            </SelectTrigger>
+                                        </FormControl>
+
+                                        <SelectContent>
+                                            {
+                                                sizes.map( (size) => (
+                                                    <SelectItem
+                                                        value={size.id}
+                                                        key={size.id}
+                                                    >
+                                                        {size.name}
+                                                    </SelectItem>
+                                                ) )
+                                            }
+                                        </SelectContent>
+                                    </Select>
                                 </FormItem>
-                                    )}
+                                )}
                             >
                             </FormField>
                                 {/* category */}
                             <FormField
                                 control={form.control}
-                                name="category"                            
+                                name="categoryId"                            
                                 render = { ({field}) => (
                                 <FormItem>
                                     <FormLabel>Category</FormLabel>
@@ -233,7 +275,9 @@ const ProductForm : React.FC<IproductFormProps> = ( {
                                             <SelectContent>
                                                 {
                                                     categories.map( (category) => (
-                                                        <SelectItem value={category.name} key={category.id}>
+                                                        <SelectItem 
+                                                            value={category.id} 
+                                                            key={category.id}>
                                                             {category.name}
                                                         </SelectItem>
                                                     ))
@@ -252,7 +296,11 @@ const ProductForm : React.FC<IproductFormProps> = ( {
                                 render={ ({field}) => (
                                     <FormItem className="border p-3">
                                         <FormControl>
-                                            <Checkbox id="isFeatured" className="mr-4"/>
+                                            <Checkbox 
+                                                checked={field.value}
+                                                onCheckedChange={field.onChange}
+                                                className="mr-4"
+                                                />
                                         </FormControl>
                                         <FormLabel>isFeatured</FormLabel>
                                         <FormDescription>
@@ -269,8 +317,11 @@ const ProductForm : React.FC<IproductFormProps> = ( {
                                 name="isArchived"
                                 render={ ({field}) => (
                                     <FormItem className="border p-3">
-                                        <FormControl >
-                                            <Checkbox id="isArchived" className="mr-4"/>
+                                        <FormControl>
+                                            <Checkbox
+                                                checked={field.value}
+                                                onCheckedChange={field.onChange} 
+                                                className="mr-4"/>
                                         </FormControl>
                                         <FormLabel>isArchived</FormLabel>
                                         <FormDescription>
@@ -283,18 +334,19 @@ const ProductForm : React.FC<IproductFormProps> = ( {
 
                                     {/* image */}
                             <FormField
-                            control={form.control}
-                            name="image"                            
-                            render = { ({field}) => (
-                            <FormItem>
-                                <FormLabel>Add Image</FormLabel>
-                                <FormControl>
-                                <ImageUpload
-                                    onRemove={ (url) => field.onChange( [...field.value.filter( (currImg) => currImg.url !== url )] ) }
-                                    disabled={loading}
-                                    onChange={ (url) => field.onChange([...field.value, {url}])} //inside onChange, we are passing imageUrl as the image gets uploaded
-                                    value={ field.value.map( image => image.url) } />
-                                </FormControl>
+                                control={form.control}
+                                name="images"                            
+                                render = { ({field}) => (
+                                <FormItem>
+                                    <FormLabel>Add Image</FormLabel>
+                                    <FormControl>
+                                        <ImageUpload
+                                            onRemove={ (url) => field.onChange( [...field.value.filter( (currImg) => currImg.url !== url )] ) }
+                                            disabled={loading}
+                                            //inside onChange, we are passing imageUrl as the image gets uploaded
+                                            onChange={ (url) => field.onChange([...field.value, {url} ])} 
+                                            value={ field.value.map( image => image.url) } />
+                                    </FormControl>
                                 </FormItem>
                                 )}
                                 >

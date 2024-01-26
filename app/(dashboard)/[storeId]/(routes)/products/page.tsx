@@ -8,17 +8,17 @@ const ProductsPage = async( {params} : {
     params: { storeId:string}
 }) => {
 
-    const products = await prisma.product.findMany({
-        where: {
-            storeId:params.storeId
-        },
-        include : {
-            category:true,
-            size:true,
-            color:true,
-            images:true,
-        }
-    });
+        const products = await prisma.product.findMany({
+            where: {
+                storeId:params.storeId
+            },
+            include : {
+                category:true,
+                size:true,
+                color:true,
+            }
+        });
+
 
     const formattedProducts:ProductColumn[] = products.map( item => ({
         id: item.id,
