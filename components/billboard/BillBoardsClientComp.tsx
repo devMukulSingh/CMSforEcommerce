@@ -36,7 +36,10 @@ const BillBoardsClientComp:React.FC<BillBoardClientCompProps> = ({
             data={billboard}
         />
         <Separator/>
-        <ApiList/>
+        <ApiList
+            entityName="billboard"
+            entityIdName="{billboardId}"
+        />
     </main>
   )
 }

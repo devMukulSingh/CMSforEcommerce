@@ -1,10 +1,15 @@
 import { useParams } from "next/navigation"
 import { ApiAlert } from "../ui/api-alert";
-import { BASE_URL } from "@/constants/constants";
 
+interface IapiListProps{
+    entityName : string;
+    entityIdName : string;
+}
 
-const ApiList = () => {
-    const { storeId } = useParams();
+const ApiList:React.FC<IapiListProps> = ({
+    entityName,
+    entityIdName,
+}) => {
   return (
     <main className="space-y-5">
         <header>
@@ -12,30 +17,36 @@ const ApiList = () => {
             <p className="text-sm text-slate-400">View Api calls</p>
         </header>
         <ApiAlert
-            description={`${BASE_URL}/api/${storeId}/billboards`}
+            entityIdName=""
+            entityName={entityName}
             title="GET"
             variant="public"
         />
         <ApiAlert
-            description={`${BASE_URL}/api/${storeId}/billboards/{billboardId}`}
+            entityIdName={entityIdName}
+            entityName={entityName}
             title="GET"
             variant="public"
         />
         <ApiAlert
-            description={`${BASE_URL}/api/${storeId}/billboards/{billboardId}`}
+            entityIdName={entityIdName}
+            entityName={entityName}
             title="POST"
             variant="admin"
         />
-         <ApiAlert
-            description={`${BASE_URL}/api/${storeId}/billboards/{billboardId}`}
-            title="POST"
+        <ApiAlert
+            entityIdName={entityIdName}
+            entityName={entityName}
+            title="PATCH"
             variant="admin"
         />
-         <ApiAlert
-            description={`${BASE_URL}/api/${storeId}/billboards/{billboardId}`}
+        <ApiAlert
+            entityIdName={entityIdName}
+            entityName={entityName}
             title="DELETE"
             variant="admin"
         />
+        
     </main>
   )
 }

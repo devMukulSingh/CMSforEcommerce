@@ -3,13 +3,16 @@ import { Alert, AlertDescription, AlertTitle } from "./alert"
 import { Badge, BadgeProps } from "./badge"
 import { Button } from "./button"
 import toast from "react-hot-toast"
+import { BASE_URL } from "@/constants/constants"
+import { useParams } from "next/navigation"
 
 
 
 export interface IapiAlertProps{
-    description: string,
     title : string,
-    variant: string
+    variant: string,
+    entityIdName:string,
+    entityName:string,
 }
 
 const textMap: Record<IapiAlertProps["variant"],string> = {
@@ -22,14 +25,17 @@ const variantMap: Record<IapiAlertProps["variant"],BadgeProps["variant"]> = {
 }
 
 export const ApiAlert:React.FC<IapiAlertProps> = ({
-    description,
     title,
-    variant="public"
+    variant="public",
+    entityName,
+    entityIdName
 
 }) => {
-    
+    const { storeId } = useParams();
+    const url = `${BASE_URL}/api/${storeId}/${entityName}/${entityIdName}`;
+
     const handleCopy = () => {
-        navigator.clipboard.writeText(description);
+        navigator.clipboard.writeText(url);
         toast.success(`Copied to clipboard`);
     }
     return(
@@ -43,7 +49,7 @@ export const ApiAlert:React.FC<IapiAlertProps> = ({
                         </Badge>
                     </AlertTitle>                 
                     <AlertDescription className="flex justify-between bg-slate-100 items-center rounded-md px-2">
-                        {description}
+                        {url}
                         <Button variant="ghost" onClick={ () => handleCopy() }>
                             <Copy className=""/>
                         </Button>

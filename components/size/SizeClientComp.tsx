@@ -36,7 +36,10 @@ const SizeClientComp:React.FC<SizeClientCompProps> = ({
             data={size}
         />
         <Separator/>
-        <ApiList/>
+        <ApiList
+            entityIdName="{sizeId}"
+            entityName="size"
+        />
     </main>
   )
 }

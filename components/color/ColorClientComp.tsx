@@ -35,7 +35,10 @@ const ColorsClientComp:React.FC<ColorClientProps> = ({
             data={color}
         />
         <Separator/>
-        <ApiList/>
+        <ApiList
+            entityName="color"
+            entityIdName="{colorId}"
+        />
     </main>
   )
 }

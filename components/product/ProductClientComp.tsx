@@ -35,7 +35,10 @@ const ProductClientComp:React.FC<ProductClientCompProps> = ({
             data={products}
         />
         <Separator/>
-        <ApiList/>
+        <ApiList
+            entityIdName="{productId}"
+            entityName="product"
+        />
     </main>
   )
 }

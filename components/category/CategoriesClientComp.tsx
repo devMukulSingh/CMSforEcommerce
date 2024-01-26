@@ -45,7 +45,10 @@ const CategoriesClientComp:React.FC<CategoriesClientCompProps> = ({
             data={categories}
         />
         <Separator/>
-        <ApiList/>
+        <ApiList
+            entityIdName="{categoriesId}"
+            entityName="categories"
+        />
     </main>
   )
 }
