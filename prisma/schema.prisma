@@ -1,5 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
   provider = "prisma-client-js"
@@ -20,32 +18,37 @@ model Store{
   sizes       Size[]      @relation("StoreToSize")
   colors      Color[]     @relation("StoreToColor")
   products    Product[]   @relation("StoreToProduct")
+  orders      Order[]     @relation("StoreToOrder")
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 }
 
 model Billboard {
   id            String      @id@default(uuid())
-  storeId       String      //foreign key to Store
+  storeId       String      //foreign key to Store model
   store         Store       @relation("StoreToBillboard",fields:[storeId],references:[id])
   label         String
   imageUrl      String
   categories    Category[]  @relation("BillboardToCategory")  
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
+
+  
   @@index([storeId])
 
 }
 model Category {
   id            String    @id@default(uuid())
-  storeId       String    //foreign key to Store
+  storeId       String    //foreign key to Store model
   name          String
   store         Store     @relation("StoreToCategory", fields: [storeId],references: [id])
   billboard     Billboard @relation("BillboardToCategory",fields: [billboardId],references: [id])
-  billboardId   String    //foreign key to category
+  billboardId   String    //foreign key to Category model
   products      Product[]  @relation("CategoryToProduct")
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+
+
   @@index([storeId])
   @@index([billboardId])
 
@@ -56,7 +59,7 @@ model Size{
   name        String      
   value       String
   store       Store       @relation("StoreToSize",fields: [storeId],references: [id])
-  storeId     String      //foreign key to Store
+  storeId     String      //foreign key to Store model
   products    Product[]   @relation("SizeToProduct")
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
@@ -67,10 +70,12 @@ model Color{
   id          String       @id@default(uuid())
   value       String
   store       Store        @relation("StoreToColor", fields: [storeId], references: [id])
-  storeId     String        //foreign key to Store
+  storeId     String        //foreign key to Store model
   products    Product[]    @relation("ColorToProduct")
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
+
+  
   @@index([storeId])
 }
 
@@ -78,20 +83,20 @@ model Product{
   id          String      @id@default(uuid())
   name        String        
   price       Int  
-  storeId     String      //foreign key to Store
+  storeId     String      //foreign key to Store model
   store       Store       @relation("StoreToProduct",fields:[storeId],references: [id])
-  sizeId      String      //foreign key to Size
+  sizeId      String      //foreign key to Size model
   size        Size        @relation("SizeToProduct",fields:[sizeId],references: [id])
-  colorId     String      //foreign key to Color
+  colorId     String      //foreign key to Color model
   color       Color       @relation("ColorToProduct",fields: [colorId],references: [id])
-  categoryId  String      //foreign key to Category
+  categoryId  String      //foreign key to Category model
   category    Category    @relation("CategoryToProduct",fields: [categoryId], references: [id])
   images      Image[]     @relation("ImageToProduct")
+  orderItems   OrderItem[] @relation("OrderItemToProduct")
   isFeatured  Boolean     @default(false)
   isArchived  Boolean     @default(false)
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
-
 
   @@index([storeId])
   @@index([sizeId])
@@ -101,10 +106,34 @@ model Product{
 model Image{
   id            String        @id@default(uuid())
   url           String
-  productId      String       //foreign key to Product
+  productId      String       //foreign key to Product model
   product       Product       @relation("ImageToProduct",fields: [productId],references: [id],onDelete: Cascade)
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt()
 
   @@index([productId])
+}
+model Order{
+  id              String        @id@default(uuid())
+  phone           String 
+  address         String  
+  isPaid          Boolean 
+  orderItems      OrderItem[]     @relation("OrderItemToOrder")                    
+  storeId         String   
+  store           Store           @relation("StoreToOrder",fields:[storeId],references: [id])
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  @@index([storeId])
+}
+model OrderItem{
+  id              String          @id@default(uuid())
+  orderId         String
+  order           Order           @relation("OrderItemToOrder",fields: [orderId],references: [id])
+  productId       String          
+  product         Product         @relation("OrderItemToProduct",fields: [productId],references: [id])
+
+
+  @@index([orderId]) //foreign key to Order model
+  @@index([productId]) //foreign key to Product model
 }
