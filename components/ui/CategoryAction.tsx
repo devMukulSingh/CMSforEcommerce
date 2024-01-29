@@ -29,8 +29,9 @@ const CategoryAction:React.FC<IcategoryActionsProps> = ({
     const handleDelete = async() => {
         try{
             setLoading(true);
-            await axios.delete(`/api/${storeId}/category/${data.id}`);
-            toast.success('Category deleted');
+            const res = await axios.delete(`/api/${storeId}/category/${data.id}`);
+            if(res.status === 200) toast.success('Category Deleted');
+            else if( res.status === 500) toast.error(`Something went wrong`);
             router.refresh();
         }catch(e){
             console.log(`Error in handleDelete ${e}`);

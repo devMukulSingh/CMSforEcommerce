@@ -94,17 +94,18 @@ const ProductForm : React.FC<IproductFormProps> = ( {
         setLoading(false);
     }
     }
-    const handleDeleteStore = async() => {
+    const handleProductDelete = async() => {
         try{
             setLoading(true);
             const res = await axios.delete(`/api/${storeId}/product/${productId}`);
-            toast.success("product Deleted");
+            if(res.status === 200 ) toast.success("Product deleted");
+            else if (res.status === 500 ) toast.error("Something went wrong");
             setOpenDeleteAlert(false);
             router.push(`/${storeId}/products`);  
         }
         catch(e){
             toast.error("Something went wrong");
-            console.log(`Error in handleDeleteStore ${e}`);
+            console.log(`Error in handleProductDelete ${e}`);
         }
         finally{
             setLoading(false);
@@ -116,7 +117,7 @@ const ProductForm : React.FC<IproductFormProps> = ( {
                 loading={loading}
                 isOpen={openDeleteAlert}
                 onClose={ () => setOpenDeleteAlert(false)}
-                onConform={ handleDeleteStore }
+                onConform={ handleProductDelete }
 
             />
             <main className="flex flex-col gap-6 px-10 py-2">

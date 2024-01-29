@@ -61,17 +61,18 @@ const BillboardForm : React.FC<IbillboardFormProps> = ( {initialValues} ) => {
         setLoading(false);
     }
     }
-    const handleDeleteStore = async() => {
+    const handleBillboardDelete = async() => {
         try{
             setLoading(true);
             const res = await axios.delete(`/api/${storeId}/billboard/${billboardId}`);
-            toast.success("Billboard Deleted");
+            if(res.status === 200 ) toast.success("Billboard deleted");
+            else if (res.status === 500 ) toast.error("Something went wrong");
             setOpenDeleteAlert(false);
             router.push(`/${storeId}/billboards`);  
         }
         catch(e){
             toast.error("Something went wrong");
-            console.log(`Error in handleDeleteStore ${e}`);
+            console.log(`Error in handleBillboardDelete ${e}`);
         }
         finally{
             setLoading(false);
@@ -83,7 +84,7 @@ const BillboardForm : React.FC<IbillboardFormProps> = ( {initialValues} ) => {
                 loading={loading}
                 isOpen={openDeleteAlert}
                 onClose={ () => setOpenDeleteAlert(false)}
-                onConform={ handleDeleteStore }
+                onConform={ handleBillboardDelete }
 
             />
             <main className="flex flex-col gap-6 px-10 py-2">

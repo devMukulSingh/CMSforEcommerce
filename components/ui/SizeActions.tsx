@@ -29,8 +29,9 @@ const SizeActions:React.FC<IsizeActionsProps> = ({
     const handleDelete = async() => {
         try {
                 setLoading(true);
-                await axios.delete(`/api/${storeId}/size/${sizeId}`);
-                toast.success('Size Deleted');
+                const res = await axios.delete(`/api/${storeId}/size/${sizeId}`);
+                if(res.status === 200 ) toast.success('Size Deleted');
+                else if(res.status === 500) toast.error(`Something went wrong`);
                 setIsOpen(false);
                 router.refresh();
             } catch (error) {

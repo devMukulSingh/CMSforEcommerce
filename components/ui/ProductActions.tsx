@@ -30,8 +30,9 @@ const ProductActions:React.FC<IproductActionsProps> = ({
     const handleDelete = async() => {
         try {
                 setLoading(true);
-                await axios.delete(`/api/${storeId}/product/${productId}`);
-                toast.success('product Deleted');
+                const res = await axios.delete(`/api/${storeId}/product/${productId}`);
+                if(res.status === 200) toast.success('product Deleted');
+                else if( res.status === 500) toast.error(`Something went wrong`);
                 setIsOpen(false);
                 router.refresh();
             } catch (error) {

@@ -1,8 +1,5 @@
 "use client"
 
-import { PlusCircle } from "lucide-react"
-import { Button } from "../ui/button"
-import { useParams, useRouter } from "next/navigation";
 import {DataTable} from "../commons/DataTable";
 import { OrdersColumn, columns } from "../ui/OrdersColumn";
 import ApiList from "../commons/ApiList";
@@ -16,8 +13,6 @@ const OrdersClientComp:React.FC<OrdersClientCompProps> = ({
     orders,
 }) => {
 
-    const { storeId} = useParams();
-    const router = useRouter();
   return (
     <main className="flex flex-col gap-4 p-5">
         <header className="flex justify-between">

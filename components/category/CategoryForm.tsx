@@ -64,11 +64,12 @@ const CategoryForm : React.FC<IcategoryFormProps> = (
         setLoading(false);
     }
     }
-    const handleDeleteStore = async() => {
+    const handleDeleteCategory = async() => {
         try{
             setLoading(true);
-            await axios.delete(`/api/${storeId}/category/${categoryId}`);
-            toast.success("Category deleted");
+            const res = await axios.delete(`/api/${storeId}/category/${categoryId}`);
+            if(res.status === 200 ) toast.success("Category deleted");
+            else if (res.status === 500 ) toast.error("Something went wrong");
             setOpenDeleteAlert(false);
             router.push(`/${storeId}/categories`);  
         }
@@ -86,7 +87,7 @@ const CategoryForm : React.FC<IcategoryFormProps> = (
                 loading={loading}
                 isOpen={openDeleteAlert}
                 onClose={ () => setOpenDeleteAlert(false)}
-                onConform={ handleDeleteStore }
+                onConform={ handleDeleteCategory }
 
             />
             <main className="flex flex-col gap-6 px-10 py-2">

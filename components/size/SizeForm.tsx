@@ -60,17 +60,18 @@ const SizeForm : React.FC<IclientFormProps> = ( {initialValues} ) => {
         setLoading(false);
     }
     }
-    const handleDeleteStore = async() => {
+    const handleSizeDelete = async() => {
         try{
             setLoading(true);
             const res = await axios.delete(`/api/${storeId}/size/${sizeId}`);
-            toast.success("Size Deleted");
+            if(res.status === 200 ) toast.success("Size deleted");
+            else if (res.status === 500 ) toast.error("Something went wrong");
             setOpenDeleteAlert(false);
             router.push(`/${storeId}/sizes`);  
         }
         catch(e){
             toast.error("Something went wrong");
-            console.log(`Error in handleDeleteStore ${e}`);
+            console.log(`Error in handleSizeDelete ${e}`);
         }
         finally{
             setLoading(false);
@@ -82,7 +83,7 @@ const SizeForm : React.FC<IclientFormProps> = ( {initialValues} ) => {
                 loading={loading}
                 isOpen={openDeleteAlert}
                 onClose={ () => setOpenDeleteAlert(false)}
-                onConform={ handleDeleteStore }
+                onConform={ handleSizeDelete }
 
             />
             <main className="flex flex-col gap-6 px-10 py-2">

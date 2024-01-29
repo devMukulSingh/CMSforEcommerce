@@ -30,3 +30,15 @@ export async function POST(req:Request){
         return NextResponse.json({ msg:` Error in stores route handler `, status: 500} );
     }
 }
+
+
+// export async function GET(
+//     req:Request
+// ){
+//     const { userId } = auth();
+//     const storeId = await prisma.store.findMany({
+//         where:{
+//             userId
+//         }
+//     });
+// }

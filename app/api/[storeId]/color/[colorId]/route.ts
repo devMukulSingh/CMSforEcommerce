@@ -36,12 +36,12 @@ export async function PATCH(
         const { userId } = auth();
         const body = await req.json();
         const { colorId, storeId} = params;
-        const{  value } = body;
+        const{  value,name } = body;
 
         if( !userId ) return NextResponse.json({ msg:'Unauthenticated',status:403});
         if( !colorId ) return NextResponse.json({ msg:'color id is required',status:400});
         if( !value ) return NextResponse.json({ msg: 'color value is required',status:400});
-
+        if( !name ) return NextResponse.json({ msg: 'color name is required',status:400});
 
          const storeByUserId = await prisma.store.findUnique({
             where : {
@@ -58,6 +58,7 @@ export async function PATCH(
             },
             data : {
                 value,
+                name,
             }
         });
     

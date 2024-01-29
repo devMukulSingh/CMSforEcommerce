@@ -74,12 +74,12 @@ export async function GET(
         
         if( !storeId ) return NextResponse.json({ msg:'Store id is required',status:400});
 
-        const product = await prisma.product.findMany({
+        const products = await prisma.product.findMany({
             where:{
                 storeId
             }
         });
-        return NextResponse.json({ product, status:200 });
+        return NextResponse.json({ products, status:200 });
     
     } catch (error) {
         console.log(`Error in product GET req ${error}`);

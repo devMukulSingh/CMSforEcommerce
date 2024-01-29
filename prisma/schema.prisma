@@ -68,6 +68,7 @@ model Size{
 
 model Color{
   id          String       @id@default(uuid())
+  name        String
   value       String
   store       Store        @relation("StoreToColor", fields: [storeId], references: [id])
   storeId     String        //foreign key to Store model
@@ -86,11 +87,11 @@ model Product{
   storeId     String      //foreign key to Store model
   store       Store       @relation("StoreToProduct",fields:[storeId],references: [id])
   sizeId      String      //foreign key to Size model
-  size        Size        @relation("SizeToProduct",fields:[sizeId],references: [id])
+  size        Size?        @relation("SizeToProduct",fields:[sizeId],references: [id])
   colorId     String      //foreign key to Color model
   color       Color       @relation("ColorToProduct",fields: [colorId],references: [id])
   categoryId  String      //foreign key to Category model
-  category    Category    @relation("CategoryToProduct",fields: [categoryId], references: [id])
+  category    Category    @relation("CategoryToProduct",fields: [categoryId], references: [id],onDelete: Cascade)
   images      Image[]     @relation("ImageToProduct")
   orderItems   OrderItem[] @relation("OrderItemToProduct")
   isFeatured  Boolean     @default(false)

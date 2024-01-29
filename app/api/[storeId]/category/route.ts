@@ -39,3 +39,27 @@ try {
 }
 
 }
+
+export async function GET( 
+    req:Request,
+    { params } : {
+        params: { storeId : string}
+    }
+ ){
+try {
+        const { storeId } = params;
+    
+        if(!storeId) return NextResponse.json({ msg:'storeId is required', status:400});
+    
+        const categories = await prisma.category.findMany({
+            where:{
+                storeId
+            }
+        });
+    
+        return NextResponse.json( { categories, status:200});
+    } catch (error) {
+        console.log(`Error in Categories GET request ${error}`);
+        return NextResponse.json({ msg:`Error in Categories GET request ${error}`});       
+    }
+}

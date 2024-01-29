@@ -87,10 +87,37 @@ export async function DELETE(
             },
         });
     
-        return NextResponse.json({ msg:'Category Deleted', status:201});
+        return NextResponse.json({ msg:'Category Deleted', status:200});
     } catch (error) {
         console.log(`Error in Category PATCH ${error}`);
         return NextResponse.json({ msg:`Error in Category DELTE handler ${error}`, status:500});
     }
 
+}
+
+export async function GET(
+    req:Request,
+    { params } : {
+        params : { storeId: string, categoryId:string}
+    }
+){
+    try {
+        const { storeId, categoryId } = params;
+    
+        if( !storeId ) return NextResponse.json({msg:'Store Id is required'});
+    
+        if( !categoryId ) return NextResponse.json({msg:'CategoryId is required'});
+    
+        const category = await prisma.category.findUnique({
+            where:{
+                id:categoryId,
+                storeId
+            }
+        });
+        return NextResponse.json({ category, status:200});
+
+    }catch (error) {
+        console.log(`Error in Category GET request ${error}`);
+        return NextResponse.json({ msg:`Error in Category GET request ${error}`,status:500 })
+    }
 }

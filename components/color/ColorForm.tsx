@@ -14,18 +14,18 @@ import { useParams } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { AlertModal } from "../modals/AlertModal";
-import ImageUpload from "../ui/image-upload";
 
 interface IcolorFormProps{
-    initialValues : Color,
+    initialValues : Color | null,
 }
 
 const formSchema = z.object({
     value: z.string().min(1),
+    name: z.string().min(3),
 })
 type colorFormValues = z.infer<typeof formSchema>;
 
-const colorForm : React.FC<IcolorFormProps> = ( {initialValues} ) => {
+const ColorForm : React.FC<IcolorFormProps> = ( {initialValues} ) => {
     const [openDeleteAlert, setOpenDeleteAlert] = useState<boolean>(false);
     const params = useParams();
     const router = useRouter();
@@ -35,7 +35,8 @@ const colorForm : React.FC<IcolorFormProps> = ( {initialValues} ) => {
     const form = useForm<colorFormValues>({
         resolver : zodResolver(formSchema),
         defaultValues : initialValues || {
-            value: '',
+            name:'',
+            value:'',
         } 
     });
     const onSubmit = async( data:colorFormValues) => {
@@ -59,17 +60,18 @@ const colorForm : React.FC<IcolorFormProps> = ( {initialValues} ) => {
         setLoading(false);
     }
     }
-    const handleDeleteStore = async() => {
+    const handleColorDelete = async() => {
         try{
             setLoading(true);
             const res = await axios.delete(`/api/${storeId}/color/${colorId}`);
-            toast.success("color Deleted");
+            if(res.status === 200 ) toast.success("Color deleted");
+            else if (res.status === 500 ) toast.error("Something went wrong");
             setOpenDeleteAlert(false);
             router.push(`/${storeId}/colors`);  
         }
         catch(e){
             toast.error("Something went wrong");
-            console.log(`Error in handleDeleteStore ${e}`);
+            console.log(`Error in handleColorDelete ${e}`);
         }
         finally{
             setLoading(false);
@@ -81,7 +83,7 @@ const colorForm : React.FC<IcolorFormProps> = ( {initialValues} ) => {
                 loading={loading}
                 isOpen={openDeleteAlert}
                 onClose={ () => setOpenDeleteAlert(false)}
-                onConform={ handleDeleteStore }
+                onConform={ handleColorDelete }
 
             />
             <main className="flex flex-col gap-6 px-10 py-2">
@@ -106,12 +108,26 @@ const colorForm : React.FC<IcolorFormProps> = ( {initialValues} ) => {
 
                         <FormField
                             control={form.control}
+                            name="name"                            
+                            render = { ({field}) => (
+                            <FormItem>
+                                <FormLabel>Color name</FormLabel>
+                            <FormControl>
+                            <Input placeholder="name" {...field} autoComplete="off" />
+                                </FormControl>
+                                </FormItem>
+                                )}
+                                >
+                            </FormField>
+
+                            <FormField
+                            control={form.control}
                             name="value"                            
                             render = { ({field}) => (
                             <FormItem>
-                                <FormLabel>color name</FormLabel>
+                                <FormLabel>Hex value</FormLabel>
                             <FormControl>
-                            <Input placeholder="name" {...field} autoComplete="off" />
+                            <Input placeholder="value" {...field} autoComplete="off" />
                                 </FormControl>
                                 </FormItem>
                                 )}
@@ -132,5 +148,5 @@ const colorForm : React.FC<IcolorFormProps> = ( {initialValues} ) => {
   )
 }
 
-export default colorForm;
+export default ColorForm;
 

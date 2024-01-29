@@ -1,13 +1,12 @@
 import OrdersClientComp from "@/components/order/OrdersClientComp";
-import { OrdersColumn } from "@/components/ui/OrdersColumn";
 import { prisma } from "@/lib/prisma";
-import { Billboard, OrderItem } from "@prisma/client";
+import {  OrderItem } from "@prisma/client";
 import { format } from "date-fns";
 
 interface IorderItem extends OrderItem{
     product:{
-        name:String,
-        price:Number,
+        name:string,
+        price:number,
         isFeatured :Boolean,
         isArchived :Boolean,
     }
@@ -34,6 +33,9 @@ const OrdersPage = async( {params} : {
         address: item.address,
         isPaid: item.isPaid,
         products : item.orderItems.map( (orderItem:IorderItem) => (orderItem.product.name)).join(','),
+        totalPrice : item.orderItems.reduce( (prevPrice:number,orderItem:IorderItem) => {
+            return prevPrice + orderItem.product.price
+        },0 ),
         createdAt : format(item.createdAt,"MMMM do, yyyy")
     }))
     return(

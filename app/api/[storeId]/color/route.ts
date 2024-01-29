@@ -9,7 +9,7 @@ export async function POST(
     try {
         const { userId } = auth();
         const body = await req.json();
-        const { value } = body;
+        const { value, name } = body;
         const { storeId } = params;
         
         if(!userId) return NextResponse.json({msg:'Unauthenticated',status:403});
@@ -21,12 +21,16 @@ export async function POST(
         })
     
         if(!store) return NextResponse.json({msg:'Unauthorised', status:401});
-    
+
+        
+        
         if(!value) return NextResponse.json({ msg:'value is required',status:400});
+        if(!store) return NextResponse.json({msg:'name is required', status:400});
     
         const color = await prisma.color.create({
             data : {
                 value,
+                name,
                 storeId
             }
         });

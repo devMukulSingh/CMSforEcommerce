@@ -53,12 +53,12 @@ export async function GET(
         
         if( !storeId ) return NextResponse.json({ msg:'Store id is required',status:400});
 
-        const size = await prisma.size.findMany({
+        const sizes = await prisma.size.findMany({
             where:{
                 storeId
             }
         });
-        return NextResponse.json({ size, status:200 });
+        return NextResponse.json({ sizes, status:200 });
     
     } catch (error) {
         console.log(`Error in size GET req ${error}`);
