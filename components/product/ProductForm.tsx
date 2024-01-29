@@ -207,7 +207,7 @@ const ProductForm : React.FC<IproductFormProps> = ( {
                                                         value={color.id} //1st step
                                                         key={color.id}
                                                     >
-                                                        {color.value}
+                                                        {color.name}
                                                     </SelectItem>
                                                 ))
                                             }

@@ -25,7 +25,7 @@ export const columns:ColumnDef<ColorColumn>[] = [
             return(
 
                 <div className='flex items-center gap-4 '>
-                {row.original.name}
+                {row.original.value}
                 <div 
                     className="rounded-full h-8 w-8"
                     style={{ backgroundColor:row.original.value }}
