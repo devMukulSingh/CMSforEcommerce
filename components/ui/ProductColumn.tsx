@@ -9,8 +9,9 @@ export type ProductColumn = {
   id: string;
   name: string;
   color: string;
-  size: string;
+  size: string | undefined;
   price: number;
+  description : Array<string>;
   category:string;
   isFeatured:boolean;
   isArchived:boolean;

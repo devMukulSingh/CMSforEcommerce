@@ -31,8 +31,6 @@ const ImageUpload:React.FC<IimageUploadProps> = ({
     }
 
     if(!isMounted) return null;
-    console.log(value);
-    
 
 
 return(
@@ -44,7 +42,7 @@ return(
                     value.map( (url ) => {
                         return(
                             <>
-                                <figure className="w-[200px] h-[200px] relative overflow-hidden">
+                                <figure className="w-[200px] h-[200px] relative overflow-hidden" key={url}>
                                     <span className="absolute left-1 top-1 z-10">
                                         <Trash 
                                             className="w-5 h-5 cursor-pointer"

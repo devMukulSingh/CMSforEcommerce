@@ -1,13 +1,13 @@
 "use client"
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
+import { useForm} from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { TrashIcon } from "lucide-react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Category, Color, Image, Product, Size } from "@prisma/client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Separator } from "../ui/separator";
 import axios from "axios";
 import { useParams } from "next/navigation";
@@ -18,9 +18,8 @@ import ImageUpload from "../ui/image-upload";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { Checkbox } from "../ui/checkbox";
 import { ProductColumn } from "../ui/ProductColumn";
-
-
-
+import { Textarea } from "../ui/textarea";
+ 
 interface IproductFormProps{
     initialValues : ProductColumn &
     {
@@ -38,7 +37,8 @@ const formSchema = z.object({
     images: z.object({ url: z.string() }).array(),
     categoryId : z.string().min(1),
     colorId:z.string().min(1),
-    sizeId : z.string().min(1),
+    sizeId : z.string().optional(),
+    description : z.string().array().optional(),
     isFeatured : z.boolean().default(false).optional(),
     isArchived : z.boolean().default(false).optional(),
 })
@@ -69,21 +69,33 @@ const ProductForm : React.FC<IproductFormProps> = ( {
             categoryId : "",
             colorId:"",
             sizeId : "",
+            description:[],
             isFeatured :false,
             isArchived : false
         }
     });
     const onSubmit = async( data:productFormValues) => {
+        data.description = points;
+        console.log(data);
+        
         try {
             setLoading(true);
             if(initialValues){
                 const res = await axios.patch(`/api/${storeId}/product/${productId}`,data);
-                toast.success("product updated");
+                if(res.data.status === 201) toast.success("product updated");
+                else toast.error("Something went wrong");
             }
             else{
                 const res = await axios.post(`/api/${storeId}/product`,data);
-                toast.success("product created");
-                router.push(`/${storeId}/products`)
+                console.log(res);
+                
+                if(res.data.status == 201){
+                    toast.success("product created");
+                    router.push(`/${storeId}/products`)
+                } 
+                else {
+                    toast.error("Something went wrong");
+                }
             }
             router.refresh();
         } catch (error) {
@@ -111,6 +123,21 @@ const ProductForm : React.FC<IproductFormProps> = ( {
             setLoading(false);
         }
     }
+
+
+    const [points, setPoints] = useState<string[]>([]);
+
+    const handleClick = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>,field) => {
+        e.preventDefault();
+        console.log(field);
+        const currVal = field.value;
+        setPoints([...points,currVal ])
+        field.onChange([points]);
+        form.resetField("description",);
+        toast.success("Point added");
+        
+    }
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
   return (
         <>
             <AlertModal
@@ -331,6 +358,31 @@ const ProductForm : React.FC<IproductFormProps> = ( {
                                     </FormItem>
                                 )}
                             >
+                            </FormField>
+
+                            {/* description */}
+                            {/* inside field object
+                            {name: 'description', value: Array(0), onChange: ƒ, onBlur: ƒ, ref: ƒ} */}
+                            <FormField
+                                control={form.control}
+                                name="description"                            
+                                render = { ({field}) => (
+                                <FormItem>
+                                    <FormLabel>Description</FormLabel>
+                                    <FormControl>
+                                        <Textarea 
+                                            {...field} 
+                                            placeholder="Add points" 
+                                            // onChange={ (e) => setPoint(e.target.value)  }
+                                            autoComplete="off" 
+                                            />
+                                    </FormControl>
+                                    <Button onClick={ (e) => handleClick(e,field )} >
+                                        Add point
+                                    </Button>
+                                </FormItem>
+                                )}
+                                >
                             </FormField>
 
                                     {/* image */}

@@ -46,8 +46,6 @@ export async function PATCH(
 
         if(!colorId) return NextResponse.json({ msg:'colorId is required',status:400});
 
-        if(!sizeId) return NextResponse.json({ msg:'sizeId is required',status:400});
-
         if(!images || images.length < 0) return NextResponse.json({ msg:'image is required',status:400});
 
         if(!price) return NextResponse.json({ msg:'price is required',status:400});
@@ -82,6 +80,7 @@ export async function PATCH(
                 categoryId,
                 isArchived,
                 isFeatured,
+                storeId,
                 images:{
                     deleteMany: {}
                 }

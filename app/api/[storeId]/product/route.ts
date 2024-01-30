@@ -9,7 +9,7 @@ export async function POST(
     try {
         const { userId } = auth();
         const body = await req.json();
-        const { name, price, colorId,sizeId, images,categoryId, isArchived,isFeatured } = body;
+        const { name, price, colorId,sizeId, images,categoryId, isArchived,isFeatured,description } = body;
         const { storeId } = params;
         
         if(!userId) return NextResponse.json({msg:'Unauthenticated',status:401});
@@ -21,18 +21,22 @@ export async function POST(
         })
     
         if(!store) return NextResponse.json({msg:'Unathorised', status:402});
-    
+
+        if(!storeId) return NextResponse.json({msg:'Store id is required', status:400});
+        
         if(!name) return NextResponse.json({ msg:'name required',status:400});
 
         if(!colorId) return NextResponse.json({ msg:'colorId is required',status:400});
-
-        if(!sizeId) return NextResponse.json({ msg:'sizeId is required',status:400});
 
         if(!images || images.length < 0) return NextResponse.json({ msg:'image is required',status:400});
 
         if(!price) return NextResponse.json({ msg:'price is required',status:400});
 
         if(!categoryId) return NextResponse.json({ msg:'categoryId is required',status:400});
+
+
+        if(!description || description.length < 0) return NextResponse.json({ msg:'description is required',status:400});
+
 
 
     
@@ -46,12 +50,25 @@ export async function POST(
                 categoryId,
                 isArchived,
                 isFeatured,
+                description:{
+                    createMany:{
+                        data:[...description.map ( (des : string ) => des )]
+                    }
+                },
                 images:{
                     createMany : {
-                        data : [...images.map( (img : {url:string}) => img)]
+                        data : [ ...images.map( ( img : {url:string}) => img) ]
                     }
                 },
             },
+            include:{
+                
+                images:{
+                    select:{
+                        url:true
+                    }
+                }
+            }
 
         });
         return NextResponse.json({ product, status:201 });
@@ -77,6 +94,13 @@ export async function GET(
         const products = await prisma.product.findMany({
             where:{
                 storeId
+            },
+            include:{
+                images:{
+                    select: {
+                        url:true,
+                    }
+                },
             }
         });
         return NextResponse.json({ products, status:200 });

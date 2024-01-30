@@ -26,7 +26,7 @@ const ProductsPage = async( {params} : {
         price:item.price,   
         category:item.category.name,
         color:item.color.value,
-        size: item.size.value,
+        size: item?.size?.value,
         isFeatured:item.isFeatured,
         isArchived:item.isArchived,
         createdAt : format(item.createdAt,"MMMM do, yyyy")
