@@ -1,9 +1,9 @@
 "use client"
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from "@/components/ui/form";
-import { useForm} from "react-hook-form";
+import { ControllerRenderProps, useForm} from "react-hook-form";
 import { Input } from "@/components/ui/input";
-import { TrashIcon } from "lucide-react";
+import { Plus, PlusCircle, PlusSquare, TrashIcon } from "lucide-react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Category, Color, Image, Product, Size } from "@prisma/client";
@@ -19,13 +19,19 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { Checkbox } from "../ui/checkbox";
 import { ProductColumn } from "../ui/ProductColumn";
 import { Textarea } from "../ui/textarea";
- 
+export interface IinitialValues {
+    name: string | undefined;
+    price: number | undefined;
+    categoryId :string | undefined  ;
+    colorId : string |undefined,
+    images: Image[] | undefined,
+    sizeId : string | undefined,
+    archived: boolean | undefined,
+    featured: boolean | undefined,
+    description: string | undefined
+}
 interface IproductFormProps{
-    initialValues : ProductColumn &
-    {
-        images: Image[]
-    } | null
-    ,
+    initialValues : IinitialValues
     categories : Category[],
     colors : Color[],
     sizes : Size[],
@@ -38,7 +44,7 @@ const formSchema = z.object({
     categoryId : z.string().min(1),
     colorId:z.string().min(1),
     sizeId : z.string().optional(),
-    description : z.string().array().optional(),
+    description : z.string().optional(),
     isFeatured : z.boolean().default(false).optional(),
     isArchived : z.boolean().default(false).optional(),
 })
@@ -48,7 +54,8 @@ const ProductForm : React.FC<IproductFormProps> = ( {
     initialValues,
     categories,
     colors,
-    sizes
+    sizes,
+
 
 } ) => {
     const [openDeleteAlert, setOpenDeleteAlert] = useState<boolean>(false);
@@ -60,7 +67,9 @@ const ProductForm : React.FC<IproductFormProps> = ( {
     const form = useForm<productFormValues>({
         resolver : zodResolver(formSchema),
         defaultValues : initialValues ? 
-        { ...initialValues }
+        { ...initialValues,
+
+        }
         :
          {
             name: "",
@@ -69,13 +78,13 @@ const ProductForm : React.FC<IproductFormProps> = ( {
             categoryId : "",
             colorId:"",
             sizeId : "",
-            description:[],
+            description:"",
             isFeatured :false,
             isArchived : false
         }
     });
     const onSubmit = async( data:productFormValues) => {
-        data.description = points;
+        // data.description = points;
         console.log(data);
         
         try {
@@ -125,18 +134,6 @@ const ProductForm : React.FC<IproductFormProps> = ( {
     }
 
 
-    const [points, setPoints] = useState<string[]>([]);
-
-    const handleClick = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>,field) => {
-        e.preventDefault();
-        console.log(field);
-        const currVal = field.value;
-        setPoints([...points,currVal ])
-        field.onChange([points]);
-        form.resetField("description",);
-        toast.success("Point added");
-        
-    }
     //////////////////////////////////////////////////////////////////////////////////////////////////////
   return (
         <>
@@ -165,7 +162,7 @@ const ProductForm : React.FC<IproductFormProps> = ( {
 
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)}>
-                        <div className="grid grid-cols-3 gap-3">
+                        <div className="grid grid-cols-3 gap-5">
 
                             {/* name */}
                         <FormField
@@ -339,12 +336,36 @@ const ProductForm : React.FC<IproductFormProps> = ( {
                             >
                             </FormField>
 
+                            {/* description */}
+                            {/* inside field object
+                            {name: 'description', value: Array(0), onChange: ƒ, onBlur: ƒ, ref: ƒ} */}
+                            <FormField
+                                control={form.control}
+                                name="description"                            
+                                render = { ({field}) => (
+                                <FormItem >
+                                    <FormLabel>Description</FormLabel>
+                                        <FormControl>
+                                            <Textarea 
+                                                {...field} 
+                                                className="h-60"
+                                                placeholder="Add points" 
+                                                // onChange={ (e) => setPoint(e.target.value)  }
+                                                autoComplete="off" 
+                                                 
+                                                />
+                                        </FormControl>
+                                </FormItem>
+                                )}
+                                >
+                            </FormField>
+
                                     {/* Archived */}
                             <FormField
                                 control={form.control}
                                 name="isArchived"
                                 render={ ({field}) => (
-                                    <FormItem className="border p-3">
+                                    <FormItem className="border p-3 h-fit">
                                         <FormControl>
                                             <Checkbox
                                                 checked={field.value}
@@ -360,30 +381,6 @@ const ProductForm : React.FC<IproductFormProps> = ( {
                             >
                             </FormField>
 
-                            {/* description */}
-                            {/* inside field object
-                            {name: 'description', value: Array(0), onChange: ƒ, onBlur: ƒ, ref: ƒ} */}
-                            <FormField
-                                control={form.control}
-                                name="description"                            
-                                render = { ({field}) => (
-                                <FormItem>
-                                    <FormLabel>Description</FormLabel>
-                                    <FormControl>
-                                        <Textarea 
-                                            {...field} 
-                                            placeholder="Add points" 
-                                            // onChange={ (e) => setPoint(e.target.value)  }
-                                            autoComplete="off" 
-                                            />
-                                    </FormControl>
-                                    <Button onClick={ (e) => handleClick(e,field )} >
-                                        Add point
-                                    </Button>
-                                </FormItem>
-                                )}
-                                >
-                            </FormField>
 
                                     {/* image */}
                             <FormField

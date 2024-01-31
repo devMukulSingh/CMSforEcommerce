@@ -33,13 +33,13 @@ export async function POST(
         if(!price) return NextResponse.json({ msg:'price is required',status:400});
 
         if(!categoryId) return NextResponse.json({ msg:'categoryId is required',status:400});
+        
+          //converting the string into array
+        let descriptionArray = [];
+        if(description) {
+            descriptionArray = description.split('\n');
+        }
 
-
-        if(!description || description.length < 0) return NextResponse.json({ msg:'description is required',status:400});
-
-
-
-    
         const product = await prisma.product.create({
             data : {
                 name,
@@ -50,11 +50,7 @@ export async function POST(
                 categoryId,
                 isArchived,
                 isFeatured,
-                description:{
-                    createMany:{
-                        data:[...description.map ( (des : string ) => des )]
-                    }
-                },
+                description:descriptionArray,
                 images:{
                     createMany : {
                         data : [ ...images.map( ( img : {url:string}) => img) ]

@@ -2,6 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import ProductActions from "./ProductActions";
+import { JsonArray, JsonValue } from "@prisma/client/runtime/library";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -11,7 +12,7 @@ export type ProductColumn = {
   color: string;
   size: string | undefined;
   price: number;
-  description : Array<string>;
+  description : string | undefined,
   category:string;
   isFeatured:boolean;
   isArchived:boolean;

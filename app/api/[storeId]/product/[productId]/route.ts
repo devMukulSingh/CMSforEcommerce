@@ -36,7 +36,7 @@ export async function PATCH(
         const { storeId, productId } = params;
         const { userId } = auth();
         const body = await req.json();
-        const { name, price, colorId,sizeId, images,categoryId,isArchived,isFeatured } = body;
+        const { name, price, colorId,sizeId, images,categoryId,isArchived,isFeatured, description } = body;
 
         if( !userId ) return NextResponse.json({ msg:'Unauthenticated',status:401});
 
@@ -52,6 +52,13 @@ export async function PATCH(
 
         if(!categoryId) return NextResponse.json({ msg:'categoryId is required',status:400});
 
+        // if(!description) return NextResponse.json({ msg:'description is required',status:400});
+
+        //converting the string into array
+        let descriptionArray = [];
+        if(description) {
+            descriptionArray = description.split('\n');
+        }
 
          const storeByUserId = await prisma.store.findUnique({
             where : {
@@ -81,6 +88,7 @@ export async function PATCH(
                 isArchived,
                 isFeatured,
                 storeId,
+                description:descriptionArray,
                 images:{
                     deleteMany: {}
                 }

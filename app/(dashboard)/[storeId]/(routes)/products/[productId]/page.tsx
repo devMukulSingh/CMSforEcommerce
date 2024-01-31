@@ -1,7 +1,8 @@
-import ProductForm from "@/components/product/ProductForm"
+import ProductForm, { IinitialValues } from "@/components/product/ProductForm"
 import { ProductColumn } from "@/components/ui/ProductColumn";
 import { prisma } from "@/lib/prisma";
 import { Category, Color, Image, Product, Size } from "@prisma/client";
+import { log } from "console";
 
 
 const SingleProductPage = async(
@@ -10,7 +11,7 @@ const SingleProductPage = async(
 
   const { productId,storeId } = params;
 
-  const products = await prisma.product.findUnique({
+  const product = await prisma.product.findUnique({
     where : {
       id : productId,
     },
@@ -35,11 +36,25 @@ const SingleProductPage = async(
     },
 
   })
-
+  console.log(product);
+  
+  const formattedProducts = {
+    name : product?.name,
+    price: product?.price,
+    images: product?.images,
+    categoryId : product?.categoryId,
+    colorId: product?.colorId,
+    sizeId:product?.sizeId,
+    featured: product?.isFeatured,
+    archived: product?.isArchived,
+    description : product?.description?.map( (point:string) => point  ).join("\n")
+  }
+  console.log(formattedProducts);
+  
   return (
     <main>
         <ProductForm
-          initialValues={products}
+          initialValues={formattedProducts}
           categories={categories}
           colors={colors}
           sizes={sizes}
