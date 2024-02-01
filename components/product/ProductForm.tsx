@@ -56,20 +56,20 @@ const ProductForm : React.FC<IproductFormProps> = ( {
     colors,
     sizes,
 
-
 } ) => {
+
+    
     const [openDeleteAlert, setOpenDeleteAlert] = useState<boolean>(false);
     const params = useParams();
     const router = useRouter();
     const { storeId,productId } = params;
     const [loading, setLoading] = useState(false);
+    const isInitalValues = Object.keys(initialValues).length > 0
 
     const form = useForm<productFormValues>({
         resolver : zodResolver(formSchema),
-        defaultValues : initialValues ? 
-        { ...initialValues,
-
-        }
+        defaultValues : isInitalValues ? 
+        { ...initialValues}
         :
          {
             name: "",
@@ -89,7 +89,7 @@ const ProductForm : React.FC<IproductFormProps> = ( {
         
         try {
             setLoading(true);
-            if(initialValues){
+            if(isInitalValues){
                 const res = await axios.patch(`/api/${storeId}/product/${productId}`,data);
                 if(res.data.status === 201) toast.success("product updated");
                 else toast.error("Something went wrong");
@@ -148,7 +148,7 @@ const ProductForm : React.FC<IproductFormProps> = ( {
                 <header className="flex justify-between ">
                     <section>
                         <h1 className="text-2xl font-bold">
-                           { initialValues ? `Edit product`: `Create product` }
+                           { isInitalValues ? `Edit product`: `Create product` }
                         </h1>
                         <p className="text-sm">Manage Product Preferences</p>
                     </section>
@@ -395,7 +395,7 @@ const ProductForm : React.FC<IproductFormProps> = ( {
                                             disabled={loading}
                                             //inside onChange, we are passing imageUrl as the image gets uploaded
                                             onChange={ (url) => field.onChange([...field.value, {url} ])} 
-                                            value={ field.value.map( image => image.url) } />
+                                            value={ field?.value?.map( image => image.url) } />
                                     </FormControl>
                                 </FormItem>
                                 )}
@@ -406,7 +406,7 @@ const ProductForm : React.FC<IproductFormProps> = ( {
                                 className="w-32 cursor-pointer mt-5"
                                 disabled={loading}
                                 >
-                                { initialValues ? 'Save Changes' : 'Create'} 
+                                { isInitalValues ? 'Save Changes' : 'Create'} 
                             </Button>
                     </form>
                 </Form>

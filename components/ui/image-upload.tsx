@@ -39,15 +39,18 @@ return(
             <section className="flex gap-3">
 
                 {
-                    value.map( (url ) => {
+                    value?.map( (url ) => {
                         return(
                             <>
                                 <figure className="w-[200px] h-[200px] relative overflow-hidden" key={url}>
                                     <span className="absolute left-1 top-1 z-10">
-                                        <Trash 
-                                            className="w-5 h-5 cursor-pointer"
+                                        <Button 
                                             onClick={() => onRemove(url)}
-                                            />
+                                            variant="ghost"
+                                            size="icon"
+                                            >
+                                            <Trash className="w-5 h-5"/>
+                                            </Button>
                                     </span>
                                     <Image src={url}
                                         alt="uploadedImage"
