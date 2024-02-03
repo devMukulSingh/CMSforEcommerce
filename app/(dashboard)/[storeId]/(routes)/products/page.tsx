@@ -1,5 +1,4 @@
 import ProductClientComp from "@/components/product/ProductClientComp"
-import { ProductColumn } from "@/components/ui/ProductColumn";
 import { prisma } from "@/lib/prisma";
 import { format } from "date-fns";
 

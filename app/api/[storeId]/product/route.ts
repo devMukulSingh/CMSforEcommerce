@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
+import { Image } from "@prisma/client";
 
 export async function POST(
     req:Request,
@@ -64,18 +65,20 @@ export async function POST(
                 description:descriptionArray,
                 images:{
                     createMany : {
-                        data : [ ...images.map( ( img : {url:string}) => img) ]
+                        data : 
+                            [ ...images.map( (img: {url:string}) => img ) ]
                     }
                 },
             },
-            include:{
+
+            // include:{
                 
-                images:{
-                    select:{
-                        url:true
-                    }
-                }
-            }
+            //     images:{
+            //         select:{
+            //             url:true
+            //         }
+            //     }
+            // }
 
         });
         return NextResponse.json({ product, status:201 });
@@ -103,11 +106,7 @@ export async function GET(
                 storeId
             },
             include:{
-                images:{
-                    select: {
-                        url:true,
-                    }
-                },
+                images:true,
             }
         });
         return NextResponse.json({ products, status:200 });

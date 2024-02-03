@@ -49,7 +49,7 @@ const formSchema = z.object({
     description : z.string().optional(),
     isFeatured : z.boolean().default(false).optional(),
     isArchived : z.boolean().default(false).optional(),
-    ratings : z.coerce.number().positive().min(1),
+    ratings : z.coerce.number().positive().min(1,"Enter between 1 and 5").max(5,"Enter between 1 and 5"),
 })
 type productFormValues = z.infer<typeof formSchema>;
 
@@ -72,7 +72,7 @@ const ProductForm : React.FC<IproductFormProps> = ( {
     const form = useForm<productFormValues>({
         resolver : zodResolver(formSchema),
         defaultValues : isInitalValues ? 
-        { ...initialValues}
+        { ...initialValues, ratings:parseFloat(String(initialValues?.ratings)),}
         :
          {
             name: "",

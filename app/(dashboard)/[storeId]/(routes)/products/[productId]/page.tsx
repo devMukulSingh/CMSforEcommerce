@@ -45,7 +45,7 @@ const SingleProductPage = async(
     featured: product?.isFeatured,
     archived: product?.isArchived,
     description : product?.description?.map( (point:string) => point  ).join("\n"),
-    ratings: parseFloat(String(product?.ratings)),
+    ratings: product?.ratings,
   }
   // console.log(formattedProducts);
   

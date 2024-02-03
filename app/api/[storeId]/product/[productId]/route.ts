@@ -19,11 +19,7 @@ export async function GET(
                 id:productId,
             },
             include:{
-                images:{
-                    select: {
-                        url:true,
-                    }
-                },
+                images:true,
             }
         })
         return NextResponse.json({product,status:200});    
