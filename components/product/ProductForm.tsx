@@ -19,6 +19,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { Checkbox } from "../ui/checkbox";
 import { ProductColumn } from "../ui/ProductColumn";
 import { Textarea } from "../ui/textarea";
+import { Decimal } from "@prisma/client/runtime/library";
 export interface IinitialValues {
     name: string | undefined;
     price: number | undefined;
@@ -28,7 +29,8 @@ export interface IinitialValues {
     sizeId : string | undefined,
     archived: boolean | undefined,
     featured: boolean | undefined,
-    description: string | undefined
+    description: string | undefined,
+    ratings : number | undefined,
 }
 interface IproductFormProps{
     initialValues : IinitialValues
@@ -39,7 +41,7 @@ interface IproductFormProps{
 
 const formSchema = z.object({
     name: z.string().min(1),
-    price: z.coerce.number().positive(),
+    price: z.coerce.number().positive().min(1),
     images: z.object({ url: z.string() }).array(),
     categoryId : z.string().min(1),
     colorId:z.string().min(1),
@@ -47,6 +49,7 @@ const formSchema = z.object({
     description : z.string().optional(),
     isFeatured : z.boolean().default(false).optional(),
     isArchived : z.boolean().default(false).optional(),
+    ratings : z.coerce.number().positive().min(1),
 })
 type productFormValues = z.infer<typeof formSchema>;
 
@@ -80,7 +83,8 @@ const ProductForm : React.FC<IproductFormProps> = ( {
             sizeId : "",
             description:"",
             isFeatured :false,
-            isArchived : false
+            isArchived : false,
+            ratings : 0.0,
         }
     });
     const onSubmit = async( data:productFormValues) => {
@@ -379,6 +383,21 @@ const ProductForm : React.FC<IproductFormProps> = ( {
                                     </FormItem>
                                 )}
                             >
+                            </FormField>
+
+                            <FormField
+                                control={form.control}
+                                name="ratings"
+                                render={ ({field}) => (
+                                    <FormItem>
+                                        <FormLabel>Add Ratings</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="Ratings" {...field}/>
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            >
+                                
                             </FormField>
 
 

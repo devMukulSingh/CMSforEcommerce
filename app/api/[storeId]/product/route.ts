@@ -9,7 +9,17 @@ export async function POST(
     try {
         const { userId } = auth();
         const body = await req.json();
-        const { name, price, colorId,sizeId, images,categoryId, isArchived,isFeatured,description } = body;
+        const { name
+                ,price, 
+                colorId,
+                sizeId, 
+                images,
+                categoryId, 
+                isArchived,
+                isFeatured,
+                description,
+                ratings,
+             } = body;
         const { storeId } = params;
         
         if(!userId) return NextResponse.json({msg:'Unauthenticated',status:401});
@@ -50,6 +60,7 @@ export async function POST(
                 categoryId,
                 isArchived,
                 isFeatured,
+                ratings,
                 description:descriptionArray,
                 images:{
                     createMany : {

@@ -1,9 +1,6 @@
-import ProductForm, { IinitialValues } from "@/components/product/ProductForm"
-import { ProductColumn } from "@/components/ui/ProductColumn";
+import ProductForm from "@/components/product/ProductForm"
 import { prisma } from "@/lib/prisma";
-import { Category, Color, Image, Product, Size } from "@prisma/client";
-import { log } from "console";
-
+import { Category, Color, Size } from "@prisma/client";
 
 const SingleProductPage = async(
   {params} : { params : {productId : string, storeId : string} }
@@ -47,9 +44,10 @@ const SingleProductPage = async(
     sizeId:product?.sizeId,
     featured: product?.isFeatured,
     archived: product?.isArchived,
-    description : product?.description?.map( (point:string) => point  ).join("\n")
+    description : product?.description?.map( (point:string) => point  ).join("\n"),
+    ratings: parseFloat(String(product?.ratings)),
   }
-  console.log(formattedProducts);
+  // console.log(formattedProducts);
   
   return (
     <main>

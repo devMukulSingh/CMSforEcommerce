@@ -19,7 +19,7 @@ const ProductsPage = async( {params} : {
             
             }
         });
-        console.log(products);
+        // console.log(products);
 
     const formattedProducts = products.map( item => ({
         id: item.id,
@@ -31,7 +31,8 @@ const ProductsPage = async( {params} : {
         description:item?.description?.map( (description:string) => description),
         isFeatured:item.isFeatured,
         isArchived:item.isArchived,
-        createdAt : format(item.createdAt,"MMMM do, yyyy")
+        createdAt : format(item.createdAt,"MMMM do, yyyy"),
+        ratings : item?.ratings,
     }))
     return(
         <>

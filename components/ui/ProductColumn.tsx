@@ -2,7 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import ProductActions from "./ProductActions";
-import { JsonArray, JsonValue } from "@prisma/client/runtime/library";
+import { Decimal } from "@prisma/client/runtime/library";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -17,6 +17,7 @@ export type ProductColumn = {
   isFeatured:boolean;
   isArchived:boolean;
   createdAt: string;
+  ratings : Decimal | null;
 }
 
 export const columns: ColumnDef<ProductColumn>[] = [
@@ -47,6 +48,10 @@ export const columns: ColumnDef<ProductColumn>[] = [
   {
     accessorKey: "createdAt",
     header: "Date",
+  },
+  {
+    accessorKey: "ratings",
+    header: "Rating",
   },
   {
     id: 'actions',
