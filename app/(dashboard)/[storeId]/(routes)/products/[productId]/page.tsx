@@ -33,7 +33,6 @@ const SingleProductPage = async(
     },
 
   })
-  console.log(product);
   
   const formattedProducts = {
     name : product?.name,

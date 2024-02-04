@@ -43,7 +43,7 @@ try {
         return NextResponse.json( { store,status:200});
     } catch (error) {
         console.log(`Error in Patch Stores ${error}`);
-        
+        return NextResponse.json( {msg:`Error in Patch Stores ${error}`} ,{status:500});   
     }
 
 }
@@ -77,6 +77,7 @@ export async function DELETE ( req:Request ,
         return NextResponse.json( { store,status:200});
     } catch (error) {
         console.log(`Error in Delete Stores ${error}`);
+        return NextResponse.json( {msg:`Error in DELETE Stores req ${error}`} ,{status:500});   
         
 }
 

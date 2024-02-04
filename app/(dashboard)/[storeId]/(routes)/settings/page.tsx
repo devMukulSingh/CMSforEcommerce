@@ -1,16 +1,15 @@
 import SettingsForm from "@/components/settings/SettingsForm";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
 import { Store } from "@prisma/client";
+import { redirect } from "next/navigation";
 
 const SettingsPage = async( { params }: { params: {storeId:string}} ) => {
-    const { storeId } = params;
     const { userId } = auth();
     
     if( !userId )  redirect("/");
 
-    const store = await prisma.store.findMany({
+    const store = await prisma.store.findFirst({
         where:{
             userId
         }

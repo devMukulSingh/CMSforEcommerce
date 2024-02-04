@@ -3,7 +3,6 @@ import { stripe } from "@/lib/stripe";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-
 const corsHeader = {
     "Access-Control-Allow-Origin": "*",
     "Acess-Control-Allow-Methods": "GET, POST, PUT, DELETE,OPTIONS",
@@ -18,9 +17,10 @@ export async function POST(
     req:Request,
     {params} : {params: { storeId: string}}
 ){
-    const { productIds} = await req.json();
+    const body = await req.json();
+    const { productIds } = body;
     
-    if(!productIds || productIds.length < 0) return new NextResponse('ProductIds is required',{status:400});
+    if(productIds?.length < 0) return new NextResponse('ProductIds is required',{status:400});
 
     const products = await prisma.product.findMany({
         where:{
@@ -44,15 +44,15 @@ export async function POST(
         });
     });
 
-    // "connect" method -> connect method to establish this relationship during the creation process
 
     const order = await prisma.order.create({
         data : {
             storeId: params.storeId,
             isPaid:false,
             orderItems : {
-                create: productIds.map( (productId:string) => ({
+                create: productIds?.map( (productId:string) => ({
                     product : {
+                        // "connect" method -> connect method to establish this relationship during the creation process
                         connect : {
                             id:productId,
                         }

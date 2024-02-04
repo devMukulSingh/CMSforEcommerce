@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation";
 import { AlertModal } from "../modals/AlertModal";
 
 interface IsettingsFormProps{
-    initialValues : Store
+    initialValues : Store | null
 }
 
 const formSchema = z.object({
@@ -33,7 +33,7 @@ const SettingsForm : React.FC<IsettingsFormProps> = ( {initialValues} ) => {
 
     const form = useForm<SettingFormValues>({
         resolver : zodResolver(formSchema),
-        defaultValues : initialValues
+        defaultValues : initialValues || {}
     });
     const handleSubmit = async( data:SettingFormValues) => {
         try {

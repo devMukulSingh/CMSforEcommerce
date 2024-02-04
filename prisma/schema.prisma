@@ -118,8 +118,8 @@ model Image{
 }
 model Order{
   id              String        @id@default(uuid())
-  phone           String 
-  address         String  
+  phone           String        @default("")
+  address         String        @default("")
   isPaid          Boolean 
   orderItems      OrderItem[]     @relation("OrderItemToOrder")                    
   storeId         String   

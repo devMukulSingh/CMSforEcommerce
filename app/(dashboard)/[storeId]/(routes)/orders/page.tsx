@@ -40,7 +40,7 @@ const OrdersPage = async( {params} : {
     }))
     return(
         <>
-            OrdersPage
+
             <OrdersClientComp 
                 orders = {formattedOrders}
             />
