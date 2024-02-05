@@ -63,7 +63,8 @@ export async function POST(
                 isArchived:true,
             },
         });
+        return new NextResponse( null, { status:200});
     }
+    return new NextResponse( `Error in event`, { status:500});
 
-    return new NextResponse( null, { status:200});
 }

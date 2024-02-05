@@ -17,20 +17,22 @@ export async function POST(
     req:Request,
     {params} : {params: { storeId: string}}
 ){
-    const body = await req.json();
-    const { productIds } = body;
-    
+    const { productIds } = await req.json();
+    console.log(productIds);
+
+
     if(productIds?.length < 0) return new NextResponse('ProductIds is required',{status:400});
 
     const products = await prisma.product.findMany({
         where:{
             id:{
-                in:productIds
-            }
+                in:[...productIds]
+            }   
         }
     });
     const line_items:Stripe.Checkout.SessionCreateParams.LineItem[] = [];
-
+ 
+    
     products.forEach( (product) => {
         line_items.push({
             quantity : 1,
@@ -39,7 +41,7 @@ export async function POST(
                 product_data : {
                     name:product.name,
                 },
-                unit_amount : product.price,
+                unit_amount : product.price * 100,
             }
         });
     });
