@@ -1,7 +1,7 @@
 import OrdersClientComp from "@/components/order/OrdersClientComp";
+import { formatDate } from "@/lib/formatTime";
 import { prisma } from "@/lib/prisma";
 import {  OrderItem } from "@prisma/client";
-import { format } from "date-fns";
 
 interface IorderItem extends OrderItem{
     product:{
@@ -26,7 +26,8 @@ const OrdersPage = async( {params} : {
                 }
             },
         }
-    })
+    });
+
     const formattedOrders = orders.map( item => ({
         id: item.id,
         phone : item.phone,
@@ -36,7 +37,7 @@ const OrdersPage = async( {params} : {
         totalPrice : item.orderItems.reduce( (prevPrice:number,orderItem:IorderItem) => {
             return prevPrice + orderItem.product.price
         },0 ),
-        createdAt : format(item.createdAt,"MMMM do, yyyy")
+        createdAt : formatDate(item.updatedAt),
     }))
     return(
         <>

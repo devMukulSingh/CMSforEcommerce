@@ -22,7 +22,7 @@ export async function POST(
             isPaid:false,
             orderItems : {
                 createMany : {
-                    data : [ ...cartItems.map( (item : Product) => item)]
+                    data : [ ...cartItems]
                 }
             },
             storeId
