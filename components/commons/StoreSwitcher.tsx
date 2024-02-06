@@ -12,12 +12,13 @@ import { useRouter } from "next/navigation"
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>
 
-interface StoreSwitcherProps extends PopoverTriggerProps{
+interface StoreSwitcherProps{
   items: Store[]
 }
 
-
-const StoreSwitcher = ({ items} : {items : Store[]} ) => {
+const StoreSwitcher:React.FC<StoreSwitcherProps> = ({
+  items
+} ) => {
 
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -48,7 +49,7 @@ const StoreSwitcher = ({ items} : {items : Store[]} ) => {
           className="w-52 justify-between "
           onClick={ () => setOpen(prev => !prev)}
         >
-          <StoreIcon/>
+          <StoreIcon className="mr-2"/>
           {currentStore?.label}
           <ChevronsUpDown className="ml-auto opacity-50"/>
         </Button>

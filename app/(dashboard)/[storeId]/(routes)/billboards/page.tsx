@@ -20,7 +20,6 @@ const BillboardsPage = async( {params} : {
     }))
     return(
         <>
-            BillboardsPage
             <BillBoardsClientComp 
                 billboard = {formattedBillboards}
             />

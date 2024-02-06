@@ -35,7 +35,6 @@ const ProductsPage = async( {params} : {
     }))
     return(
         <>
-            ProductsPage
             <ProductClientComp 
                 products = {formattedProducts}
             />

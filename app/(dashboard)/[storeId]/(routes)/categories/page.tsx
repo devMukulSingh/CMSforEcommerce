@@ -24,7 +24,6 @@ const CategoriesPage = async( {params} : {
     }))
     return(
         <>
-            CategoriesPage
             <CategoriesClientComp 
                 categories = {formattedCategories}
             />

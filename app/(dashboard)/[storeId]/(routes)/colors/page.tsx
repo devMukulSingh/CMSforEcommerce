@@ -20,7 +20,6 @@ const ColorPage = async( {params} : {
     }))
     return(
         <>
-            ColorPage
             <ColorClientComp 
                 color = {formattedcolors}
             />

@@ -1,10 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface IinitialState{
-    isOpen : boolean
+    isOpen : boolean,
+    loading : boolean,
+    openSidebar : boolean,
 }
 const initialState:IinitialState = {
     isOpen : false,
+    loading:false,
+    openSidebar : false,
 }
 
 export const adminSlice = createSlice({
@@ -13,9 +17,16 @@ export const adminSlice = createSlice({
     reducers:{
         setDialog : (state,action) => {
             state.isOpen = action.payload;
+        },
+        setLoading : ( state,action ) => {
+            state.loading = action.payload;
+        },
+        setOpenSidebar : ( state) => {
+            state.openSidebar = !state.openSidebar;
+            
         }
     },
 })
 
 export default adminSlice.reducer;
-export const { setDialog } = adminSlice.actions;
+export const { setDialog,setLoading,setOpenSidebar } = adminSlice.actions;

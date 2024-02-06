@@ -20,7 +20,6 @@ const SizePage = async( {params} : {
     }))
     return(
         <>
-            SizePage
             <SizeClientComp 
                 size = {formattedSizes}
             />

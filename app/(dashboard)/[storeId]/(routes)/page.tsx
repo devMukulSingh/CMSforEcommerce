@@ -9,9 +9,7 @@ const DashboardPage = async() => {
     const { totalRevenue, currMonthOrders } = await getTotalRevenue(); 
     const productsStock = await getAllProducts();
     const graphData = await getGraphRevenue();
-    console.log(graphData);
     
-
     return(
         <main className="p-5 lg:p-15 md:p-10 space-y-10">
             <header>
