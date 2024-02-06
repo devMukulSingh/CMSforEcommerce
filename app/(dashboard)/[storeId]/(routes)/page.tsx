@@ -1,12 +1,16 @@
-import { getAllProducts } from "@/actions/get-all-products";
+import { getAllProducts } from "@/actions/get-all-products"; 
+import { getGraphRevenue } from "@/actions/get-graph-revenue";
 import { getTotalRevenue } from "@/actions/get-total-revenue";
 import Chart from "@/components/dashboard/Chart";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { CreditCard, DollarSign, ShoppingBasket } from "lucide-react";
 
 const DashboardPage = async() => {
-    const { totalRevenue, totalOrders } = await getTotalRevenue(); 
+    const { totalRevenue, currMonthOrders } = await getTotalRevenue(); 
     const productsStock = await getAllProducts();
+    const graphData = await getGraphRevenue();
+    console.log(graphData);
+    
 
     return(
         <main className="p-5 lg:p-15 md:p-10 space-y-10">
@@ -34,7 +38,7 @@ const DashboardPage = async() => {
                         <CreditCard className="ml-auto"/>
                     </CardHeader>
                     <CardContent className="mt-auto text-2xl font-semibold">
-                        +{totalOrders}
+                        +{currMonthOrders}
                     </CardContent>
                 </Card>
                 <Card>
@@ -48,7 +52,7 @@ const DashboardPage = async() => {
                 </Card>
             </section>
             
-            {/* <Chart/> */}
+            <Chart data={graphData}/>
             
         </main>
     )

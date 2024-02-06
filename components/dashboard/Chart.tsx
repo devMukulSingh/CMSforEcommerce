@@ -1,28 +1,32 @@
+"use client"
+import { IgraphData } from "@/actions/get-graph-revenue";
 import { Bar,BarChart, ResponsiveContainer, XAxis, YAxis} from "recharts";
 
 interface ChartProps{
-    data : []
+    data : IgraphData[]
 }
 
-const Chart = () => {
+const Chart:React.FC<ChartProps> = ({
+  data
+}) => {
 
   return (
     <main>
       <ResponsiveContainer width="100%" height={350}>
         <BarChart data={data}>
             <XAxis
-                dataKey="xAxis"
+                dataKey="name"
                 stroke="#888888"
                 fontSize={12}
                 tickLine={false}
                 axisLine={false}
             />
             <YAxis
-                dataKey="yAxis"
                 stroke="#888888"
                 fontSize={12}
                 tickLine={false}
                 axisLine={false}
+                tickFormatter={ (value) => `₹${value}`}
             />
             <Bar dataKey="total" fill="#3498db" radius={[ 4,4,0,0]} />
         </BarChart>
