@@ -4,6 +4,7 @@ interface IinitialState{
     isOpen : boolean,
     loading : boolean,
     openSidebar : boolean,
+
 }
 const initialState:IinitialState = {
     isOpen : false,
@@ -23,10 +24,12 @@ export const adminSlice = createSlice({
         },
         setOpenSidebar : ( state) => {
             state.openSidebar = !state.openSidebar;
-            
         }
     },
-})
+
+});
+
+
 
 export default adminSlice.reducer;
 export const { setDialog,setLoading,setOpenSidebar } = adminSlice.actions;

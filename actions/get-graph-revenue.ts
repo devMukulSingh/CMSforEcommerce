@@ -1,24 +1,17 @@
-import { prisma } from "@/lib/prisma";
+import { Order, Product } from "@prisma/client";
 
 export interface IgraphData{
     name:string,
     total:number,
 }
 
-export const getGraphRevenue = async() => {
+export interface OrderProps extends Order{
+    orderItems : ( {
+        product : Product
+    })[]
+}
 
-    const orders = await prisma.order.findMany({
-        where:{
-            isPaid:true,
-        },
-        include:{
-            orderItems:{
-                include:{
-                    product:true,
-                }
-            }
-        }
-    });
+export const getGraphRevenue = async(orders:OrderProps[]) => {
 
     const totalOrders = orders.map( item => item.orderItems.map( (item) => item.product )).flat();
 

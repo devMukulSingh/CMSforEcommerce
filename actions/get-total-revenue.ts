@@ -25,7 +25,8 @@ export const getTotalRevenue = async() => {
         return acc+curr;
     }); 
 
-    return { totalRevenue, currMonthOrders:currMonthOrders.length};    
+
+    return { totalRevenue, currMonthOrders:currMonthOrders.length, orders};    
     
     //this will work too
     // const totalRevenue = orders.map( item => item.orderItems.map(item=>item.product.price)).join(",").split(',').map( item => parseInt(item)).reduce( (prev,curr) => {
