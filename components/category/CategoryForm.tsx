@@ -18,7 +18,7 @@ import ImageUpload from "../ui/image-upload";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
 interface IcategoryFormProps{
-    initialValues : Category ,
+    initialValues : Category | null ,
     billboards : Billboard[] 
 }
 
