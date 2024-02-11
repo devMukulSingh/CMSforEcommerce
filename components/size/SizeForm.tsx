@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation";
 import { AlertModal } from "../modals/AlertModal";
 
 interface IclientFormProps{
-    initialValues : Size,
+    initialValues : Size | null,
 }
 
 const formSchema = z.object({
