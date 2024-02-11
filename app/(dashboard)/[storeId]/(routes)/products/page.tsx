@@ -18,7 +18,6 @@ const ProductsPage = async( {params} : {
             
             }
         });
-        // console.log(products);
 
     const formattedProducts = products.map( item => ({
         id: item.id,
@@ -33,7 +32,7 @@ const ProductsPage = async( {params} : {
         isArchived:item.isArchived,
         createdAt : format(item.createdAt,"MMMM do, yyyy"),
         ratings : item?.ratings,
-    }))
+    })) 
     return(
         <>
             <ProductClientComp 
