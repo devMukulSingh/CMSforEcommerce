@@ -43,6 +43,7 @@ const SingleProductPage = async(
     sizeId:product?.sizeId,
     featured: product?.isFeatured,
     archived: product?.isArchived,
+    //@ts-ignore
     description : product?.description?.map( (point:string) => point  ).join("\n"),
     ratings: product?.ratings,
   }
@@ -51,6 +52,7 @@ const SingleProductPage = async(
   return (
     <main>
         <ProductForm
+        //@ts-ignore
           initialValues={formattedProducts}
           categories={categories}
           colors={colors}
