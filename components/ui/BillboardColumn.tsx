@@ -21,6 +21,10 @@ export const columns: ColumnDef<BillboardColumn>[] = [
     header: "Date",
   },
   {
+    accessorKey: "id",
+    header: "Id",
+  },
+  {
     id: 'actions',
     cell : ({row}) => <BillboardActions data={row.original} />
   }

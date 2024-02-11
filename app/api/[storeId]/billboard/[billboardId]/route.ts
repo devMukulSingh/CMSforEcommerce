@@ -17,6 +17,9 @@ export async function GET(
         const billboard = await prisma.billboard.findUnique({
             where: {
                 id:billboardId,
+            },
+            include:{
+                images:true,
             }
         })
         return NextResponse.json({billboard,status:200});    
@@ -36,12 +39,12 @@ export async function PATCH(
         const { userId } = auth();
         const body = await req.json();
         const { billboardId, storeId} = params;
-        const{ label, imageUrl } = body;
+        const{ label, images } = body;
 
         if( !userId ) return NextResponse.json({ msg:'Unauthenticated',status:401});
         if( !billboardId ) return NextResponse.json({ msg:'Billboard id is required',status:400});
         if( !label ) return NextResponse.json({ msg: 'label is required',status:400});
-        if( !imageUrl ) return NextResponse.json({ msg: 'imageUrl is required',status:400});
+        if( images.length < 0 ) return NextResponse.json({ msg: 'images is required',status:400});
 
          const storeByUserId = await prisma.store.findUnique({
             where : {
@@ -50,17 +53,36 @@ export async function PATCH(
             }       
         })
         if( !storeByUserId ) return NextResponse.json({ msg:'Unauthorised',status:402});
-    
-        const updatedBillboard = await prisma.billboard.update({
+
+        await prisma.billboard.update({
             where:{
                 id:billboardId,
                 storeId
             },
             data : {
                 label,
-                imageUrl,
+                images:{
+                    deleteMany:{},
+                }
             }
+            
         });
+
+        const updatedBillboard = await prisma.billboard.update({
+            where:{
+                id:billboardId,
+                storeId
+            },
+            data:{
+                storeId,
+                label,
+                images:{
+                    createMany:{
+                        data: [...images.map( ( image:{url:string} ) => image )]
+                    }
+                }   
+            }
+        })
     
         return NextResponse.json({ updatedBillboard, status:201});
     

@@ -71,15 +71,6 @@ export async function POST(
                 },
             },
 
-            // include:{
-                
-            //     images:{
-            //         select:{
-            //             url:true
-            //         }
-            //     }
-            // }
-
         });
         return NextResponse.json({ product, status:201 });
     

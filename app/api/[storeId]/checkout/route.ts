@@ -17,9 +17,7 @@ export async function POST(
     req:Request,
     {params} : {params: { storeId: string}}
 ){
-    const { productIds } = await req.json();
-    console.log(productIds);
-
+    const { data:productIds } = await req.json();
 
     if(productIds?.length < 0) return new NextResponse('ProductIds is required',{status:400});
 

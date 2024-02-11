@@ -28,12 +28,12 @@ model Billboard {
   storeId       String      //foreign key to Store model
   store         Store       @relation("StoreToBillboard",fields:[storeId],references:[id])
   label         String
-  imageUrl      String
+  images        Image[]     @relation("ImageToBillboard")
   categories    Category[]  @relation("BillboardToCategory")  
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
 
-  
+
   @@index([storeId])
 
 }
@@ -109,11 +109,14 @@ model Product{
 model Image{
   id            String        @id@default(uuid())
   url           String
-  productId      String       //foreign key to Product model
-  product       Product       @relation("ImageToProduct",fields: [productId],references: [id],onDelete: Cascade)
+  billboardId   String?
+  billboard     Billboard?     @relation("ImageToBillboard",fields: [billboardId],references: [id])
+  productId     String?       //foreign key to Product model
+  product       Product?       @relation("ImageToProduct",fields: [productId],references: [id],onDelete: Cascade)
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt()
 
+  @@index([billboardId])
   @@index([productId])
 }
 model Order{

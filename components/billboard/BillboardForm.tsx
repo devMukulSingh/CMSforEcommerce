@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { TrashIcon } from "lucide-react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Billboard } from "@prisma/client";
+import { Billboard, Image } from "@prisma/client";
 import React, { useState } from "react";
 import { Separator } from "../ui/separator";
 import axios from "axios";
@@ -16,13 +16,13 @@ import { useRouter } from "next/navigation";
 import { AlertModal } from "../modals/AlertModal";
 import ImageUpload from "../ui/image-upload";
 
-interface IbillboardFormProps{
-    initialValues : Billboard | null
+export interface IbillboardFormProps{
+    initialValues : Billboard | null & Image[] | null
 }
 
 const formSchema = z.object({
     label: z.string().min(1),
-    imageUrl : z.string().min(1)
+    images : z.object({ url:z.string() }).array().min(1),
 })
 type BillboardFormValues = z.infer<typeof formSchema>;
 
@@ -37,7 +37,9 @@ const BillboardForm : React.FC<IbillboardFormProps> = ( {initialValues} ) => {
         resolver : zodResolver(formSchema),
         defaultValues : initialValues || {
             label: '',
-            imageUrl:''
+            images:[
+                {url:''}
+            ],
         } 
     });
     const onSubmit = async( data:BillboardFormValues) => {
@@ -108,16 +110,16 @@ const BillboardForm : React.FC<IbillboardFormProps> = ( {initialValues} ) => {
                       <div className="flex gap-4 flex-col">
                         <FormField
                             control={form.control}
-                            name="imageUrl"                            
+                            name="images"                            
                             render = { ({field}) => (
                             <FormItem>
                                 <FormLabel>Add Image</FormLabel>
                                 <FormControl>
                                 <ImageUpload
-                                    onRemove={ () => field.onChange("") }
+                                    onRemove={ (url) => field.onChange( [...field.value.filter( img => img.url !== url)] )}
                                     disabled={loading}
-                                    onChange={ (url) => field.onChange(url) }
-                                    value={ field.value ? [field.value] : [] } />
+                                    onChange={ (url) => field.onChange([...field.value,{url}]) }
+                                    value={ field?.value?.map( img => img.url ) }/>
                                 </FormControl>
                                 </FormItem>
                                 )}
