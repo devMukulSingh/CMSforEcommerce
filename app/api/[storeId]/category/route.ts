@@ -15,13 +15,13 @@ try {
         const { userId } = auth();
         const { storeId } = params;
     
-        if( !userId) return NextResponse.json({msg :'Unauthenticated',status:403});
+        if( !userId) return NextResponse.json({error :'Unauthenticated'},{status:403});
     
-        if( !storeId ) return NextResponse.json({msg: 'UserId required', status:400});
+        if( !storeId ) return NextResponse.json({error: 'UserId required'}, {status:400});
         
-        if( !name) return NextResponse.json({ msg:'name is required', status:400});
+        if( !name) return NextResponse.json({ error:'name is required'}, {status:400});
         
-        if( !billboardId) return NextResponse.json({ msg:'billboardId is required', status:400});
+        if( !billboardId) return NextResponse.json({ error:'billboardId is required'}, {status:400});
 
         const category = await prisma.category.create({
             data : {
@@ -31,10 +31,10 @@ try {
     
             }
         });
-        return NextResponse.json({category, status:201});
+        return NextResponse.json({category}, {status:201});
 } catch (error) {
         console.log(`Error in category POST ${error}`);
-        return NextResponse.json({msg:`Error in category POST ${error}`,status:500});
+        return NextResponse.json({error:`Error in category POST ${error}`},{status:500});
         
 }
 
@@ -49,7 +49,7 @@ export async function GET(
 try {
         const { storeId } = params;
     
-        if(!storeId) return NextResponse.json({ msg:'storeId is required', status:400});
+        if(!storeId) return NextResponse.json({ error:'storeId is required'}, {status:400});
     
         const categories = await prisma.category.findMany({
             where:{
@@ -57,9 +57,9 @@ try {
             }
         });
     
-        return NextResponse.json( { categories, status:200});
+        return NextResponse.json( { categories}, {status:200});
     } catch (error) {
         console.log(`Error in Categories GET request ${error}`);
-        return NextResponse.json({ msg:`Error in Categories GET request ${error}`});       
+        return NextResponse.json({ error:`Error in Categories GET request ${error}`});       
     }
 }

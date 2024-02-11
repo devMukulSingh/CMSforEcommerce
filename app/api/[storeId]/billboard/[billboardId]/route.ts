@@ -12,7 +12,7 @@ export async function GET(
     try {
         const { billboardId } = params;
 
-        if(!billboardId) return NextResponse.json({ msg:'Billboard id is required', status:400});
+        if(!billboardId) return NextResponse.json({ error:'Billboard id is required'}, {status:400});
     
         const billboard = await prisma.billboard.findUnique({
             where: {
@@ -22,10 +22,10 @@ export async function GET(
                 images:true,
             }
         })
-        return NextResponse.json({billboard,status:200});    
+        return NextResponse.json({billboard},{status:200});    
     } catch (error) {
         console.log(`Error in billboard GET req ${error}`);
-        return NextResponse.json({ msg:`Error in billboard GET req ${error}`,status:500});
+        return NextResponse.json({ error:`Error in billboard GET req ${error}`},{status:500});
     }
 }
 
@@ -41,10 +41,10 @@ export async function PATCH(
         const { billboardId, storeId} = params;
         const{ label, images } = body;
 
-        if( !userId ) return NextResponse.json({ msg:'Unauthenticated',status:401});
-        if( !billboardId ) return NextResponse.json({ msg:'Billboard id is required',status:400});
-        if( !label ) return NextResponse.json({ msg: 'label is required',status:400});
-        if( images.length < 0 ) return NextResponse.json({ msg: 'images is required',status:400});
+        if( !userId ) return NextResponse.json({ error:'Unauthenticated'},{status:401});
+        if( !billboardId ) return NextResponse.json({ error:'Billboard id is required'},{status:400});
+        if( !label ) return NextResponse.json({ error: 'label is required'},{status:400});
+        if( images.length < 0 ) return NextResponse.json({ error: 'images is required'},{status:400});
 
          const storeByUserId = await prisma.store.findUnique({
             where : {
@@ -52,7 +52,7 @@ export async function PATCH(
                 id:storeId
             }       
         })
-        if( !storeByUserId ) return NextResponse.json({ msg:'Unauthorised',status:402});
+        if( !storeByUserId ) return NextResponse.json({ error:'Unauthorised'},{status:402});
 
         await prisma.billboard.update({
             where:{
@@ -88,7 +88,7 @@ export async function PATCH(
     
 } catch (error) {
     console.log(`Error in Billboard PATCH req ${error}`);
-    return NextResponse.json({ msg:`Error in Billboard PATCH req ${error}`, status:500})
+    return NextResponse.json({ error:`Error in Billboard PATCH req ${error}`}, {status:500})
     
 }
 }
@@ -104,9 +104,9 @@ try {
         const { userId } = auth();
         const { billboardId,storeId } = params;
 
-        if(!userId) return NextResponse.json({ msg:'Authenticated',status:401});
+        if(!userId) return NextResponse.json({ error:'Authenticated'},{status:401});
         
-        if( !billboardId ) return NextResponse.json({ msg:'Billboard id is required',status:400});
+        if( !billboardId ) return NextResponse.json({ error:'Billboard id is required'},{status:400});
 
         const storeByUserId = await prisma.store.findUnique({
             where: {
@@ -115,7 +115,7 @@ try {
             }
         })
     
-        if(!storeByUserId) return NextResponse.json({msg:'Unauthorised',status:401});
+        if(!storeByUserId) return NextResponse.json({error:'Unauthorised'},{status:401});
     
         await prisma.billboard.delete({
             where: {
@@ -123,10 +123,10 @@ try {
                 storeId
             }
         })
-        return NextResponse.json({msg: 'Billboard deleted',status:200});    
+        return NextResponse.json({error: 'Billboard deleted'},{status:200});    
 } catch (error) {
     console.log(`Error in billboard DELETE req ${error}`);
-    return NextResponse.json({ msg:`Error in billboard DELETE req ${error}`,status:500});
+    return NextResponse.json({ error:`Error in billboard DELETE req ${error}`},{status:500});
 }
 
 }

@@ -12,7 +12,7 @@ export async function POST(
         const { value, name } = body;
         const { storeId } = params;
         
-        if(!userId) return NextResponse.json({msg:'Unauthenticated',status:403});
+        if(!userId) return NextResponse.json({error:'Unauthenticated'},{status:403});
     
         const store = await prisma.store.findMany({
             where : {
@@ -20,12 +20,12 @@ export async function POST(
             }
         })
     
-        if(!store) return NextResponse.json({msg:'Unauthorised', status:401});
+        if(!store) return NextResponse.json({error:'Unauthorised'}, {status:401});
 
         
         
-        if(!value) return NextResponse.json({ msg:'value is required',status:400});
-        if(!store) return NextResponse.json({msg:'name is required', status:400});
+        if(!value) return NextResponse.json({ error:'value is required'},{status:400});
+        if(!store) return NextResponse.json({error:'name is required'}, {status:400});
     
         const color = await prisma.color.create({
             data : {
@@ -34,11 +34,11 @@ export async function POST(
                 storeId
             }
         });
-        return NextResponse.json({ color, status:201 });
+        return NextResponse.json({ color}, {status:201 });
     
     } catch (error) {
         console.log(`Error in color POST req ${error}`);
-        return NextResponse.json({msg:'error in color POST req ',status:500});
+        return NextResponse.json({error:'error in color POST req '},{status:500});
     }
 }
 
@@ -52,18 +52,18 @@ export async function GET(
 
         const { storeId } = params;
         
-        if( !storeId ) return NextResponse.json({ msg:'Store id is required',status:400});
+        if( !storeId ) return NextResponse.json({ error:'Store id is required'},{status:400});
 
         const color = await prisma.color.findMany({
             where:{
                 storeId
             }
         });
-        return NextResponse.json({ color, status:200 });
+        return NextResponse.json({ color}, {status:200 });
     
     } catch (error) {
         console.log(`Error in color GET req ${error}`);
-        return NextResponse.json({msg:'error in color GET req ',status:500});
+        return NextResponse.json({error:'error in color GET req '},{status:500});
     }
 }
 

@@ -11,10 +11,10 @@ export async function POST(req:Request){
         const { name } = body;
     
         if( !name){
-            return NextResponse.json({msg:'body is required', status:401});
+            return NextResponse.json({error:'body is required'}, {status:401});
         }
         if( !userId){
-            return NextResponse.json({ msg:'userId is required', status:401})
+            return NextResponse.json({ error:'userId is required'}, {status:401})
         }
     
         const store = await prisma.store.create({
@@ -23,10 +23,10 @@ export async function POST(req:Request){
                 name
             }
         })
-        return NextResponse.json({ store, status:200});
+        return NextResponse.json({ store}, {status:200});
     } catch (error) {
         console.log(`Error in get stores handler ${error}`);
-        return NextResponse.json({ msg:` Error in stores route handler `, status: 500} );
+        return NextResponse.json({ error:` Error in stores route handler `}, {status: 500} );
     }
 }
 

@@ -19,7 +19,7 @@ export async function POST(
 ){
     const { data:productIds } = await req.json();
 
-    if(productIds?.length < 0) return new NextResponse('ProductIds is required',{status:400});
+    if(productIds?.length < 0) return NextResponse.json({error:'ProductIds is required'},{status:400});
 
     const products = await prisma.product.findMany({
         where:{

@@ -15,19 +15,19 @@ try {
         
         if(!userId){
             return NextResponse.json({
-                msg:'Unauthenticated',status:401
+                error:'Unauthenticated'},{status:401
             })
         }
 
         if(!storeId){
             return NextResponse.json({
-                msg:'StoreId is required', status:400
+                error:'StoreId is required'}, {status:400
             })
         }
 
         if( !name){
             return NextResponse.json({
-                msg:'name is required', status:400
+                error:'name is required'} ,{status:400
             });
         }
 
@@ -40,10 +40,10 @@ try {
                 name
             }
         });
-        return NextResponse.json( { store,status:200});
+        return NextResponse.json( { store},{status:200});
     } catch (error) {
         console.log(`Error in Patch Stores ${error}`);
-        return NextResponse.json( {msg:`Error in Patch Stores ${error}`} ,{status:500});   
+        return NextResponse.json( {error:`Error in Patch Stores ${error}`} ,{status:500});   
     }
 
 }
@@ -58,13 +58,12 @@ export async function DELETE ( req:Request ,
         
         if(!userId){
             return NextResponse.json({
-                msg:'Unauthenticated',status:401
-            })
+                error:'Unauthenticated'},{status:401})
         }
 
         if(!storeId){
             return NextResponse.json({
-                msg:'StoreId is required', status:400
+                error:'StoreId is required'}, {status:400
             })
         }
 
@@ -74,10 +73,10 @@ export async function DELETE ( req:Request ,
                 id:storeId
             },
         });
-        return NextResponse.json( { store,status:200});
+        return NextResponse.json( { store},{status:200});
     } catch (error) {
         console.log(`Error in Delete Stores ${error}`);
-        return NextResponse.json( {msg:`Error in DELETE Stores req ${error}`} ,{status:500});   
+        return NextResponse.json( {error:`Error in DELETE Stores req ${error}`} ,{status:500});   
         
 }
 
