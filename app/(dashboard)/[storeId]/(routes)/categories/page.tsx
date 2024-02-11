@@ -5,27 +5,27 @@ import { Billboard } from "@prisma/client";
 import { format } from "date-fns";
 
 
-const CategoriesPage = async( {params} : {
-    params: { storeId:string}
+const CategoriesPage = async ({ params }: {
+    params: { storeId: string }
 }) => {
     const categories = await prisma.category.findMany({
         where: {
-            storeId:params.storeId
+            storeId: params.storeId
         },
-        include : {
-            billboard:true
+        include: {
+            billboard: true
         }
     })
-    const formattedCategories:CategoryColumn[] = categories.map( item => ({
+    const formattedCategories: CategoryColumn[] = categories.map(item => ({
         id: item.id,
-        name:item.name,
-        createdAt: format( item.createdAt, "MMMM do, yyyy"),
-        billboardLabel : item.billboard.label
+        name: item.name,
+        createdAt: format(item.createdAt, "MMMM do, yyyy"),
+        billboardLabel: item?.billboard?.label
     }))
-    return(
+    return (
         <>
-            <CategoriesClientComp 
-                categories = {formattedCategories}
+            <CategoriesClientComp
+                categories={formattedCategories}
             />
         </>
     )
