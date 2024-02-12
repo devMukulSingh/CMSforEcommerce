@@ -19,6 +19,7 @@ model Store{
   colors      Color[]     @relation("StoreToColor")
   products    Product[]   @relation("StoreToProduct")
   orders      Order[]     @relation("StoreToOrder")
+  brands      Brand[]     @relation("StoreToBrand")
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 }
@@ -94,6 +95,8 @@ model Product{
   category    Category        @relation("CategoryToProduct",fields: [categoryId], references: [id],onDelete: Cascade)
   images      Image[]         @relation("ImageToProduct")
   orderItems  OrderItem[]     @relation("OrderItemToProduct")
+  brandId     String
+  brand       Brand           @relation("BrandToProduct",fields: [brandId],references: [id])   
   ratings     Decimal
   description Json?
   isFeatured  Boolean         @default(false)
@@ -105,6 +108,7 @@ model Product{
   @@index([sizeId])
   @@index([categoryId])
   @@index([colorId])
+  @@index([brandId])
 }
 model Image{
   id            String        @id@default(uuid())
@@ -143,12 +147,15 @@ model OrderItem{
   @@index([orderId]) //foreign key to Order model
   @@index([productId]) //foreign key to Product model
 }
+model Brand{
+  id              String          @id@default(uuid())
+  name            String    
+  products        Product[]       @relation("BrandToProduct")
+  storeId         String
+  store           Store           @relation("StoreToBrand",fields: [storeId],references: [id])
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  @@index([storeId])
+}
 
-// model Description{
-//   id              String          @id@default(uuid())
-//   text            String 
-//   productId       String
-//   Product         Product         @relation("DescriptionToProduct",references: [id], fields: [productId] )
-  
-//   @@index([productId])
-// }
+ 

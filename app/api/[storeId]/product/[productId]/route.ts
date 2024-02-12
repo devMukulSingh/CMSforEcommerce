@@ -49,6 +49,7 @@ export async function PATCH(
                    isFeatured,
                     description,
                     ratings,
+                    brandId
                 } = body;
 
         if( !userId ) return NextResponse.json({ error:'Unauthenticated'},{status:401});
@@ -64,6 +65,9 @@ export async function PATCH(
         if(!price) return NextResponse.json({ error:'price is required'},{status:400});
 
         if(!categoryId) return NextResponse.json({ error:'categoryId is required'},{status:400});
+
+        if(!brandId) return NextResponse.json({ error:'brandId is required'},{status:400});
+
 
         // if(!description) return NextResponse.json({ error:'description is required',{status:400});
 
@@ -102,6 +106,7 @@ export async function PATCH(
                 isFeatured,
                 storeId,
                 ratings,
+                brandId,
                 description:descriptionArray,
                 images:{
                     deleteMany: {}

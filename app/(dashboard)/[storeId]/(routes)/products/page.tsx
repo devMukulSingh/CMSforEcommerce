@@ -15,6 +15,7 @@ const ProductsPage = async( {params} : {
                 category:true,
                 size:true,
                 color:true,
+                brand:true,
             
             }
         });
@@ -25,13 +26,14 @@ const ProductsPage = async( {params} : {
         price:item.price,   
         category:item.category.name,
         color:item.color.value,
-        size: item?.size?.value,
+        // size: item?.size?.value,
         //@ts-ignore
         description:item?.description?.map( (description:string) => description),
         isFeatured:item.isFeatured,
         isArchived:item.isArchived,
         createdAt : format(item.createdAt,"MMMM do, yyyy"),
         ratings : item?.ratings,
+        brand : item?.brand?.name,
     })) 
     return(
         <>

@@ -20,6 +20,7 @@ export async function POST(
                 isFeatured,
                 description,
                 ratings,
+                brandId
              } = body;
         const { storeId } = params;
         
@@ -45,6 +46,9 @@ export async function POST(
 
         if(!categoryId) return NextResponse.json({ msg:'categoryId is required',status:400});
         
+        if(!brandId) return NextResponse.json({ msg:'brandId is required',status:400});
+
+
           //converting the string into array
         let descriptionArray = [];
         if(description) {
@@ -62,6 +66,7 @@ export async function POST(
                 isArchived,
                 isFeatured,
                 ratings,
+                brandId,
                 description:descriptionArray,
                 images:{
                     createMany : {

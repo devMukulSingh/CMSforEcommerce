@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Plus, PlusCircle, PlusSquare, TrashIcon } from "lucide-react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Category, Color, Image, Product, Size } from "@prisma/client";
+import { Brand, Category, Color, Image, Product, Size } from "@prisma/client";
 import React, { useRef, useState } from "react";
 import { Separator } from "../ui/separator";
 import axios from "axios";
@@ -31,12 +31,14 @@ export interface IinitialValues {
     featured: boolean | undefined,
     description: string | undefined,
     ratings : number | undefined,
+    // brands : string[] | undefined,
 }
 interface IproductFormProps{
     initialValues : IinitialValues
     categories : Category[],
     colors : Color[],
     sizes : Size[],
+    brands : Brand[],
 }
 
 const formSchema = z.object({
@@ -46,6 +48,7 @@ const formSchema = z.object({
     categoryId : z.string().min(1),
     colorId:z.string().min(1),
     sizeId : z.string().optional(),
+    brandId : z.string(),
     description : z.string().optional(),
     isFeatured : z.boolean().default(false).optional(),
     isArchived : z.boolean().default(false).optional(),
@@ -58,6 +61,7 @@ const ProductForm : React.FC<IproductFormProps> = ( {
     categories,
     colors,
     sizes,
+    brands,
 
 } ) => {
 
@@ -85,30 +89,26 @@ const ProductForm : React.FC<IproductFormProps> = ( {
             isFeatured :false,
             isArchived : false,
             ratings : 0.0,
+            brandId:"",
         }
     });
     const onSubmit = async( data:productFormValues) => {
         // data.description = points;
-        console.log(data);
+        // console.log(data);
         
         try {
             setLoading(true);
             if(isInitalValues){
                 const res = await axios.patch(`/api/${storeId}/product/${productId}`,data);
-                if(res.data.status === 201) toast.success("product updated");
-                else toast.error("Something went wrong");
+                 toast.success("product updated");
+                router.push(`/${storeId}/products`);
+                 
             }
             else{
                 const res = await axios.post(`/api/${storeId}/product`,data);
-                console.log(res);
-                
-                if(res.data.status == 201){
-                    toast.success("product created");
-                    router.push(`/${storeId}/products`)
-                } 
-                else {
-                    toast.error("Something went wrong");
-                }
+                toast.success("product created");
+                router.push(`/${storeId}/products`);
+
             }
             router.refresh();
         } catch (error) {
@@ -123,9 +123,8 @@ const ProductForm : React.FC<IproductFormProps> = ( {
         try{
             setLoading(true);
             const res = await axios.delete(`/api/${storeId}/product/${productId}`);
-            if(res.status === 200 ) toast.success("Product deleted");
-            else if (res.status === 500 ) toast.error("Something went wrong");
             setOpenDeleteAlert(false);
+            toast.success("Product deleted");
             router.push(`/${storeId}/products`);  
         }
         catch(e){
@@ -213,7 +212,8 @@ const ProductForm : React.FC<IproductFormProps> = ( {
                                         // field.onChange => is a method of react-hook-form, which will get the values 
                                         // of the field as soon as the value of the (Select) field changes and pass it to the react form
                                         onValueChange={field.onChange}  //2nd step
-                                        // value prop => contains, what is the current value of the <Select> field selected               
+                                        // value prop => it will be used to  show what current value is selected in the select field .
+                                        //contains, what is the current value of the <Select> field selected               
                                         //field.value => contains the value of the field which is selected by the user, using the 
                                         // select dropdown
                                         value={field.value} //3rd step
@@ -420,7 +420,46 @@ const ProductForm : React.FC<IproductFormProps> = ( {
                                 )}
                                 >
                                 </FormField>
+
+                                {/* Brand */}
+                                <FormField
+                                    name="brandId"
+                                    control={form.control}
+                                    render={ ({field}) => (
+                                        <FormItem>
+                                            <FormLabel>Brand</FormLabel>
+                                                <Select
+                                                    onValueChange={field.onChange}
+                                                    defaultValue={field.value}
+                                                    value={field.value}
+                                                >
+                                                    <SelectTrigger>
+                                                        <FormControl>
+                                                            <SelectValue placeholder="Select brand"/>
+                                                        </FormControl>
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        {
+                                                            brands.map( (brand) => (
+                                                                <SelectItem
+                                                                    value={brand.id}
+                                                                    key={brand.id}
+                                                                >
+                                                                    {brand.name}
+                                                                </SelectItem>
+                                                            ))
+                                                        }
+                                                            
+                                                    </SelectContent>
+                                            <FormControl>
+
+                                            </FormControl>
+                                                </Select>
+                                        </FormItem>
+                                    )}
+                                />
                         </div>
+
                         <Button type="submit" 
                                 className="w-32 cursor-pointer mt-5"
                                 disabled={loading}

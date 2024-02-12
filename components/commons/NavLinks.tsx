@@ -43,6 +43,11 @@ const NavLinks = () => {
             active : pathName === `/${storeId}/orders`
         },
         {
+            href:`/${storeId}/brands`,
+            label : 'Brand',
+            active : pathName === `/${storeId}/brands`
+        },
+        {
             href:`/${storeId}/settings`,
             label : 'Settings',
             active : pathName === `/${storeId}/settings`

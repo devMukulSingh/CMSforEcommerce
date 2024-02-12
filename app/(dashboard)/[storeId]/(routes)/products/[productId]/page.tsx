@@ -1,6 +1,6 @@
 import ProductForm from "@/components/product/ProductForm"
 import { prisma } from "@/lib/prisma";
-import { Category, Color, Size } from "@prisma/client";
+import { Brand, Category, Color, Size } from "@prisma/client";
 
 const SingleProductPage = async(
   {params} : { params : {productId : string, storeId : string} }
@@ -32,6 +32,12 @@ const SingleProductPage = async(
       storeId
     },
 
+  });
+  const brands:Brand[] = await prisma.brand.findMany({
+      where:{
+        storeId
+      
+      }
   })
   
   const formattedProducts = {
@@ -57,6 +63,7 @@ const SingleProductPage = async(
           categories={categories}
           colors={colors}
           sizes={sizes}
+          brands={brands}
         />
     </main>
   )

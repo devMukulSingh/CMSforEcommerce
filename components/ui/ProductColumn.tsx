@@ -10,7 +10,7 @@ export type ProductColumn = {
   id: string;
   name: string;
   color: string;
-  size: string | undefined;
+  // size: string | undefined;
   price: number;
   description : string | undefined,
   category:string;
@@ -18,6 +18,7 @@ export type ProductColumn = {
   isArchived:boolean;
   createdAt: string;
   ratings : Decimal | null;
+  brand : string | undefined
 }
 
 export const columns: ColumnDef<ProductColumn>[] = [
@@ -33,10 +34,10 @@ export const columns: ColumnDef<ProductColumn>[] = [
     accessorKey: "color",
     header: "Color",
   },
-  {
-    accessorKey: "size",
-    header: "Size",
-  },
+  // {
+  //   accessorKey: "size",
+  //   header: "Size",
+  // },
   {
     accessorKey: "isFeatured",
     header: "isFeatured",
@@ -48,6 +49,10 @@ export const columns: ColumnDef<ProductColumn>[] = [
   {
     accessorKey: "createdAt",
     header: "Date",
+  },
+  {
+    accessorKey: "brand",
+    header: "Brand",
   },
   {
     accessorKey: "ratings",
