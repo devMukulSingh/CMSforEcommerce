@@ -8,12 +8,12 @@ export interface IgraphData{
 export interface OrderProps extends Order{
     orderItems : ( {
         product : Product
-    })[]
+    })[],
 }
 
-export const getGraphRevenue = async(orders:OrderProps[]) => {
+export const getGraphRevenue = async(orders:OrderProps[],storeId:string) => {
 
-    const totalOrders = orders.map( item => item.orderItems.map( (item) => item.product )).flat();
+    const totalOrders = orders?.map( item => item.orderItems.map( (item) => item.product )).flat();
 
     const graphData:IgraphData[] = [
         {name:'Jan', total:0},
@@ -31,15 +31,17 @@ export const getGraphRevenue = async(orders:OrderProps[]) => {
     ];
 
     let i = 1;
-    for( let obj of graphData){
-        let totalMonthlyRevenue = 0;
-        //getting totalRevenue of a particular month 
-        totalMonthlyRevenue = totalOrders.filter( item => item.updatedAt.getMonth() === i).map( (item) => item.price).reduce( (acc,next) => {
-            return acc+next;
-        },0 ); 
-        //inserting total revenue of particular month in the graphData array 
-        obj.total = totalMonthlyRevenue;
-        i++;
-    }   
-    return graphData;
+    if(totalOrders.length > 0){
+        for( let obj of graphData){
+            let totalMonthlyRevenue = 0;
+            //getting totalRevenue of a particular month 
+            totalMonthlyRevenue = totalOrders.filter( item => item.updatedAt.getMonth() === i).map( (item) => item.price).reduce( (acc,next) => {
+                return acc+next;
+            },0 ); 
+            //inserting total revenue of particular month in the graphData array 
+            obj.total = totalMonthlyRevenue;
+            i++;
+        }   
+    }
+        return graphData;
 };

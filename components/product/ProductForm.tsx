@@ -31,7 +31,6 @@ export interface IinitialValues {
     featured: boolean | undefined,
     description: string | undefined,
     ratings : number | undefined,
-    // brands : string[] | undefined,
 }
 interface IproductFormProps{
     initialValues : IinitialValues

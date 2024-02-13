@@ -5,10 +5,11 @@ import Chart from "@/components/dashboard/Chart";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { CreditCard, DollarSign, ShoppingBasket } from "lucide-react";
 
-const DashboardPage = async () => {
-    const { totalRevenue, currMonthOrders, orders } = await getTotalRevenue();
-    const productsStock = await getAllProducts();
-    const graphData = await getGraphRevenue(orders);
+const DashboardPage = async ({params} : {params: {storeId:string}}) => {
+    const { storeId } = params;
+    const { totalRevenue = 0, currMonthOrders = 0, orders } = await getTotalRevenue(storeId);
+    const productsStock = await getAllProducts(storeId);
+    const graphData = await getGraphRevenue(orders,storeId);
 
     return (
         <main className="p-5 lg:p-15 md:p-10 space-y-10">
@@ -20,7 +21,10 @@ const DashboardPage = async () => {
                     Manage Dashboard
                 </h1>
             </header>
-            <section className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 gap-3">
+            {
+                 
+                <>
+                <section className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 gap-3">
                 <Card>
                     <CardHeader className="flex flex-row gap-3 items-center">
                         <h1>Total Revenue</h1>
@@ -51,6 +55,8 @@ const DashboardPage = async () => {
             </section>
 
             <Chart data={graphData} />
+            </>
+        }
 
         </main>
     )

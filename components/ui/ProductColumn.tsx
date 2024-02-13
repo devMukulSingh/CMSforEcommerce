@@ -18,7 +18,7 @@ export type ProductColumn = {
   isArchived:boolean;
   createdAt: string;
   ratings : Decimal | null;
-  brand : string | undefined
+  brand : string 
 }
 
 export const columns: ColumnDef<ProductColumn>[] = [

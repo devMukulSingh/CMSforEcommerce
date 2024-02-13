@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { store } from "@/store/store";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
@@ -31,13 +32,18 @@ export async function POST(req:Request){
 }
 
 
-// export async function GET(
-//     req:Request
-// ){
-//     const { userId } = auth();
-//     const storeId = await prisma.store.findMany({
-//         where:{
-//             userId
-//         }
-//     });
-// }
+export async function GET(
+    req:Request
+){
+    const { userId } = auth();
+
+    if( !userId ) return NextResponse.json({ error:'User id is required'},{status:400});
+
+    const storeId = await prisma.store.findMany({
+        where:{
+            userId
+        }
+    });
+
+    return NextResponse.json({storeId},{status:200});
+}

@@ -33,7 +33,7 @@ const ProductsPage = async( {params} : {
         isArchived:item.isArchived,
         createdAt : format(item.createdAt,"MMMM do, yyyy"),
         ratings : item?.ratings,
-        brand : item?.brand?.name,
+        brand : item.brand.name,
     })) 
     return(
         <>

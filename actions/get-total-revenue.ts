@@ -1,10 +1,11 @@
 import { prisma } from "@/lib/prisma";
 
  
-export const getTotalRevenue = async() => {
+export const getTotalRevenue = async(storeId:string) => {
     const orders = await prisma.order.findMany({
         where:{
             isPaid:true,
+            storeId
         }, 
         include:{
             orderItems:{
@@ -14,6 +15,7 @@ export const getTotalRevenue = async() => {
             },
         } 
     });
+    
     //getting current Month
     const currMonth = new Date().getMonth();
 
@@ -23,7 +25,7 @@ export const getTotalRevenue = async() => {
     //calculating total revenue
     const totalRevenue = orders.map( item => item.orderItems.map( (item) => item.product.price)).flat().reduce( (acc,curr) =>{
         return acc+curr;
-    }); 
+    },0); 
 
 
     return { totalRevenue, currMonthOrders:currMonthOrders.length, orders};    
