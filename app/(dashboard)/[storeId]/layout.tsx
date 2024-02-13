@@ -13,6 +13,7 @@ export default async function DashboardLayout( { children, params } :
     }){
     const { storeId } = params;
     const { userId } = auth();
+    
 
     if(!userId) redirect("/");
 
