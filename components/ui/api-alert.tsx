@@ -8,25 +8,25 @@ import { useParams } from "next/navigation"
 
 
 
-export interface IapiAlertProps{
-    title : string,
+export interface IapiAlertProps {
+    title: string,
     variant: string,
-    entityIdName:string,
-    entityName:string,
+    entityIdName: string,
+    entityName: string,
 }
 
-const textMap: Record<IapiAlertProps["variant"],string> = {
+const textMap: Record<IapiAlertProps["variant"], string> = {
     public: 'Public',
-    admin : 'Admin'
+    admin: 'Admin'
 }
-const variantMap: Record<IapiAlertProps["variant"],BadgeProps["variant"]> = {
-    public : 'secondary',
-    admin : 'destructive'
+const variantMap: Record<IapiAlertProps["variant"], BadgeProps["variant"]> = {
+    public: 'secondary',
+    admin: 'destructive'
 }
 
-export const ApiAlert:React.FC<IapiAlertProps> = ({
+export const ApiAlert: React.FC<IapiAlertProps> = ({
     title,
-    variant="public",
+    variant = "public",
     entityName,
     entityIdName
 
@@ -38,22 +38,22 @@ export const ApiAlert:React.FC<IapiAlertProps> = ({
         navigator.clipboard.writeText(url);
         toast.success(`Copied to clipboard`);
     }
-    return(
+    return (
         <main>
             <Alert className="space-y-4">
-                    <AlertTitle className="flex gap-4 items-center">
-                        <Server className='h-4 w-4'/>   
-                        {title}
-                        <Badge variant={variantMap[variant]}>
-                            {textMap[variant]}
-                        </Badge>
-                    </AlertTitle>                 
-                    <AlertDescription className="flex justify-between bg-slate-100 items-center rounded-md px-2">
-                        {url}
-                        <Button variant="ghost" onClick={ () => handleCopy() }>
-                            <Copy className=""/>
-                        </Button>
-                    </AlertDescription>
+                <AlertTitle className="flex gap-4 items-center">
+                    <Server className='h-4 w-4' />
+                    {title}
+                    <Badge variant={variantMap[variant]}>
+                        {textMap[variant]}
+                    </Badge>
+                </AlertTitle>
+                <AlertDescription className="flex justify-between bg-slate-100 dark:bg-slate-800 items-center rounded-md px-2">
+                    {url}
+                    <Button variant="ghost" onClick={() => handleCopy()}>
+                        <Copy className="" />
+                    </Button>
+                </AlertDescription>
             </Alert>
         </main>
     )

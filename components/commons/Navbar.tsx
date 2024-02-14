@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { Separator } from "../ui/separator";
 import NavLinks from "./NavLinks";
 import Menu from "./Menu";
+import { ThemeToggler } from "./ThemeToggler";
 
 const Navbar = async ({ storeId }: { storeId: string }) => {
 
@@ -31,8 +32,8 @@ const Navbar = async ({ storeId }: { storeId: string }) => {
                 <StoreSwitcher items={store} />
 
                 <NavLinks />
-
-                <div className="flex">
+                <div className="flex gap-5">
+                <ThemeToggler/>
                     <UserButton afterSignOutUrl="/" />
                 </div>
 
