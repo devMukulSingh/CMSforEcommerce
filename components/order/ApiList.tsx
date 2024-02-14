@@ -27,24 +27,7 @@ const ApiList:React.FC<IapiListProps> = ({
             title="GET"
             variant="public"
         />
-        <ApiAlert
-            entityIdName={entityIdName}
-            entityName={entityName}
-            title="POST"
-            variant="admin"
-        />
-        <ApiAlert
-            entityIdName={entityIdName}
-            entityName={entityName}
-            title="PATCH"
-            variant="admin"
-        />
-        <ApiAlert
-            entityIdName={entityIdName}
-            entityName={entityName}
-            title="DELETE"
-            variant="admin"
-        />
+
         
     </main>
   )
