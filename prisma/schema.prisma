@@ -152,7 +152,7 @@ model Brand{
   name            String    
   products        Product[]       @relation("BrandToProduct")
   storeId         String
-  store           Store           @relation("StoreToBrand",fields: [storeId],references: [id])
+  store           Store           @relation("StoreToBrand",fields: [storeId],references: [id],onDelete: Cascade)
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
   @@index([storeId])

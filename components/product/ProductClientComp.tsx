@@ -16,7 +16,6 @@ const ProductClientComp:React.FC<ProductClientCompProps> = ({
     products,
 }) => {
     
-    console.log(products);
     const { storeId} = useParams();
     const router = useRouter();
   return (

@@ -14,6 +14,7 @@ export function DataTable<TData,TValue>( {data,columns} : IdataTableProps<TData,
         columns,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel : getPaginationRowModel(),
+        
     })
   return (
     
