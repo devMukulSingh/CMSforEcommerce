@@ -10,8 +10,9 @@ import { ThemeToggler } from "./ThemeToggler";
 const Navbar = async ({ storeId }: { storeId: string }) => {
 
     const { userId } = auth();
-    console.log("userId",userId);
-    // if (!userId) redirect("/");
+
+    if (!userId) redirect("/");
+    
     const store = await prisma.store.findMany({
         where: {
             userId
