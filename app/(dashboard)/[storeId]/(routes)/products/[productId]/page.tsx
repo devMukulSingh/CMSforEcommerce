@@ -52,6 +52,8 @@ const SingleProductPage = async(
     //@ts-ignore
     description : product?.description?.map( (point:string) => point  ).join("\n"),
     ratings: product?.ratings,
+    brandId : product?.brandId,
+    
   }
   // console.log(formattedProducts);
   

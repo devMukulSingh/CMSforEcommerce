@@ -37,12 +37,13 @@ return(
     <>
         <main>
             <section className="flex gap-3">
-
                 {
-                    value?.map( (url ) => {
+                    value?.map( (url,index ) => {
                         return(
-                            <>
-                                <figure className="w-[200px] h-[200px] relative overflow-hidden" key={url}>
+                                <figure 
+                                    className="w-[200px] h-[200px] relative overflow-hidden" 
+                                    key={index}
+                                    >
                                     <span className="absolute left-1 top-1 z-10">
                                         <Button 
                                             onClick={() => onRemove(url)}
@@ -58,7 +59,7 @@ return(
                                         className="object-contain border"
                                         />
                                 </figure>
-                            </>
+
                     )
                 })
                 }

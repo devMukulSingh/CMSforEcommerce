@@ -247,7 +247,7 @@ const ProductForm : React.FC<IproductFormProps> = ( {
                             </FormField>
 
                                 {/* size */}
-                            <FormField
+                            {/* <FormField
                                 control={form.control}
                                 name="sizeId"                            
                                 render = { ({field}) => (
@@ -281,7 +281,7 @@ const ProductForm : React.FC<IproductFormProps> = ( {
                                 </FormItem>
                                 )}
                             >
-                            </FormField>
+                            </FormField> */}
                                 {/* category */}
                             <FormField
                                 control={form.control}

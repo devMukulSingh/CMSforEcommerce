@@ -26,7 +26,6 @@ const ProductsPage = async( {params} : {
         price:item.price,   
         category:item.category.name,
         color:item.color.value,
-        // size: item?.size?.value,
         //@ts-ignore
         description:item?.description?.map( (description:string) => description),
         isFeatured:item.isFeatured,

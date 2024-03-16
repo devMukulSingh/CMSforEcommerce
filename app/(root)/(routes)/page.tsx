@@ -7,12 +7,11 @@ import { StoreModal } from '@/components/modals/StoreModal';
 
 export default function Home() {
   const dispatch = useAppDispatch();
-  const isOpen = useAppSelector( state => state.adminSlice.isOpen);
  
   return (
 
     <>
-      <main>
+      <main className='w-screen h-screen flex item-center justify-center'>
         <StoreModal/>  
           <Button onClick={ () => dispatch( setDialog(true))}>
             Add Store
