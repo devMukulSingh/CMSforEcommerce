@@ -1,7 +1,6 @@
 import CategoriesClientComp from "@/components/category/CategoriesClientComp";
 import { CategoryColumn } from "@/components/ui/CategoryColumn";
 import { prisma } from "@/lib/prisma";
-import { Billboard } from "@prisma/client";
 import { format } from "date-fns";
 
 const CategoriesPage = async ({ params }: { params: { storeId: string } }) => {

@@ -29,12 +29,16 @@ export interface IbillboardFormProps {
 }
 
 const formSchema = z.object({
-  label: z.string().trim().min(1,{
-    message:"Billboard name is required"
+  label: z.string().trim().min(1, {
+    message: "Billboard name is required",
   }),
-  images: z.object({ url: z.string().min(1,{
-    message:"Req"
-  }) }).array()
+  images: z
+    .object({
+      url: z.string().min(1, {
+        message: "Image is required",
+      }),
+    })
+    .array(),
 });
 type BillboardFormValues = z.infer<typeof formSchema>;
 
@@ -53,18 +57,13 @@ const BillboardForm: React.FC<IbillboardFormProps> = ({ initialValues }) => {
     },
   });
   const onSubmit = async (data: BillboardFormValues) => {
-    console.log(data);
-    
     try {
       setLoading(true);
       if (initialValues) {
-        const res = await axios.patch(
-          `/api/${storeId}/billboard/${billboardId}`,
-          data,
-        );
+        await axios.patch(`/api/${storeId}/billboard/${billboardId}`, data);
         toast.success("Billboard updated");
       } else {
-        const res = await axios.post(`/api/${storeId}/billboard`, data);
+        await axios.post(`/api/${storeId}/billboard`, data);
         toast.success("Billboard created");
         router.push(`/${storeId}/billboards`);
       }
@@ -80,7 +79,7 @@ const BillboardForm: React.FC<IbillboardFormProps> = ({ initialValues }) => {
     try {
       setLoading(true);
       const res = await axios.delete(
-        `/api/${storeId}/billboard/${billboardId}`,
+        `/api/${storeId}/billboard/${billboardId}`
       );
       if (res.status === 200) toast.success("Billboard deleted");
       else if (res.status === 500) toast.error("Something went wrong");
@@ -109,17 +108,16 @@ const BillboardForm: React.FC<IbillboardFormProps> = ({ initialValues }) => {
             </h1>
             <p className="text-sm">Manage Billboard Preferences</p>
           </section>
-          {
-            initialValues && 
-          <Button
-            onClick={() => setOpenDeleteAlert(true)}
-            disabled={loading}
-            variant="destructive"
-            size="icon"
-          >
-              <TrashIcon/>
-          </Button>
-            }
+          {initialValues && (
+            <Button
+              onClick={() => setOpenDeleteAlert(true)}
+              disabled={loading}
+              variant="destructive"
+              size="icon"
+            >
+              <TrashIcon />
+            </Button>
+          )}
         </header>
         <Separator />
 
@@ -158,11 +156,7 @@ const BillboardForm: React.FC<IbillboardFormProps> = ({ initialValues }) => {
                   <FormItem>
                     <FormLabel>Billboard name</FormLabel>
                     <FormControl>
-                      <Input 
-                        placeholder="name" 
-                        {...field} 
-                        disabled={loading}
-      />
+                      <Input placeholder="name" {...field} disabled={loading} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

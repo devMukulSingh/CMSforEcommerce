@@ -26,8 +26,6 @@ const ImageUpload: React.FC<IimageUploadProps> = ({
   }, []);
 
   const onUpload = (result: any) => {
-    ;
-    
     onChange(result.info.secure_url);
   };
 
@@ -38,7 +36,7 @@ const ImageUpload: React.FC<IimageUploadProps> = ({
       <div>
         <section className="flex gap-3">
           {value?.map((url, index) => {
-            if(url==="") return;
+            if (url === "") return;
             return (
               <figure
                 className="w-[200px] h-[200px] relative overflow-hidden"

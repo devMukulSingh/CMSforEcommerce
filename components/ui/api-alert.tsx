@@ -31,7 +31,7 @@ export const ApiAlert: React.FC<IapiAlertProps> = ({
   const { storeId } = useParams();
   const origin = useOrigin();
   const url = `${origin}/api/${storeId}/${entityName}/${entityIdName}`;
-  
+
   const handleCopy = () => {
     navigator.clipboard.writeText(url);
     toast.success(`Copied to clipboard`);

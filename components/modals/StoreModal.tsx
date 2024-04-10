@@ -6,7 +6,14 @@ import { Modal } from "@/components/ui/modal";
 import { setDialog } from "@/store/slice";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useState } from "react";
@@ -14,8 +21,8 @@ import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
-  name: z.string().trim().min(1,{
-    message:"Store name is required"
+  name: z.string().trim().min(1, {
+    message: "Store name is required",
   }),
 });
 
@@ -65,12 +72,12 @@ export const StoreModal = () => {
                   <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input
-                      disabled={loading} 
-                      placeholder="E-Commerce" 
-                      {...field} 
-                      />
+                      disabled={loading}
+                      placeholder="E-Commerce"
+                      {...field}
+                    />
                   </FormControl>
-                  <FormMessage/>
+                  <FormMessage />
                 </FormItem>
               )}
             ></FormField>
@@ -83,9 +90,7 @@ export const StoreModal = () => {
             >
               <Button disabled={loading} type="submit">
                 Continue
-                {
-                  loading && <Loader2 className="flex gap-3 animate-spin"/>
-                }
+                {loading && <Loader2 className="flex gap-3 animate-spin" />}
               </Button>
               <Button
                 disabled={loading}

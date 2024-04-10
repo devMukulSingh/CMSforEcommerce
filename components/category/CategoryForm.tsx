@@ -6,6 +6,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
@@ -20,7 +21,6 @@ import { useParams } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { AlertModal } from "../modals/AlertModal";
-import ImageUpload from "../ui/image-upload";
 import {
   Select,
   SelectContent,
@@ -28,6 +28,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import Loader from "../commons/Loader";
 
 interface IcategoryFormProps {
   initialValues: Category | null;
@@ -35,8 +36,12 @@ interface IcategoryFormProps {
 }
 
 const formSchema = z.object({
-  name: z.string().min(1),
-  billboardId: z.string().min(1),
+  name: z.string().trim().min(1, {
+    message: "Category name is required",
+  }),
+  billboardId: z.string().min(1, {
+    message: "Billboard is required",
+  }),
 });
 type CategoryFormValues = z.infer<typeof formSchema>;
 
@@ -48,7 +53,7 @@ const CategoryForm: React.FC<IcategoryFormProps> = ({
   const { storeId, categoryId } = useParams();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-
+  
   const form = useForm<CategoryFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialValues || {
@@ -112,6 +117,7 @@ const CategoryForm: React.FC<IcategoryFormProps> = ({
             </p>
           </section>
           <Button
+            className={`${!initialValues ? 'hidden':'' }`}
             onClick={() => setOpenDeleteAlert(true)}
             disabled={loading}
             variant="destructive"
@@ -132,8 +138,13 @@ const CategoryForm: React.FC<IcategoryFormProps> = ({
                   <FormItem>
                     <FormLabel>Category Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="name" {...field} autoComplete="off" />
+                      <Input 
+                        disabled={loading}
+                        placeholder="name" 
+                        {...field} 
+                        autoComplete="off" />
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               ></FormField>
@@ -155,6 +166,7 @@ const CategoryForm: React.FC<IcategoryFormProps> = ({
                           <SelectValue placeholder="Select Billboard" />
                         </SelectTrigger>
                       </FormControl>
+                      <FormMessage />
 
                       <SelectContent>
                         {billboards.map((billboard) => (
@@ -170,10 +182,13 @@ const CategoryForm: React.FC<IcategoryFormProps> = ({
 
               <Button
                 type="submit"
-                className="w-32 cursor-pointer"
+                className="w-32 cursor-pointer flex gap-2"
                 disabled={loading}
               >
                 {initialValues ? "Save Changes" : "Create"}
+                {
+                  loading && <Loader/>
+                }
               </Button>
             </div>
           </form>

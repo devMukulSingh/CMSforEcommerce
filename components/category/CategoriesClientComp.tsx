@@ -4,7 +4,6 @@ import { PlusCircle } from "lucide-react";
 import { Button } from "../ui/button";
 import { useParams, useRouter } from "next/navigation";
 import { DataTable } from "../commons/DataTable";
-import { Category } from "@prisma/client";
 import { CategoryColumn, columns } from "../ui/CategoryColumn";
 import ApiList from "../commons/ApiList";
 import { Separator } from "../ui/separator";
@@ -19,11 +18,7 @@ const CategoriesClientComp: React.FC<CategoriesClientCompProps> = ({
   const params = useParams();
   const { storeId } = params;
   const router = useRouter();
-  const handleAddNew = () => {
-    console.log("hellp");
-
-    alert("hello");
-  };
+ 
   return (
     <main className="flex flex-col gap-4 p-5">
       <header className="flex justify-between">
