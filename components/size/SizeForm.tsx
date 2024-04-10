@@ -28,11 +28,11 @@ interface IclientFormProps {
 }
 
 const formSchema = z.object({
-  name: z.string().trim().min(1,{
-    message:"Name is required"
+  name: z.string().trim().min(1, {
+    message: "Name is required",
   }),
-  value: z.string().min(1,{
-    message:"Size value is required"
+  value: z.string().min(1, {
+    message: "Size value is required",
   }),
 });
 type ClientFormValues = z.infer<typeof formSchema>;

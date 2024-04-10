@@ -6,6 +6,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
@@ -20,14 +21,19 @@ import { useParams } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { AlertModal } from "../modals/AlertModal";
+import Loader from "../commons/Loader";
 
 interface IcolorFormProps {
   initialValues: Color | null;
 }
 
 const formSchema = z.object({
-  value: z.string().min(1),
-  name: z.string().min(3),
+  value: z.string().trim().min(1,{
+    message:"Color value is required"
+  }),
+  name: z.string().trim().min(1,{
+    message:"Color name is required"
+  })
 });
 type colorFormValues = z.infer<typeof formSchema>;
 
@@ -96,6 +102,7 @@ const ColorForm: React.FC<IcolorFormProps> = ({ initialValues }) => {
             <p className="text-sm">Manage color Preferences</p>
           </section>
           <Button
+            className={`${!initialValues ? 'hidden' : ''}`}
             onClick={() => setOpenDeleteAlert(true)}
             disabled={loading}
             variant="destructive"
@@ -118,6 +125,7 @@ const ColorForm: React.FC<IcolorFormProps> = ({ initialValues }) => {
                     <FormControl>
                       <Input placeholder="name" {...field} autoComplete="off" />
                     </FormControl>
+                    <FormMessage/>
                   </FormItem>
                 )}
               ></FormField>
@@ -135,16 +143,20 @@ const ColorForm: React.FC<IcolorFormProps> = ({ initialValues }) => {
                         autoComplete="off"
                       />
                     </FormControl>
+                    <FormMessage/>
                   </FormItem>
                 )}
               ></FormField>
 
               <Button
                 type="submit"
-                className="w-32 cursor-pointer"
+                className="w-32 cursor-pointer flex gap-2"
                 disabled={loading}
               >
                 {initialValues ? "Save Changes" : "Create"}
+                {
+                  loading && <Loader/>
+                }
               </Button>
             </div>
           </form>
