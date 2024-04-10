@@ -28,8 +28,8 @@ interface IclientFormProps {
 }
 
 const formSchema = z.object({
-  name: z.string().trim().min(1,{
-    message:"Brand name is required"
+  name: z.string().trim().min(1, {
+    message: "Brand name is required",
   }),
 });
 type ClientFormValues = z.infer<typeof formSchema>;
@@ -98,7 +98,7 @@ const BrandForm: React.FC<IclientFormProps> = ({ initialValues }) => {
             <p className="text-sm">Manage brand Preferences</p>
           </section>
           <Button
-          className={`${!initialValues ? "hidden" : ''}`}
+            className={`${!initialValues ? "hidden" : ""}`}
             onClick={() => setOpenDeleteAlert(true)}
             disabled={loading}
             variant="destructive"
@@ -126,7 +126,7 @@ const BrandForm: React.FC<IclientFormProps> = ({ initialValues }) => {
                         autoComplete="off"
                       />
                     </FormControl>
-                    <FormMessage/>
+                    <FormMessage />
                   </FormItem>
                 )}
               ></FormField>
@@ -137,9 +137,7 @@ const BrandForm: React.FC<IclientFormProps> = ({ initialValues }) => {
                 disabled={loading}
               >
                 {initialValues ? "Save Changes" : "Create"}
-                {
-                  loading && <Loader/>
-                }
+                {loading && <Loader />}
               </Button>
             </div>
           </form>
