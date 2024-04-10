@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { Copy, Server, Terminal } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "./alert";
 import { Badge, BadgeProps } from "./badge";

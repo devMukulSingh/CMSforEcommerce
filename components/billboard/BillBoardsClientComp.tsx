@@ -2,12 +2,12 @@ import dynamic from "next/dynamic";
 import ApiList from "../commons/ApiList";
 import { Separator } from "../ui/separator";
 import BillboardsTableSkeleton from "./BillboardsTableSkeleton";
-const BillboardsTable = dynamic( () => import("./BillboardsTable"),{
-  loading : () => <BillboardsTableSkeleton/>
-})
+const BillboardsTable = dynamic(() => import("./BillboardsTable"), {
+  loading: () => <BillboardsTableSkeleton />,
+});
 
 interface BillBoardClientCompProps {
-  storeId:string
+  storeId: string;
 }
 
 const BillBoardsClientComp: React.FC<BillBoardClientCompProps> = ({
@@ -15,7 +15,7 @@ const BillBoardsClientComp: React.FC<BillBoardClientCompProps> = ({
 }) => {
   return (
     <div className="flex flex-col gap-4 p-5">
-      <BillboardsTable storeId={storeId}/>
+      <BillboardsTable storeId={storeId} />
       <Separator />
       <ApiList entityName="billboard" entityIdName="{billboardId}" />
     </div>

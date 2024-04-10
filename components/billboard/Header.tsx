@@ -1,17 +1,15 @@
-'use client'
-import React, { FC } from 'react'
+"use client";
+import React, { FC } from "react";
 import { PlusCircle, Router } from "lucide-react";
 import { Button } from "../ui/button";
 import { useParams, useRouter } from "next/navigation";
-import { Billboard } from '@prisma/client';
+import { Billboard } from "@prisma/client";
 
-interface HeaderProps{
-  billboard:Billboard[]
+interface HeaderProps {
+  billboard: Billboard[];
 }
 
-const Header:FC<HeaderProps> = ({
-    billboard
-}) => {
+const Header: FC<HeaderProps> = ({ billboard }) => {
   const router = useRouter();
   const { storeId } = useParams();
 
@@ -19,7 +17,9 @@ const Header:FC<HeaderProps> = ({
     <>
       <header className="flex justify-between">
         <div>
-          <h1 className="text-2xl font-bold">BillBoards({billboard?.length || 0})</h1>
+          <h1 className="text-2xl font-bold">
+            BillBoards({billboard?.length || 0})
+          </h1>
           <p className="text-sm text-slate-500">Manage Billboards</p>
         </div>
         <Button
@@ -32,6 +32,6 @@ const Header:FC<HeaderProps> = ({
       </header>
     </>
   );
-}
+};
 
-export default Header
+export default Header;
