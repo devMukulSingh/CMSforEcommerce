@@ -1,5 +1,5 @@
-import { UserButton, auth } from "@clerk/nextjs"
-import StoreSwitcher from "./StoreSwitcher"
+import { UserButton, auth } from "@clerk/nextjs";
+import StoreSwitcher from "./StoreSwitcher";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { Separator } from "../ui/separator";
@@ -8,41 +8,41 @@ import Menu from "./Menu";
 import { ThemeToggler } from "./ThemeToggler";
 
 const Navbar = async ({ storeId }: { storeId: string }) => {
+  const { userId } = auth();
 
-    const { userId } = auth();
+  if (!userId) redirect("/");
 
-    if (!userId) redirect("/");
-    
-    const store = await prisma.store.findMany({
-        where: {
-            userId
-        }
-    });
+  const store = await prisma.store.findMany({
+    where: {
+      userId,
+    },
+  });
 
-    return (
-        <>
-            <main className="
+  return (
+    <>
+      <main
+        className="
             h-24
             flex
             px-5
             gap-5
             justify-between
             items-center
-            ">
-                <Menu />
+            "
+      >
+        <Menu />
 
-                <StoreSwitcher items={store} />
+        <StoreSwitcher items={store} />
 
-                <NavLinks />
-                <div className="flex gap-5">
-                <ThemeToggler/>
-                    <UserButton afterSignOutUrl="/" />
-                </div>
+        <NavLinks />
+        <div className="flex gap-5">
+          <ThemeToggler />
+          <UserButton afterSignOutUrl="/" />
+        </div>
+      </main>
+      <Separator />
+    </>
+  );
+};
 
-            </main>
-            <Separator />
-        </>
-    )
-}
-
-export default Navbar
+export default Navbar;

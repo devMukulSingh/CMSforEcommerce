@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { ColumnDef } from "@tanstack/react-table"
+import { ColumnDef } from "@tanstack/react-table";
 import ProductActions from "./ProductActions";
 import { Decimal } from "@prisma/client/runtime/library";
 
@@ -12,14 +12,14 @@ export type ProductColumn = {
   color: string;
   // size: string | undefined;
   price: number;
-  description : string | undefined,
-  category:string;
-  isFeatured:boolean;
-  isArchived:boolean;
+  description: string | undefined;
+  category: string;
+  isFeatured: boolean;
+  isArchived: boolean;
   createdAt: string;
-  ratings : Decimal | null;
-  brand : string 
-}
+  ratings: Decimal | null;
+  brand: string;
+};
 
 export const columns: ColumnDef<ProductColumn>[] = [
   {
@@ -59,9 +59,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
     header: "Rating",
   },
   {
-    id: 'actions',
-    cell : ({row}) => <ProductActions data={row.original} />
-  }
-
-]
-
+    id: "actions",
+    cell: ({ row }) => <ProductActions data={row.original} />,
+  },
+];

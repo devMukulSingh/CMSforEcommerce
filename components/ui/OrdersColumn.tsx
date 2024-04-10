@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { ColumnDef } from "@tanstack/react-table"
+import { ColumnDef } from "@tanstack/react-table";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -10,9 +10,9 @@ export type OrdersColumn = {
   address: string;
   products: string;
   isPaid: boolean;
-  totalPrice : number,
+  totalPrice: number;
   createdAt: string;
-}
+};
 
 export const columns: ColumnDef<OrdersColumn>[] = [
   {
@@ -32,18 +32,16 @@ export const columns: ColumnDef<OrdersColumn>[] = [
     header: "Paid",
   },
   {
-    accessorKey:"products",
-    header:"Products"
+    accessorKey: "products",
+    header: "Products",
   },
   {
-    accessorKey:"totalPrice",
-    header:"Total Price"
+    accessorKey: "totalPrice",
+    header: "Total Price",
   },
-  
+
   {
     accessorKey: "createdAt",
     header: "Date",
   },
-
-]
-
+];

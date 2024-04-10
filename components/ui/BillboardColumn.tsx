@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { ColumnDef } from "@tanstack/react-table"
+import { ColumnDef } from "@tanstack/react-table";
 import BillboardActions from "./BillboardActions";
 
 // This type is used to define the shape of our data.
@@ -9,7 +9,7 @@ export type BillboardColumn = {
   id: string;
   label: string;
   createdAt: string;
-}
+};
 
 export const columns: ColumnDef<BillboardColumn>[] = [
   {
@@ -25,9 +25,7 @@ export const columns: ColumnDef<BillboardColumn>[] = [
     header: "Id",
   },
   {
-    id: 'actions',
-    cell : ({row}) => <BillboardActions data={row.original} />
-  }
-
-]
-
+    id: "actions",
+    cell: ({ row }) => <BillboardActions data={row.original} />,
+  },
+];

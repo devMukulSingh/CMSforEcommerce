@@ -1,15 +1,12 @@
-"use client"
+"use client";
 import { IgraphData } from "@/actions/get-graph-revenue";
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
 interface ChartProps {
-  data: IgraphData[]
+  data: IgraphData[];
 }
 
-const Chart: React.FC<ChartProps> = ({
-  data
-}) => {
-
+const Chart: React.FC<ChartProps> = ({ data }) => {
   return (
     <main>
       <ResponsiveContainer width="100%" height={350}>
@@ -32,7 +29,7 @@ const Chart: React.FC<ChartProps> = ({
         </BarChart>
       </ResponsiveContainer>
     </main>
-  )
-}
+  );
+};
 
-export default Chart
+export default Chart;

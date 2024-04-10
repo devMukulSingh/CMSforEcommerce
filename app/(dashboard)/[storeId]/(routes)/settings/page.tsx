@@ -4,26 +4,25 @@ import { auth } from "@clerk/nextjs";
 import { Store } from "@prisma/client";
 import { redirect } from "next/navigation";
 
-const SettingsPage = async( { params }: { params: {storeId:string}} ) => {
-    const { userId } = auth();
-    
-    console.log("userId",userId);
-    if( !userId )  redirect("/");
-    
+const SettingsPage = async ({ params }: { params: { storeId: string } }) => {
+  const { userId } = auth();
 
-    const store = await prisma.store.findFirst({
-        where:{
-            userId
-        }
-    });
+  console.log("userId", userId);
+  if (!userId) redirect("/");
 
-    if( !store) redirect("/");
+  const store = await prisma.store.findFirst({
+    where: {
+      userId,
+    },
+  });
 
-    return(
-        <>
-            <SettingsForm initialValues = {store}/>
-        </>
-    )
-}
+  if (!store) redirect("/");
+
+  return (
+    <>
+      <SettingsForm initialValues={store} />
+    </>
+  );
+};
 
 export default SettingsPage;

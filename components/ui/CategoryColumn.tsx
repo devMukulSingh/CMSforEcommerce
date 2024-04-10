@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { ColumnDef } from "@tanstack/react-table"
+import { ColumnDef } from "@tanstack/react-table";
 import CategoryAction from "./CategoryAction";
 
 // This type is used to define the shape of our data.
@@ -8,9 +8,9 @@ import CategoryAction from "./CategoryAction";
 export type CategoryColumn = {
   id: string;
   name: string;
-  billboardLabel : string;
+  billboardLabel: string;
   createdAt: string;
-}
+};
 
 export const columns: ColumnDef<CategoryColumn>[] = [
   {
@@ -26,13 +26,11 @@ export const columns: ColumnDef<CategoryColumn>[] = [
     header: "Date",
   },
   {
-    accessorKey:'id',
-    header : "Id"
+    accessorKey: "id",
+    header: "Id",
   },
   {
-    id:"actions",
-    cell : ({row}) => <CategoryAction data={row.original} />
-  }
-
-]
-
+    id: "actions",
+    cell: ({ row }) => <CategoryAction data={row.original} />,
+  },
+];

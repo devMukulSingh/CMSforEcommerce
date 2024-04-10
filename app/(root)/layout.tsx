@@ -2,24 +2,22 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const { userId } = auth();
 
-export default async function RootLayout( {children  } : { children : React.ReactNode }){
+  if (!userId) redirect("/");
 
-    const { userId } = auth();
+  const store = await prisma.store.findFirst({
+    where: {
+      userId,
+    },
+  });
 
-    if( !userId) redirect("/");
+  if (store) redirect(`/${store.id}`);
 
-    const store = await prisma.store.findFirst({
-        where : {
-            userId,
-        }
-    })
-
-    if(store) redirect(`/${store.id}`);
-
-    return (
-        <>
-            {children}
-        </>
-)
+  return <>{children}</>;
 }

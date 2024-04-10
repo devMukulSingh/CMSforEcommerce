@@ -4,34 +4,33 @@ import { auth, useAuth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import Sidebar from "@/components/commons/Sidebar";
 
+export default async function DashboardLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: { storeId: string };
+}) {
+  const { storeId } = params;
 
-export default async function DashboardLayout( { children, params } : 
-    { 
-        children : React.ReactNode, 
-        params: { storeId : string}
+  const { userId } = auth();
 
-    }){
-    const { storeId } = params;
+  if (!userId) redirect("/");
 
-    const { userId } = auth();
-    
-    if(!userId) redirect("/");
+  const store = await prisma.store.findFirst({
+    where: {
+      id: storeId,
+      userId: userId,
+    },
+  });
 
-    const store = await prisma.store.findFirst({
-        where : {
-            id: storeId,
-            userId : userId
-        }
-    })
+  if (!store) redirect("/");
 
-    if( !store) redirect("/");
-
-    return( 
-        <>  
-            <Navbar storeId={storeId}/>
-            <Sidebar/>
-            {children}
-        </>
-    )
-
+  return (
+    <>
+      <Navbar storeId={storeId} />
+      <Sidebar />
+      {children}
+    </>
+  );
 }

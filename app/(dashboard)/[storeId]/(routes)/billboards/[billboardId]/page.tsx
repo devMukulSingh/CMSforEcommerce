@@ -1,30 +1,27 @@
-import BillboardForm from "@/components/billboard/BillboardForm"
+import BillboardForm from "@/components/billboard/BillboardForm";
 import { prisma } from "@/lib/prisma";
 
- 
-
-const SingleBillBoardPage = async(
-  {params} : { params : {billboardId : string} }
-) => {
-
+const SingleBillBoardPage = async ({
+  params,
+}: {
+  params: { billboardId: string };
+}) => {
   const { billboardId } = params;
 
   const billboard = await prisma.billboard.findUnique({
-    where : {
-      id : billboardId,
+    where: {
+      id: billboardId,
     },
-    include:{
-      images:true,
+    include: {
+      images: true,
     },
   });
-  
-  return (
-    <main>
-        <BillboardForm
-          initialValues={billboard}
-        />
-    </main>
-  )
-}
 
-export default SingleBillBoardPage
+  return (
+    <>
+      <BillboardForm initialValues={billboard} />
+    </>
+  );
+};
+
+export default SingleBillBoardPage;
