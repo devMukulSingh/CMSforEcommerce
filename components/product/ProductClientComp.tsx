@@ -13,7 +13,6 @@ interface ProductClientCompProps {
 }
 
 const ProductClientComp: React.FC<ProductClientCompProps> = ({ products }) => {
-  
   const { storeId } = useParams();
   const router = useRouter();
   return (

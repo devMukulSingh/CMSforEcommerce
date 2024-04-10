@@ -6,6 +6,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
@@ -20,13 +21,16 @@ import { useParams } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { AlertModal } from "../modals/AlertModal";
+import Loader from "../commons/Loader";
 
 interface IclientFormProps {
   initialValues: Brand | null;
 }
 
 const formSchema = z.object({
-  name: z.string().min(1),
+  name: z.string().trim().min(1,{
+    message:"Brand name is required"
+  }),
 });
 type ClientFormValues = z.infer<typeof formSchema>;
 
@@ -94,6 +98,7 @@ const BrandForm: React.FC<IclientFormProps> = ({ initialValues }) => {
             <p className="text-sm">Manage brand Preferences</p>
           </section>
           <Button
+          className={`${!initialValues ? "hidden" : ''}`}
             onClick={() => setOpenDeleteAlert(true)}
             disabled={loading}
             variant="destructive"
@@ -112,24 +117,29 @@ const BrandForm: React.FC<IclientFormProps> = ({ initialValues }) => {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>brand</FormLabel>
+                    <FormLabel>Brand name</FormLabel>
                     <FormControl>
                       <Input
+                        disabled={loading}
                         placeholder="brand"
                         {...field}
                         autoComplete="off"
                       />
                     </FormControl>
+                    <FormMessage/>
                   </FormItem>
                 )}
               ></FormField>
 
               <Button
                 type="submit"
-                className="w-32 cursor-pointer"
+                className="w-32 cursor-pointer flex gap-2"
                 disabled={loading}
               >
                 {initialValues ? "Save Changes" : "Create"}
+                {
+                  loading && <Loader/>
+                }
               </Button>
             </div>
           </form>

@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
-import {  TrashIcon } from "lucide-react";
+import { TrashIcon } from "lucide-react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Brand, Category, Color, Image, Product, Size } from "@prisma/client";
@@ -54,24 +54,28 @@ interface IproductFormProps {
 }
 
 const formSchema = z.object({
-  name: z.string().trim().min(1,{
-    message:"Product name is required"
+  name: z.string().trim().min(1, {
+    message: "Product name is required",
   }),
-  price: z.coerce.number().positive().min(1,{
-    message:"Price is required"
+  price: z.coerce.number().positive().min(1, {
+    message: "Price is required",
   }),
-  images: z.object({ url: z.string().min(1,{
-    message:"Product image is required"
-  }) }).array(),
-  categoryId: z.string().min(1,{
-    message:"Category is required"
+  images: z
+    .object({
+      url: z.string().min(1, {
+        message: "Product image is required",
+      }),
+    })
+    .array(),
+  categoryId: z.string().min(1, {
+    message: "Category is required",
   }),
-  colorId: z.string().min(1,{
-    message:"Product color is required"
+  colorId: z.string().min(1, {
+    message: "Product color is required",
   }),
   sizeId: z.string().trim().optional(),
-  brandId: z.string().min(1,{
-    message:"Brand is required"
+  brandId: z.string().min(1, {
+    message: "Brand is required",
   }),
   description: z.string().trim().optional(),
   isFeatured: z.boolean().default(false).optional(),
@@ -90,7 +94,6 @@ const ProductForm: React.FC<IproductFormProps> = ({
   colors,
   brands,
 }) => {
-
   const [openDeleteAlert, setOpenDeleteAlert] = useState<boolean>(false);
   const params = useParams();
   const router = useRouter();
@@ -120,14 +123,10 @@ const ProductForm: React.FC<IproductFormProps> = ({
         },
   });
   const onSubmit = async (data: productFormValues) => {
- 
     try {
       setLoading(true);
       if (isInitalValues) {
-        await axios.patch(
-          `/api/${storeId}/product/${productId}`,
-          data,
-        );
+        await axios.patch(`/api/${storeId}/product/${productId}`, data);
         toast.success("product updated");
         router.push(`/${storeId}/products`);
       } else {
@@ -176,7 +175,7 @@ const ProductForm: React.FC<IproductFormProps> = ({
             <p className="text-sm">Manage Product Preferences</p>
           </section>
           <Button
-            className={`${Object.keys(initialValues).length ===0 ? "hidden" : ""}`}
+            className={`${Object.keys(initialValues).length === 0 ? "hidden" : ""}`}
             onClick={() => setOpenDeleteAlert(true)}
             disabled={loading}
             variant="destructive"
@@ -419,7 +418,7 @@ const ProductForm: React.FC<IproductFormProps> = ({
                         onRemove={(url) =>
                           field.onChange([
                             ...field.value.filter(
-                              (currImg) => currImg.url !== url
+                              (currImg) => currImg.url !== url,
                             ),
                           ])
                         }
@@ -472,9 +471,7 @@ const ProductForm: React.FC<IproductFormProps> = ({
               disabled={loading}
             >
               {isInitalValues ? "Save Changes" : "Create"}
-              {
-                loading && <Loader/>
-              }
+              {loading && <Loader />}
             </Button>
           </form>
         </Form>
