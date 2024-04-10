@@ -53,7 +53,7 @@ const CategoryForm: React.FC<IcategoryFormProps> = ({
   const { storeId, categoryId } = useParams();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  
+
   const form = useForm<CategoryFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialValues || {
@@ -117,7 +117,7 @@ const CategoryForm: React.FC<IcategoryFormProps> = ({
             </p>
           </section>
           <Button
-            className={`${!initialValues ? 'hidden':'' }`}
+            className={`${!initialValues ? "hidden" : ""}`}
             onClick={() => setOpenDeleteAlert(true)}
             disabled={loading}
             variant="destructive"
@@ -138,11 +138,12 @@ const CategoryForm: React.FC<IcategoryFormProps> = ({
                   <FormItem>
                     <FormLabel>Category Name</FormLabel>
                     <FormControl>
-                      <Input 
+                      <Input
                         disabled={loading}
-                        placeholder="name" 
-                        {...field} 
-                        autoComplete="off" />
+                        placeholder="name"
+                        {...field}
+                        autoComplete="off"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -186,9 +187,7 @@ const CategoryForm: React.FC<IcategoryFormProps> = ({
                 disabled={loading}
               >
                 {initialValues ? "Save Changes" : "Create"}
-                {
-                  loading && <Loader/>
-                }
+                {loading && <Loader />}
               </Button>
             </div>
           </form>

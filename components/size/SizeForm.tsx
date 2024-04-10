@@ -6,6 +6,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
@@ -20,14 +21,19 @@ import { useParams } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { AlertModal } from "../modals/AlertModal";
+import Loader from "../commons/Loader";
 
 interface IclientFormProps {
   initialValues: Size | null;
 }
 
 const formSchema = z.object({
-  name: z.string().min(1),
-  value: z.string().min(1),
+  name: z.string().trim().min(1,{
+    message:"Name is required"
+  }),
+  value: z.string().min(1,{
+    message:"Size value is required"
+  }),
 });
 type ClientFormValues = z.infer<typeof formSchema>;
 
@@ -96,6 +102,7 @@ const SizeForm: React.FC<IclientFormProps> = ({ initialValues }) => {
             <p className="text-sm">Manage size Preferences</p>
           </section>
           <Button
+            className={`${!initialValues ? "hidden" : ""}`}
             onClick={() => setOpenDeleteAlert(true)}
             disabled={loading}
             variant="destructive"
@@ -116,8 +123,14 @@ const SizeForm: React.FC<IclientFormProps> = ({ initialValues }) => {
                   <FormItem>
                     <FormLabel>Size</FormLabel>
                     <FormControl>
-                      <Input placeholder="Size" {...field} autoComplete="off" />
+                      <Input
+                        placeholder="Size"
+                        {...field}
+                        autoComplete="off"
+                        disabled={loading}
+                      />
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               ></FormField>
@@ -130,20 +143,23 @@ const SizeForm: React.FC<IclientFormProps> = ({ initialValues }) => {
                     <FormLabel>Size value</FormLabel>
                     <FormControl>
                       <Input
+                        disabled={loading}
                         placeholder="size value"
                         {...field}
                         autoComplete="off"
                       />
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               ></FormField>
 
               <Button
                 type="submit"
-                className="w-32 cursor-pointer"
+                className="w-32 cursor-pointer flex gap-2"
                 disabled={loading}
               >
+                {loading && <Loader />}
                 {initialValues ? "Save Changes" : "Create"}
               </Button>
             </div>

@@ -18,7 +18,7 @@ const CategoriesClientComp: React.FC<CategoriesClientCompProps> = ({
   const params = useParams();
   const { storeId } = params;
   const router = useRouter();
- 
+
   return (
     <main className="flex flex-col gap-4 p-5">
       <header className="flex justify-between">
