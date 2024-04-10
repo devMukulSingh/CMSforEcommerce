@@ -7,10 +7,11 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
-import { ControllerRenderProps, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
-import { Plus, PlusCircle, PlusSquare, TrashIcon } from "lucide-react";
+import {  TrashIcon } from "lucide-react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Brand, Category, Color, Image, Product, Size } from "@prisma/client";
@@ -30,9 +31,8 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Checkbox } from "../ui/checkbox";
-import { ProductColumn } from "../ui/ProductColumn";
 import { Textarea } from "../ui/textarea";
-import { Decimal } from "@prisma/client/runtime/library";
+import Loader from "../commons/Loader";
 export interface IinitialValues {
   name: string | undefined;
   price: number | undefined;
@@ -54,14 +54,26 @@ interface IproductFormProps {
 }
 
 const formSchema = z.object({
-  name: z.string().min(1),
-  price: z.coerce.number().positive().min(1),
-  images: z.object({ url: z.string() }).array(),
-  categoryId: z.string().min(1),
-  colorId: z.string().min(1),
-  sizeId: z.string().optional(),
-  brandId: z.string(),
-  description: z.string().optional(),
+  name: z.string().trim().min(1,{
+    message:"Product name is required"
+  }),
+  price: z.coerce.number().positive().min(1,{
+    message:"Price is required"
+  }),
+  images: z.object({ url: z.string().min(1,{
+    message:"Product image is required"
+  }) }).array(),
+  categoryId: z.string().min(1,{
+    message:"Category is required"
+  }),
+  colorId: z.string().min(1,{
+    message:"Product color is required"
+  }),
+  sizeId: z.string().trim().optional(),
+  brandId: z.string().min(1,{
+    message:"Brand is required"
+  }),
+  description: z.string().trim().optional(),
   isFeatured: z.boolean().default(false).optional(),
   isArchived: z.boolean().default(false).optional(),
   ratings: z.coerce
@@ -76,9 +88,9 @@ const ProductForm: React.FC<IproductFormProps> = ({
   initialValues,
   categories,
   colors,
-  sizes,
   brands,
 }) => {
+
   const [openDeleteAlert, setOpenDeleteAlert] = useState<boolean>(false);
   const params = useParams();
   const router = useRouter();
@@ -108,20 +120,18 @@ const ProductForm: React.FC<IproductFormProps> = ({
         },
   });
   const onSubmit = async (data: productFormValues) => {
-    // data.description = points;
-    // console.log(data);
-
+ 
     try {
       setLoading(true);
       if (isInitalValues) {
-        const res = await axios.patch(
+        await axios.patch(
           `/api/${storeId}/product/${productId}`,
           data,
         );
         toast.success("product updated");
         router.push(`/${storeId}/products`);
       } else {
-        const res = await axios.post(`/api/${storeId}/product`, data);
+        await axios.post(`/api/${storeId}/product`, data);
         toast.success("product created");
         router.push(`/${storeId}/products`);
       }
@@ -136,7 +146,7 @@ const ProductForm: React.FC<IproductFormProps> = ({
   const handleProductDelete = async () => {
     try {
       setLoading(true);
-      const res = await axios.delete(`/api/${storeId}/product/${productId}`);
+      await axios.delete(`/api/${storeId}/product/${productId}`);
       setOpenDeleteAlert(false);
       toast.success("Product deleted");
       router.push(`/${storeId}/products`);
@@ -166,6 +176,7 @@ const ProductForm: React.FC<IproductFormProps> = ({
             <p className="text-sm">Manage Product Preferences</p>
           </section>
           <Button
+            className={`${Object.keys(initialValues).length ===0 ? "hidden" : ""}`}
             onClick={() => setOpenDeleteAlert(true)}
             disabled={loading}
             variant="destructive"
@@ -187,8 +198,14 @@ const ProductForm: React.FC<IproductFormProps> = ({
                   <FormItem>
                     <FormLabel>product name</FormLabel>
                     <FormControl>
-                      <Input placeholder="name" {...field} autoComplete="off" />
+                      <Input
+                        disabled={loading}
+                        placeholder="name"
+                        {...field}
+                        autoComplete="off"
+                      />
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               ></FormField>
@@ -202,18 +219,16 @@ const ProductForm: React.FC<IproductFormProps> = ({
                     <FormLabel>Price</FormLabel>
                     <FormControl>
                       <Input
+                        disabled={loading}
                         placeholder="price"
                         {...field}
                         autoComplete="off"
                       />
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               ></FormField>
-
-              {/* <FormField>(internally it uses <Controller> component) 
-                            is a wrapper component, so that we can use react hook form with external libraries
-                            it provides field object, which contains methods, such as onChange,onBlur,value to the child component*/}
 
               <FormField
                 control={form.control}
@@ -222,15 +237,8 @@ const ProductForm: React.FC<IproductFormProps> = ({
                   <FormItem>
                     <FormLabel>Color</FormLabel>
                     <Select
-                      // onValueChange => triggers as soon any value changes in the select field
-                      // field.onChange => is a method of react-hook-form, which will get the values
-                      // of the field as soon as the value of the (Select) field changes and pass it to the react form
-                      onValueChange={field.onChange} //2nd step
-                      // value prop => it will be used to  show what current value is selected in the select field .
-                      //contains, what is the current value of the <Select> field selected
-                      //field.value => contains the value of the field which is selected by the user, using the
-                      // select dropdown
-                      value={field.value} //3rd step
+                      onValueChange={field.onChange}
+                      value={field.value}
                       disabled={loading}
                     >
                       <FormControl>
@@ -241,17 +249,12 @@ const ProductForm: React.FC<IproductFormProps> = ({
 
                       <SelectContent>
                         {colors.map((color) => (
-                          <SelectItem
-                            // value referred to what value is selected, using select dropdown
-                            // this value is then passed to the react form using <Form Control>,
-                            // so that we can get what value is selected (above)
-                            value={color.id} //1st step
-                            key={color.id}
-                          >
+                          <SelectItem value={color.id} key={color.id}>
                             {color.name}
                           </SelectItem>
                         ))}
                       </SelectContent>
+                      <FormMessage />
                     </Select>
                   </FormItem>
                 )}
@@ -319,6 +322,7 @@ const ProductForm: React.FC<IproductFormProps> = ({
                         ))}
                       </SelectContent>
                     </Select>
+                    <FormMessage />
                   </FormItem>
                 )}
               ></FormField>
@@ -336,6 +340,7 @@ const ProductForm: React.FC<IproductFormProps> = ({
                         className="mr-4"
                       />
                     </FormControl>
+                    <FormMessage />
                     <FormLabel>isFeatured</FormLabel>
                     <FormDescription>
                       Items checked will be shown on the home page
@@ -362,6 +367,7 @@ const ProductForm: React.FC<IproductFormProps> = ({
                         autoComplete="off"
                       />
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               ></FormField>
@@ -396,6 +402,7 @@ const ProductForm: React.FC<IproductFormProps> = ({
                     <FormControl>
                       <Input placeholder="Ratings" {...field} />
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               ></FormField>
@@ -412,18 +419,18 @@ const ProductForm: React.FC<IproductFormProps> = ({
                         onRemove={(url) =>
                           field.onChange([
                             ...field.value.filter(
-                              (currImg) => currImg.url !== url,
+                              (currImg) => currImg.url !== url
                             ),
                           ])
                         }
                         disabled={loading}
-                        //inside onChange, we are passing imageUrl as the image gets uploaded
                         onChange={(url) =>
                           field.onChange([...field.value, { url }])
                         }
                         value={field?.value?.map((image) => image.url)}
                       />
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               ></FormField>
@@ -452,8 +459,8 @@ const ProductForm: React.FC<IproductFormProps> = ({
                           </SelectItem>
                         ))}
                       </SelectContent>
-                      <FormControl></FormControl>
                     </Select>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -461,10 +468,13 @@ const ProductForm: React.FC<IproductFormProps> = ({
 
             <Button
               type="submit"
-              className="w-32 cursor-pointer mt-5"
+              className="w-32 cursor-pointer mt-5 flex gap-2"
               disabled={loading}
             >
               {isInitalValues ? "Save Changes" : "Create"}
+              {
+                loading && <Loader/>
+              }
             </Button>
           </form>
         </Form>

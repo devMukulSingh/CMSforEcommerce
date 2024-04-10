@@ -28,12 +28,12 @@ interface IcolorFormProps {
 }
 
 const formSchema = z.object({
-  value: z.string().trim().min(1,{
-    message:"Color value is required"
+  value: z.string().trim().min(1, {
+    message: "Color value is required",
   }),
-  name: z.string().trim().min(1,{
-    message:"Color name is required"
-  })
+  name: z.string().trim().min(1, {
+    message: "Color name is required",
+  }),
 });
 type colorFormValues = z.infer<typeof formSchema>;
 
@@ -102,7 +102,7 @@ const ColorForm: React.FC<IcolorFormProps> = ({ initialValues }) => {
             <p className="text-sm">Manage color Preferences</p>
           </section>
           <Button
-            className={`${!initialValues ? 'hidden' : ''}`}
+            className={`${!initialValues ? "hidden" : ""}`}
             onClick={() => setOpenDeleteAlert(true)}
             disabled={loading}
             variant="destructive"
@@ -123,9 +123,14 @@ const ColorForm: React.FC<IcolorFormProps> = ({ initialValues }) => {
                   <FormItem>
                     <FormLabel>Color name</FormLabel>
                     <FormControl>
-                      <Input placeholder="name" {...field} autoComplete="off" />
+                      <Input
+                        disabled={loading}
+                        placeholder="name"
+                        {...field}
+                        autoComplete="off"
+                      />
                     </FormControl>
-                    <FormMessage/>
+                    <FormMessage />
                   </FormItem>
                 )}
               ></FormField>
@@ -138,12 +143,13 @@ const ColorForm: React.FC<IcolorFormProps> = ({ initialValues }) => {
                     <FormLabel>Hex value</FormLabel>
                     <FormControl>
                       <Input
+                        disabled={loading}
                         placeholder="value"
                         {...field}
                         autoComplete="off"
                       />
                     </FormControl>
-                    <FormMessage/>
+                    <FormMessage />
                   </FormItem>
                 )}
               ></FormField>
@@ -154,9 +160,7 @@ const ColorForm: React.FC<IcolorFormProps> = ({ initialValues }) => {
                 disabled={loading}
               >
                 {initialValues ? "Save Changes" : "Create"}
-                {
-                  loading && <Loader/>
-                }
+                {loading && <Loader />}
               </Button>
             </div>
           </form>

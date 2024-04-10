@@ -52,7 +52,6 @@ const SingleProductPage = async ({
     ratings: product?.ratings,
     brandId: product?.brandId,
   };
-  // console.log(formattedProducts);
 
   return (
     <main>
