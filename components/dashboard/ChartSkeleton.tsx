@@ -1,12 +1,12 @@
-import React from 'react'
-import { Skeleton } from '../ui/skeleton'
+import React from "react";
+import { Skeleton } from "../ui/skeleton";
 
 const ChartSkeleton = () => {
   return (
     <>
-      <Skeleton className='w-auto h-[350px]' />
+      <Skeleton className="w-auto h-[350px]" />
     </>
-  )
-}
+  );
+};
 
-export default ChartSkeleton
+export default ChartSkeleton;

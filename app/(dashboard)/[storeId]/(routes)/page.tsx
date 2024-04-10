@@ -5,14 +5,16 @@ const ChartSection = dynamic(
   () => import("@/components/dashboard/ChartSection"),
   {
     loading: () => <ChartSkeleton />,
-  }
+  },
 );
-const DashboardData = dynamic( () => import("@/components/dashboard/DashboardData"),{
-  loading : () => <DashboardDataSkeleton/>
-})
+const DashboardData = dynamic(
+  () => import("@/components/dashboard/DashboardData"),
+  {
+    loading: () => <DashboardDataSkeleton />,
+  },
+);
 
 const DashboardPage = async ({ params }: { params: { storeId: string } }) => {
-  
   const { storeId } = params;
 
   return (

@@ -1,12 +1,12 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import {  DollarSign } from "lucide-react";
+import { DollarSign } from "lucide-react";
 import { FC } from "react";
 
-interface TotalRevenueProps{
-    totalRevenue:number | string
+interface TotalRevenueProps {
+  totalRevenue: number | string;
 }
 
-const TotalRevenue:FC<TotalRevenueProps> = ({ totalRevenue }) => {
+const TotalRevenue: FC<TotalRevenueProps> = ({ totalRevenue }) => {
   return (
     <>
       <Card>

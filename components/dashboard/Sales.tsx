@@ -3,10 +3,10 @@ import { CreditCard, DollarSign } from "lucide-react";
 import { FC } from "react";
 
 interface SalesProps {
-  currMonthOrders:number
+  currMonthOrders: number;
 }
 
-const Sales:FC<SalesProps> = ({ currMonthOrders }) => {
+const Sales: FC<SalesProps> = ({ currMonthOrders }) => {
   return (
     <>
       <Card>

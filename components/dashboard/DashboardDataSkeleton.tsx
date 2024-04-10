@@ -1,5 +1,5 @@
-import React from 'react'
-import { Skeleton } from '../ui/skeleton'
+import React from "react";
+import { Skeleton } from "../ui/skeleton";
 
 const DashboardDataSkeleton = () => {
   return (
@@ -9,6 +9,6 @@ const DashboardDataSkeleton = () => {
       <Skeleton className="w-auto h-[135px]" />
     </section>
   );
-}
+};
 
-export default DashboardDataSkeleton
+export default DashboardDataSkeleton;

@@ -3,14 +3,11 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ShoppingBasket } from "lucide-react";
 import { FC } from "react";
 
-interface ProductInStockProps{
-    storeId:string
+interface ProductInStockProps {
+  storeId: string;
 }
 
-const ProductInStock:FC<ProductInStockProps> = async({
-    storeId
-}) => {
-    
+const ProductInStock: FC<ProductInStockProps> = async ({ storeId }) => {
   const productsStock = await getAllProducts(storeId);
 
   return (

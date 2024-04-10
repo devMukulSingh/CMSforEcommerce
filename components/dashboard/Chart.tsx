@@ -1,14 +1,12 @@
-'use client'
-import { IgraphData } from '@/actions/get-graph-revenue';
-import React, { FC } from 'react'
+"use client";
+import { IgraphData } from "@/actions/get-graph-revenue";
+import React, { FC } from "react";
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
 interface ChartProps {
   graphData: IgraphData[];
 }
-const Chart:FC<ChartProps> = ({
-    graphData
-}) => {
+const Chart: FC<ChartProps> = ({ graphData }) => {
   return (
     <>
       <div>
@@ -34,6 +32,6 @@ const Chart:FC<ChartProps> = ({
       </div>
     </>
   );
-}
+};
 
-export default Chart
+export default Chart;

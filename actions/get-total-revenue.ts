@@ -2,7 +2,6 @@ import { prisma } from "@/lib/prisma";
 
 export const getTotalRevenue = async (storeId: string) => {
   try {
-
     const orders = await prisma.order.findMany({
       where: {
         isPaid: true,
@@ -34,10 +33,8 @@ export const getTotalRevenue = async (storeId: string) => {
       }, 0);
 
     return { totalRevenue, currMonthOrders: currMonthOrders.length };
-
-  }
-  catch (e) {
+  } catch (e) {
     console.log(`Error in getTotalRevenue ${e}`);
-    return { totalRevenue:"", currMonthOrders: 0 };
+    return { totalRevenue: "", currMonthOrders: 0 };
   }
 };
