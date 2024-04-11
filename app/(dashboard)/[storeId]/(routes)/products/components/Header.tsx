@@ -1,5 +1,5 @@
 "use client";
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { PlusCircle, Router } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useParams, useRouter } from "next/navigation";
@@ -10,6 +10,9 @@ interface HeaderProps {
 }
 
 const Header: FC<HeaderProps> = ({ products }) => {
+    useEffect(() => {
+      router.prefetch(`/${storeId}/billboards/new`);
+    }, []);
   const router = useRouter();
   const { storeId } = useParams();
 

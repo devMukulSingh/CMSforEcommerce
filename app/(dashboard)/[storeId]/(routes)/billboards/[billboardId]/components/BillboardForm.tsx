@@ -14,7 +14,7 @@ import { Loader2, TrashIcon } from "lucide-react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Billboard, Image } from "@prisma/client";
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import axios from "axios";
 import { useParams } from "next/navigation";
@@ -100,7 +100,7 @@ const BillboardForm: React.FC<IbillboardFormProps> = ({ initialValues }) => {
         onClose={() => setOpenDeleteAlert(false)}
         onConform={handleBillboardDelete}
       />
-      <main className="flex flex-col gap-6 px-10 py-2">
+      <div className="flex flex-col gap-6 px-10 py-2">
         <header className="flex justify-between ">
           <section>
             <h1 className="text-2xl font-bold">
@@ -119,62 +119,71 @@ const BillboardForm: React.FC<IbillboardFormProps> = ({ initialValues }) => {
             </Button>
           )}
         </header>
+
         <Separator />
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="flex gap-4 flex-col">
-              <FormField
-                control={form.control}
-                name="images"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Add Image</FormLabel>
-                    <FormControl>
-                      <ImageUpload
-                        onRemove={(url) =>
-                          field.onChange([
-                            ...field.value.filter((img) => img.url !== url),
-                          ])
-                        }
-                        disabled={loading}
-                        onChange={(url) =>
-                          field.onChange([...field.value, { url }])
-                        }
-                        value={field?.value?.map((img) => img.url)}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              ></FormField>
+        <Suspense fallback={<>loading...</>}>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <div className="flex gap-4 flex-col">
+                <FormField
+                  control={form.control}
+                  name="images"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Add Image</FormLabel>
+                      <FormControl>
+                        <ImageUpload
+                          onRemove={(url) =>
+                            field.onChange([
+                              ...field.value.filter((img) => img.url !== url),
+                            ])
+                          }
+                          disabled={loading}
+                          onChange={(url) =>
+                            field.onChange([...field.value, { url }])
+                          }
+                          value={field?.value?.map((img) => img.url)}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                ></FormField>
 
-              <FormField
-                control={form.control}
-                name="label"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Billboard name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="name" {...field} disabled={loading} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              ></FormField>
+                <FormField
+                  control={form.control}
+                  name="label"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Billboard name</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="name"
+                          {...field}
+                          disabled={loading}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                ></FormField>
 
-              <Button
-                type="submit"
-                className="w-32 cursor-pointer flex gap-2"
-                disabled={loading}
-              >
-                {initialValues ? "Save Changes" : "Create"}
-                {loading && <Loader />}
-              </Button>
-            </div>
-          </form>
-        </Form>
-      </main>
+                <Button
+                  type="submit"
+                  className="w-32 cursor-pointer flex gap-2"
+                  disabled={loading}
+                >
+                  {initialValues ? "Save Changes" : "Create"}
+                  {loading && <Loader />}
+                </Button>
+
+              </div>
+            </form>
+          </Form>
+        </Suspense>
+
+      </div>
     </>
   );
 };

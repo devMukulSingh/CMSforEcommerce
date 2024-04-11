@@ -4,13 +4,16 @@ import { PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useParams, useRouter } from "next/navigation";
 import { Brand } from "@prisma/client";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 
 interface HeaderProps {
   brand: Brand[];
 }
 
 const Header: FC<HeaderProps> = ({ brand }) => {
+    useEffect(() => {
+      router.prefetch(`/${storeId}/billboards/new`);
+    }, []);
   const { storeId } = useParams();
   const router = useRouter();
 

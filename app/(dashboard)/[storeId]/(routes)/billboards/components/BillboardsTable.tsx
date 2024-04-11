@@ -22,10 +22,10 @@ const BillboardsTable: FC<BillboardsTableProps> = async ({ storeId }) => {
     createdAt: format(item.createdAt, "MMMM do, yyyy"),
   }));
   return (
-    <div>
+    <>
       <Header billboard={billboard} />
       <DataTable columns={columns} data={formattedBillboards} />
-    </div>
+    </>
   );
 };
 

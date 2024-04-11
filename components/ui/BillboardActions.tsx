@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,6 +19,9 @@ interface IcellActionProps {
 }
 
 const CellAction: React.FC<IcellActionProps> = ({ data }) => {
+    useEffect(() => {
+      router.prefetch(`/${storeId}/billboards/${billboardId}`);
+    }, []);
   const { storeId } = useParams();
   const { id: billboardId } = data;
   const [loading, setLoading] = useState<boolean>(false);
@@ -60,7 +63,7 @@ const CellAction: React.FC<IcellActionProps> = ({ data }) => {
         onConform={handleDelete}
         onClose={() => setIsOpen(false)}
       />
-      <main>
+      <div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <MenuIcon className="cursor-pointer" />
@@ -83,7 +86,7 @@ const CellAction: React.FC<IcellActionProps> = ({ data }) => {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      </main>
+      </div>
     </>
   );
 };

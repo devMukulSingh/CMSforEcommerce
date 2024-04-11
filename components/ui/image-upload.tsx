@@ -52,6 +52,7 @@ const ImageUpload: React.FC<IimageUploadProps> = ({
                   </Button>
                 </span>
                 <Image
+                  loading="lazy"
                   src={url}
                   alt="uploadedImage"
                   fill
