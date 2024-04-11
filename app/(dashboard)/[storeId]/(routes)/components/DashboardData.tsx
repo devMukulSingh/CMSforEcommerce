@@ -1,5 +1,5 @@
-import TotalRevenue from "@/app/(dashboard)/[storeId]/components/TotalRevenue";
-import Sales from "@/app/(dashboard)/[storeId]/components/Sales";
+import TotalRevenue from "@/app/(dashboard)/[storeId]/(routes)/components/TotalRevenue";
+import Sales from "@/app/(dashboard)/[storeId]/(routes)/components/Sales";
 import { getTotalRevenue } from "@/actions/get-total-revenue";
 import { FC } from "react";
 import ProductInStock from "./ProductInStock";

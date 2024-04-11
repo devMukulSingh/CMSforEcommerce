@@ -418,7 +418,7 @@ const ProductForm: React.FC<IproductFormProps> = ({
                         onRemove={(url) =>
                           field.onChange([
                             ...field.value.filter(
-                              (currImg) => currImg.url !== url
+                              (currImg) => currImg.url !== url,
                             ),
                           ])
                         }

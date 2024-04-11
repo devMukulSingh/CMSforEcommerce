@@ -5,10 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useParams, useRouter } from "next/navigation";
 import { DataTable } from "@/components/commons/DataTable";
 import { Billboard } from "@prisma/client";
-import {
-  SizeColumn,
-  columns,
-} from "@/components/ui/SizeColumn";
+import { SizeColumn, columns } from "@/components/ui/SizeColumn";
 import ApiList from "@/components/commons/ApiList";
 import { Separator } from "@/components/ui/separator";
 

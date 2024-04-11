@@ -79,7 +79,7 @@ const BillboardForm: React.FC<IbillboardFormProps> = ({ initialValues }) => {
     try {
       setLoading(true);
       const res = await axios.delete(
-        `/api/${storeId}/billboard/${billboardId}`
+        `/api/${storeId}/billboard/${billboardId}`,
       );
       if (res.status === 200) toast.success("Billboard deleted");
       else if (res.status === 500) toast.error("Something went wrong");

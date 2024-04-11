@@ -1,9 +1,6 @@
 import React, { FC } from "react";
 import { DataTable } from "@/components/commons/DataTable";
-import {
-  CategoryColumn,
-  columns,
-} from "@/components/ui/CategoryColumn";
+import { CategoryColumn, columns } from "@/components/ui/CategoryColumn";
 import { prisma } from "@/lib/prisma";
 import { CategoriesClientCompProps } from "./CategoriesClientComp";
 import { format } from "date-fns";

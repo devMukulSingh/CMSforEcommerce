@@ -1,10 +1,7 @@
 import React, { FC } from "react";
 import { OrdersClientCompProps } from "./OrdersClientComp";
 import { DataTable } from "@/components/commons/DataTable";
-import {
-  OrdersColumn,
-  columns,
-} from "@/components/ui/OrdersColumn";
+import { OrdersColumn, columns } from "@/components/ui/OrdersColumn";
 import { formatDate } from "@/lib/formatTime";
 import { prisma } from "@/lib/prisma";
 import { OrderItem } from "@prisma/client";
@@ -43,7 +40,7 @@ const OrderTable: FC<OrdersClientCompProps> = async ({ storeId }) => {
       (prevPrice: number, orderItem: IorderItem) => {
         return prevPrice + orderItem.product.price;
       },
-      0
+      0,
     ),
     createdAt: formatDate(item.updatedAt),
   }));

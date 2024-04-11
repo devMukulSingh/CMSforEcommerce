@@ -1,14 +1,14 @@
 import dynamic from "next/dynamic";
-import ChartSkeleton from "@/app/(dashboard)/[storeId]/components/ChartSkeleton";
-import DashboardDataSkeleton from "@/app/(dashboard)/[storeId]/components/DashboardDataSkeleton";
+import ChartSkeleton from "@/app/(dashboard)/[storeId]/(routes)/components/ChartSkeleton";
+import DashboardDataSkeleton from "@/app/(dashboard)/[storeId]/(routes)/components/DashboardDataSkeleton";
 const ChartSection = dynamic(
-  () => import("@/app/(dashboard)/[storeId]/components/ChartSection"),
+  () => import("@/app/(dashboard)/[storeId]/(routes)/components/ChartSection"),
   {
     loading: () => <ChartSkeleton />,
   }
 );
 const DashboardData = dynamic(
-  () => import("@/app/(dashboard)/[storeId]/components/DashboardData"),
+  () => import("@/app/(dashboard)/[storeId]/(routes)/components/DashboardData"),
   {
     loading: () => <DashboardDataSkeleton />,
   }

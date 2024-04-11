@@ -66,7 +66,7 @@ const SettingsForm: React.FC<IsettingsFormProps> = ({ initialValues }) => {
     } catch (e: any) {
       if (e.response.data.code === "P2014") {
         toast.error(
-          "Delete all Products,Billboards, and Categories associated with this store to continue"
+          "Delete all Products,Billboards, and Categories associated with this store to continue",
         );
       } else {
         toast.error("Something went wrong");

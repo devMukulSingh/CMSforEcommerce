@@ -67,7 +67,7 @@ const CategoryForm: React.FC<IcategoryFormProps> = ({
       if (initialValues) {
         const res = await axios.patch(
           `/api/${storeId}/category/${categoryId}`,
-          data
+          data,
         );
         toast.success("Category updated");
       } else {
