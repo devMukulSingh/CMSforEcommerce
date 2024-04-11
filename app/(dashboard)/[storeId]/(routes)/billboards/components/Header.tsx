@@ -1,5 +1,5 @@
 "use client";
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { PlusCircle, Router } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useParams, useRouter } from "next/navigation";
@@ -11,6 +11,9 @@ interface HeaderProps {
 
 const Header: FC<HeaderProps> = ({ billboard }) => {
   const router = useRouter();
+  useEffect( () => {
+    router.prefetch(`/${storeId}/billboards/new`);
+  },[])
   const { storeId } = useParams();
 
   return (
@@ -23,10 +26,7 @@ const Header: FC<HeaderProps> = ({ billboard }) => {
           <p className="text-sm text-slate-500">Manage Billboards</p>
         </div>
         <Button
-          onClick={() => {
-            router.prefetch(`/${storeId}/billboards/new`);
-            router.push(`/${storeId}/billboards/new`) }
-          }
+          onClick={() =>  router.push(`/${storeId}/billboards/new`) }
           className="flex gap-2"
         >
           <PlusCircle />
