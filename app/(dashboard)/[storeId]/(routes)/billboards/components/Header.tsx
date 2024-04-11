@@ -23,7 +23,10 @@ const Header: FC<HeaderProps> = ({ billboard }) => {
           <p className="text-sm text-slate-500">Manage Billboards</p>
         </div>
         <Button
-          onClick={() => router.push(`/${storeId}/billboards/new`)}
+          onClick={() => {
+            router.prefetch(`/${storeId}/billboards/new`);
+            router.push(`/${storeId}/billboards/new`) }
+          }
           className="flex gap-2"
         >
           <PlusCircle />

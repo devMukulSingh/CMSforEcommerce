@@ -61,7 +61,7 @@ const NavLinks = () => {
       <main className="lg:flex md:flex gap-3 lg:gap-5 md:gap-3 flex-shrink hidden ">
         {routes.map((route) => (
           <Link
-             prefetch={true}
+            prefetch={true}
             href={route.href}
             key={route.href}
             className={` ${route.active ? "font-bold" : ""} text-xl md:text-lg sm:text-md`}

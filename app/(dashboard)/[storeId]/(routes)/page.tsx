@@ -5,13 +5,13 @@ const ChartSection = dynamic(
   () => import("@/app/(dashboard)/[storeId]/(routes)/components/ChartSection"),
   {
     loading: () => <ChartSkeleton />,
-  }
+  },
 );
 const DashboardData = dynamic(
   () => import("@/app/(dashboard)/[storeId]/(routes)/components/DashboardData"),
   {
     loading: () => <DashboardDataSkeleton />,
-  }
+  },
 );
 
 const DashboardPage = async ({ params }: { params: { storeId: string } }) => {
