@@ -20,9 +20,9 @@ export async function GET(
       },
     });
 
-    return NextResponse.json({ orders }, { status: 200 });
+    return NextResponse.json(orders , { status: 200 });
   } catch (e) {
     console.log(`Error in GET orders req ${e}`);
-    return NextResponse.json({ error: `Error in GET orders req ${e}` });
+    return NextResponse.json( e,{status:500});
   }
 }

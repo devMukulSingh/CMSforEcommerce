@@ -1,7 +1,6 @@
 import SettingsForm from "@/components/settings/SettingsForm";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs";
-import { Store } from "@prisma/client";
 import { redirect } from "next/navigation";
 
 const SettingsPage = async ({ params }: { params: { storeId: string } }) => {

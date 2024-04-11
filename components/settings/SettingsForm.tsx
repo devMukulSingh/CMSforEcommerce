@@ -20,13 +20,16 @@ import { useParams } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { AlertModal } from "../modals/AlertModal";
+import { useUser } from "@clerk/nextjs";
 
 interface IsettingsFormProps {
   initialValues: Store | null;
 }
 
 const formSchema = z.object({
-  name: z.string().min(1),
+  name: z.string().trim().min(1,{
+    message:"Store name is required"
+  }),
 });
 type SettingFormValues = z.infer<typeof formSchema>;
 
@@ -60,13 +63,20 @@ const SettingsForm: React.FC<IsettingsFormProps> = ({ initialValues }) => {
       const res = await axios.delete(`/api/stores/${storeId}`);
       toast.success("Store Deleted");
       router.refresh();
-    } catch (e) {
-      toast.error("Something went wrong");
-      console.log(`Error in handleDeleteStore ${e}`);
+    } catch (e:any) {
+      if(e.response.data.code==="P2014"){
+        toast.error('Delete all Products and Billboards associated with this store to continue');
+      }
+      else{
+        toast.error("Something went wrong");
+        console.log(e.response.data);
+      }
     } finally {
       setLoading(false);
     }
   };
+
+  
   return (
     <>
       <AlertModal

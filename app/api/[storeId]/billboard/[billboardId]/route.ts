@@ -27,11 +27,11 @@ export async function GET(
         images: true,
       },
     });
-    return NextResponse.json({ billboard }, { status: 200 });
+    return NextResponse.json( billboard , { status: 200 });
   } catch (error) {
     console.log(`Error in billboard GET req ${error}`);
     return NextResponse.json(
-      { error: `Error in billboard GET req ${error}` },
+      error,
       { status: 500 },
     );
   }
@@ -104,11 +104,11 @@ export async function PATCH(
       },
     });
 
-    return NextResponse.json({ updatedBillboard, status: 201 });
+    return NextResponse.json( updatedBillboard, {status: 201 });
   } catch (error) {
     console.log(`Error in Billboard PATCH req ${error}`);
     return NextResponse.json(
-      { error: `Error in Billboard PATCH req ${error}` },
+       error,
       { status: 500 },
     );
   }
@@ -151,11 +151,11 @@ export async function DELETE(
         storeId,
       },
     });
-    return NextResponse.json({ error: "Billboard deleted" }, { status: 200 });
+    return NextResponse.json({ msg: "Billboard deleted" }, { status: 200 });
   } catch (error) {
     console.log(`Error in billboard DELETE req ${error}`);
     return NextResponse.json(
-      { error: `Error in billboard DELETE req ${error}` },
+       error,
       { status: 500 },
     );
   }

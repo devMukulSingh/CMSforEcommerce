@@ -27,11 +27,11 @@ export async function GET(
         images: true,
       },
     });
-    return NextResponse.json({ product }, { status: 200 });
+    return NextResponse.json( product , { status: 200 });
   } catch (error) {
     console.log(`Error in product GET req ${error}`);
     return NextResponse.json(
-      { error: `Error in product GET req ${error}` },
+      error,
       { status: 500 },
     );
   }
@@ -162,11 +162,11 @@ export async function PATCH(
       },
     });
 
-    return NextResponse.json({ updatedproducts }, { status: 201 });
+    return NextResponse.json( updatedproducts , { status: 201 });
   } catch (error) {
     console.log(`Error in product PATCH req ${error}`);
     return NextResponse.json(
-      { error: `Error in product PATCH req ${error}` },
+       error,
       { status: 500 },
     );
   }
@@ -215,11 +215,11 @@ export async function DELETE(
         storeId,
       },
     });
-    return NextResponse.json({ error: "product deleted" }, { status: 200 });
+    return NextResponse.json({ msg: "product deleted" }, { status: 200 });
   } catch (error) {
     console.log(`Error in product DELETE req ${error}`);
     return NextResponse.json(
-      { error: `Error in product DELETE req ${error}` },
+       error,
       { status: 500 },
     );
   }

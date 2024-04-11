@@ -48,12 +48,12 @@ export async function PATCH(
         name,
       },
     });
-    return NextResponse.json({ store }, { status: 200 });
+    return NextResponse.json(store , { status: 200 });
   } catch (error) {
     console.log(`Error in Patch Stores ${error}`);
     return NextResponse.json(
-      { error: `Error in Patch Stores ${error}` },
-      { status: 500 },
+       error
+      ,{ status: 500 },
     );
   }
 }
@@ -90,11 +90,12 @@ export async function DELETE(
         id: storeId,
       },
     });
-    return NextResponse.json({ store }, { status: 200 });
+    return NextResponse.json( store , { status: 200 });
   } catch (error) {
+
     console.log(`Error in Delete Stores ${error}`);
     return NextResponse.json(
-      { error: `Error in DELETE Stores req ${error}` },
+      error,
       { status: 500 },
     );
   }

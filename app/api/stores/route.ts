@@ -25,11 +25,11 @@ export async function POST(req: Request) {
         name,
       },
     });
-    return NextResponse.json({ store }, { status: 200 });
+    return NextResponse.json( store , { status: 200 });
   } catch (error) {
     console.log(`Error in get stores handler ${error}`);
     return NextResponse.json(
-      { error: ` Error in stores route handler ` },
+       error,
       { status: 500 },
     );
   }
@@ -50,11 +50,11 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    return NextResponse.json({ stores }, { status: 200 });
+    return NextResponse.json( stores , { status: 200 });
   } catch (e) {
     console.log(`Error in GET Stores req ${e}`);
     return NextResponse.json(
-      { error: `Error in GET stores req ${e}` },
+       e,
       { status: 500 },
     );
   }

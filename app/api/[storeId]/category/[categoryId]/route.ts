@@ -17,19 +17,19 @@ export async function PATCH(
     const { name, billboardId } = body;
 
     if (!userId)
-      return NextResponse.json({ msg: "Unauthenticated", status: 403 });
+      return NextResponse.json({ error: "Unauthenticated" }, { status: 403 });
 
     if (!storeId)
-      return NextResponse.json({ msg: "StoreId is required", status: 400 });
+      return NextResponse.json({ error: "StoreId is required" }, { status: 400 });
 
     if (!categoryId)
-      return NextResponse.json({ msg: "CategoryId is required", status: 400 });
+      return NextResponse.json({ error: "CategoryId is required" }, { status: 400 });
 
     if (!name)
-      return NextResponse.json({ msg: "Name is required", status: 400 });
+      return NextResponse.json({ error: "Name is required" }, { status: 400 });
 
     if (!billboardId)
-      return NextResponse.json({ msg: "BillboardId is required", status: 400 });
+      return NextResponse.json({ error: "BillboardId is required" }, { status: 400 });
 
     const storeByUserId = await prisma.store.findUnique({
       where: {
@@ -39,7 +39,7 @@ export async function PATCH(
     });
 
     if (!storeByUserId)
-      return NextResponse.json({ msg: "Unauthorised", status: 401 });
+      return NextResponse.json({ error: "Unauthorised" }, { status: 401 });
 
     const category = await prisma.category.update({
       where: {
@@ -52,13 +52,14 @@ export async function PATCH(
       },
     });
 
-    return NextResponse.json({ category, status: 201 });
+    return NextResponse.json( category , { status: 201 });
   } catch (error) {
     console.log(`Error in Category PATCH ${error}`);
-    return NextResponse.json({
-      msg: "Error in Category PATCH ${error}",
-      status: 500,
-    });
+    return NextResponse.json(
+      error,
+      {
+        status: 500,
+      });
   }
 }
 
@@ -75,13 +76,13 @@ export async function DELETE(
     const { storeId, categoryId } = params;
 
     if (!userId)
-      return NextResponse.json({ msg: "Unauthenticated", status: 403 });
+      return NextResponse.json({ error: "Unauthenticated" }, { status: 403 });
 
     if (!storeId)
-      return NextResponse.json({ msg: "StoreId is required", status: 400 });
+      return NextResponse.json({ error: "StoreId is required" }, { status: 400 });
 
     if (!categoryId)
-      return NextResponse.json({ msg: "CategoryId is required", status: 400 });
+      return NextResponse.json({ error: "CategoryId is required" }, { status: 400 });
 
     const storeByUserId = await prisma.store.findUnique({
       where: {
@@ -91,7 +92,7 @@ export async function DELETE(
     });
 
     if (!storeByUserId)
-      return NextResponse.json({ msg: "Unauthorised", status: 401 });
+      return NextResponse.json({ error: "Unauthorised" }, { status: 401 });
 
     const category = await prisma.category.delete({
       where: {
@@ -100,13 +101,14 @@ export async function DELETE(
       },
     });
 
-    return NextResponse.json({ msg: "Category Deleted", status: 200 });
+    return NextResponse.json({ msg: "Category Deleted" }, { status: 200 });
   } catch (error) {
     console.log(`Error in Category PATCH ${error}`);
-    return NextResponse.json({
-      msg: `Error in Category DELTE handler ${error}`,
-      status: 500,
-    });
+    return NextResponse.json(
+      error
+      , {
+        status: 500,
+      });
   }
 }
 
@@ -121,10 +123,10 @@ export async function GET(
   try {
     const { storeId, categoryId } = params;
 
-    if (!storeId) return NextResponse.json({ msg: "Store Id is required" });
+    if (!storeId) return NextResponse.json({ error: "Store Id is required" });
 
     if (!categoryId)
-      return NextResponse.json({ msg: "CategoryId is required" });
+      return NextResponse.json({ error: "CategoryId is required" });
 
     const category = await prisma.category.findUnique({
       where: {
@@ -132,12 +134,13 @@ export async function GET(
         storeId,
       },
     });
-    return NextResponse.json({ category, status: 200 });
+    return NextResponse.json(category , { status: 200 });
   } catch (error) {
     console.log(`Error in Category GET request ${error}`);
-    return NextResponse.json({
-      msg: `Error in Category GET request ${error}`,
-      status: 500,
-    });
+    return NextResponse.json(
+      error
+      , {
+        status: 500,
+      });
   }
 }

@@ -27,9 +27,9 @@ export async function GET(
       },
     });
 
-    return NextResponse.json({ order }, { status: 200 });
+    return NextResponse.json( order , { status: 200 });
   } catch (e) {
     console.log(`Error in GET order req ${e}`);
-    return NextResponse.json({ error: `Error in GET order req ${e}` });
+    return NextResponse.json(e,{status:500});
   }
 }

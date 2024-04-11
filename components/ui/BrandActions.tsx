@@ -40,7 +40,7 @@ const BrandActions: React.FC<BrandActionsProps> = ({ data }) => {
       router.refresh();
     } catch (error) {
       toast.error(`Something went wrong`);
-      console.log(`Error in handleDelete ${error}`);
+      console.log(error);
     } finally {
       setLoading(false);
     }

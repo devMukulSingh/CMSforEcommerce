@@ -14,19 +14,18 @@ export async function GET(
     const { sizeId } = params;
 
     if (!sizeId)
-      return NextResponse.json({ msg: "size id is required", status: 400 });
+      return NextResponse.json({ error: "size id is required"},{ status: 400 });
 
     const size = await prisma.size.findUnique({
       where: {
         id: sizeId,
       },
     });
-    return NextResponse.json({ size, status: 200 });
+    return NextResponse.json( size,{ status: 200 });
   } catch (error) {
     console.log(`Error in Size GET req ${error}`);
-    return NextResponse.json({
-      msg: `Error in Size GET req ${error}`,
-      status: 500,
+    return NextResponse.json(
+      error ,{ status: 500,
     });
   }
 }
@@ -46,13 +45,13 @@ export async function PATCH(
     const { name, value } = body;
 
     if (!userId)
-      return NextResponse.json({ msg: "Unauthenticated", status: 403 });
+      return NextResponse.json({ error: "Unauthenticated"},{ status: 403 });
     if (!sizeId)
-      return NextResponse.json({ msg: "size id is required", status: 400 });
+      return NextResponse.json({ error: "size id is required"},{ status: 400 });
     if (!name)
-      return NextResponse.json({ msg: "name is required", status: 400 });
+      return NextResponse.json({ error: "name is required"},{ status: 400 });
     if (!value)
-      return NextResponse.json({ msg: "Size value is required", status: 400 });
+      return NextResponse.json({ error: "Size value is required"},{ status: 400 });
 
     const storeByUserId = await prisma.store.findUnique({
       where: {
@@ -61,7 +60,7 @@ export async function PATCH(
       },
     });
     if (!storeByUserId)
-      return NextResponse.json({ msg: "Unauthorised", status: 401 });
+      return NextResponse.json({ error: "Unauthorised"},{ status: 401 });
 
     const updatedSize = await prisma.size.update({
       where: {
@@ -74,12 +73,11 @@ export async function PATCH(
       },
     });
 
-    return NextResponse.json({ updatedSize, status: 200 });
+    return NextResponse.json(updatedSize,{ status: 200 });
   } catch (error) {
     console.log(`Error in Size PATCH req ${error}`);
-    return NextResponse.json({
-      msg: `Error in Size PATCH req ${error}`,
-      status: 500,
+    return NextResponse.json(
+      error, { status: 500,
     });
   }
 }
@@ -97,10 +95,10 @@ export async function DELETE(
     const { sizeId, storeId } = params;
 
     if (!userId)
-      return NextResponse.json({ msg: "Authenticated", status: 401 });
+      return NextResponse.json({ error: "Authenticated"},{ status: 401 });
 
     if (!sizeId)
-      return NextResponse.json({ msg: "size id is required", status: 400 });
+      return NextResponse.json({ error: "size id is required"},{ status: 400 });
 
     const storeByUserId = await prisma.store.findUnique({
       where: {
@@ -110,7 +108,7 @@ export async function DELETE(
     });
 
     if (!storeByUserId)
-      return NextResponse.json({ msg: "Unauthorised", status: 401 });
+      return NextResponse.json({ error: "Unauthorised"},{ status: 401 });
 
     await prisma.size.delete({
       where: {
@@ -118,12 +116,10 @@ export async function DELETE(
         storeId,
       },
     });
-    return NextResponse.json({ msg: "size deleted", status: 200 });
+    return NextResponse.json({ msg: "size deleted"},{ status: 200 });
   } catch (error) {
     console.log(`Error in size DELETE req ${error}`);
-    return NextResponse.json({
-      msg: `Error in size DELETE req ${error}`,
-      status: 500,
+    return NextResponse.json(error ,{ status: 500,
     });
   }
 }

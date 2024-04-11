@@ -38,11 +38,11 @@ export async function POST(
         storeId,
       },
     });
-    return NextResponse.json({ category }, { status: 201 });
+    return NextResponse.json( category , { status: 201 });
   } catch (error) {
     console.log(`Error in category POST ${error}`);
     return NextResponse.json(
-      { error: `Error in category POST ${error}` },
+       error,
       { status: 500 },
     );
   }
@@ -71,11 +71,11 @@ export async function GET(
       },
     });
 
-    return NextResponse.json({ categories }, { status: 200 });
+    return NextResponse.json(categories , { status: 200 });
   } catch (error) {
     console.log(`Error in Categories GET request ${error}`);
-    return NextResponse.json({
-      error: `Error in Categories GET request ${error}`,
-    });
+    return NextResponse.json(
+      error,
+    );
   }
 }

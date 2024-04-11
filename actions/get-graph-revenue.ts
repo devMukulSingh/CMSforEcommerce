@@ -1,5 +1,4 @@
 import { prisma } from "@/lib/prisma";
-import { Order, Product } from "@prisma/client";
 
 export interface IgraphData {
   name: string;

@@ -26,7 +26,7 @@ export async function POST(
     const { storeId } = params;
 
     if (!userId)
-      return NextResponse.json({ msg: "Unauthenticated", status: 401 });
+      return NextResponse.json({ error: "Unauthenticated"}, {status: 401 });
 
     const store = await prisma.store.findMany({
       where: {
@@ -34,27 +34,27 @@ export async function POST(
       },
     });
 
-    if (!store) return NextResponse.json({ msg: "Unathorised", status: 402 });
+    if (!store) return NextResponse.json({ error: "Unathorised"}, {status: 402 });
 
     if (!storeId)
-      return NextResponse.json({ msg: "Store id is required", status: 400 });
+      return NextResponse.json({ error: "Store id is required"}, {status: 400 });
 
-    if (!name) return NextResponse.json({ msg: "name required", status: 400 });
+    if (!name) return NextResponse.json({ error: "name required"}, {status: 400 });
 
     if (!colorId)
-      return NextResponse.json({ msg: "colorId is required", status: 400 });
+      return NextResponse.json({ error: "colorId is required"}, {status: 400 });
 
     if (!images || images.length < 0)
-      return NextResponse.json({ msg: "image is required", status: 400 });
+      return NextResponse.json({ error: "image is required"}, {status: 400 });
 
     if (!price)
-      return NextResponse.json({ msg: "price is required", status: 400 });
+      return NextResponse.json({ error: "price is required"}, {status: 400 });
 
     if (!categoryId)
-      return NextResponse.json({ msg: "categoryId is required", status: 400 });
+      return NextResponse.json({ error: "categoryId is required"}, {status: 400 });
 
     if (!brandId)
-      return NextResponse.json({ msg: "brandId is required", status: 400 });
+      return NextResponse.json({ error: "brandId is required"}, {status: 400 });
 
     //converting the string into array
     let descriptionArray = [];
@@ -82,12 +82,11 @@ export async function POST(
         },
       },
     });
-    return NextResponse.json({ product, status: 201 });
+    return NextResponse.json( product, {status: 201 });
   } catch (error) {
     console.log(`Error in product POST req ${error}`);
-    return NextResponse.json({
-      msg: "error in product POST req ",
-      status: 500,
+    return NextResponse.json(
+      error , {status: 500,
     });
   }
 }
@@ -100,7 +99,7 @@ export async function GET(
     const { storeId } = params;
 
     if (!storeId)
-      return NextResponse.json({ msg: "Store id is required", status: 400 });
+      return NextResponse.json({ error: "Store id is required"}, {status: 400 });
 
     const products = await prisma.product.findMany({
       where: {
@@ -110,9 +109,9 @@ export async function GET(
         images: true,
       },
     });
-    return NextResponse.json({ products, status: 200 });
+    return NextResponse.json( products, {status: 200 });
   } catch (error) {
     console.log(`Error in product GET req ${error}`);
-    return NextResponse.json({ msg: "error in product GET req ", status: 500 });
+    return NextResponse.json( error, {status: 500 });
   }
 }

@@ -33,11 +33,11 @@ export async function POST(
         storeId,
       },
     });
-    return NextResponse.json({ brand }, { status: 201 });
+    return NextResponse.json( brand , { status: 201 });
   } catch (error) {
     console.log(`Error in brand POST req ${error}`);
     return NextResponse.json(
-      { error: "error in brand POST req " },
+       error,
       { status: 500 },
     );
   }
@@ -61,11 +61,11 @@ export async function GET(
         storeId,
       },
     });
-    return NextResponse.json({ brands }, { status: 200 });
+    return NextResponse.json( brands , { status: 200 });
   } catch (error) {
     console.log(`Error in brand GET req ${error}`);
     return NextResponse.json(
-      { error: "error in brand GET req " },
+      error,
       { status: 500 },
     );
   }
