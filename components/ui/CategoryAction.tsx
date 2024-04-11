@@ -39,7 +39,7 @@ const CategoryAction: React.FC<IcategoryActionsProps> = ({ data }) => {
     } catch (error: any) {
       if (error.response.data.code === "P2014") {
         toast.error(
-          `This Category is in use, delete the associated Product to continue`
+          `This Category is in use, delete the associated Product to continue`,
         );
       } else {
         toast.error(`Something went wrong`);

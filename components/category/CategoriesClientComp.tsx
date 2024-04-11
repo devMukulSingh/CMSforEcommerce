@@ -1,45 +1,24 @@
-"use client";
 
-import { PlusCircle } from "lucide-react";
-import { Button } from "../ui/button";
-import { useParams, useRouter } from "next/navigation";
-import { DataTable } from "../commons/DataTable";
-import { CategoryColumn, columns } from "../ui/CategoryColumn";
+import dynamic from "next/dynamic";
 import ApiList from "../commons/ApiList";
 import { Separator } from "../ui/separator";
+import TableSkeleton from "../commons/TableSkeleton";
+const CategoryTable = dynamic(() => import("./CategoryTable"),{
+  loading : () => <TableSkeleton/>
+})
 
-interface CategoriesClientCompProps {
-  categories: CategoryColumn[];
+export interface CategoriesClientCompProps {
+  storeId:string
 }
-
 const CategoriesClientComp: React.FC<CategoriesClientCompProps> = ({
-  categories,
+  storeId,
 }) => {
-  const params = useParams();
-  const { storeId } = params;
-  const router = useRouter();
-
   return (
-    <main className="flex flex-col gap-4 p-5">
-      <header className="flex justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">
-            Categories({categories.length})
-          </h1>
-          <p className="text-sm text-slate-500">Manage Categories</p>
-        </div>
-        <Button
-          onClick={() => router.push(`/${storeId}/categories/new`)}
-          className="flex gap-2"
-        >
-          <PlusCircle />
-          Add New
-        </Button>
-      </header>
-      <DataTable columns={columns} data={categories} />
+    <div className="flex flex-col gap-4 p-5">
+      <CategoryTable storeId={storeId}/>
       <Separator />
       <ApiList entityIdName="{categoryId}" entityName="category" />
-    </main>
+    </div>
   );
 };
 

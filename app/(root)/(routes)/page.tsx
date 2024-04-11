@@ -24,7 +24,7 @@ export default function Home() {
           >
             nextCMS
           </h1>
-            <h1 className="text-sm text-neutral-300">One CMS multiple stores</h1>
+          <h1 className="text-sm text-neutral-300">One CMS multiple stores</h1>
           <div className="flex flex-col gap-3 mt-10">
             <h1 className="text-xl sm:text-2xl">Welcome {user?.firstName}</h1>
             <h1>Add a store to get Started!</h1>

@@ -1,36 +1,21 @@
-"use client";
 
-import { PlusCircle } from "lucide-react";
-import { Button } from "../ui/button";
-import { useParams, useRouter } from "next/navigation";
-import { DataTable } from "../commons/DataTable";
-import { ProductColumn, columns } from "../ui/ProductColumn";
+import dynamic from "next/dynamic";
 import ApiList from "../commons/ApiList";
 import { Separator } from "../ui/separator";
+import TableSkeleton from "../commons/TableSkeleton";
+const ProductTable = dynamic( () => import("./ProductTable"),{
+  loading: () => <TableSkeleton/>
+})
 
-interface ProductClientCompProps {
-  products: ProductColumn[];
+export interface ProductClientCompProps {
+  storeId: string
 }
 
-const ProductClientComp: React.FC<ProductClientCompProps> = ({ products }) => {
-  const { storeId } = useParams();
-  const router = useRouter();
+const ProductClientComp: React.FC<ProductClientCompProps> = ({ storeId }) => {
+ 
   return (
     <main className="flex flex-col gap-4 p-5">
-      <header className="flex justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">Products({products.length})</h1>
-          <p className="text-sm text-slate-500">Manage Products</p>
-        </div>
-        <Button
-          onClick={() => router.push(`/${storeId}/products/new`)}
-          className="flex gap-2"
-        >
-          <PlusCircle />
-          Add New
-        </Button>
-      </header>
-      <DataTable columns={columns} data={products} />
+      <ProductTable storeId={storeId} />
       <Separator />
       <ApiList entityIdName="{productId}" entityName="product" />
     </main>

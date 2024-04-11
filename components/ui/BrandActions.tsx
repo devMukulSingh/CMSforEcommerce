@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import { BrandColumn } from "./BrandColumn";
 import {
@@ -38,10 +39,12 @@ const BrandActions: React.FC<BrandActionsProps> = ({ data }) => {
       else if (res.status === 500) toast.error(`Something went wrong`);
       setIsOpen(false);
       router.refresh();
-    } catch (error:any) {
-      if(error.response.data.code==="P2014"){
-        toast.error(`This brand is in use, delete the associated Product to continue`);
-      }else{
+    } catch (error: any) {
+      if (error.response.data.code === "P2014") {
+        toast.error(
+          `This brand is in use, delete the associated Product to continue`
+        );
+      } else {
         toast.error(`Something went wrong`);
       }
       console.log(error);

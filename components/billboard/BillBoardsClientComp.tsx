@@ -1,9 +1,9 @@
 import dynamic from "next/dynamic";
 import ApiList from "../commons/ApiList";
 import { Separator } from "../ui/separator";
-import BillboardsTableSkeleton from "./BillboardsTableSkeleton";
+import TableSkeleton from "../commons/TableSkeleton";
 const BillboardsTable = dynamic(() => import("./BillboardsTable"), {
-  loading: () => <BillboardsTableSkeleton />,
+  loading: () => <TableSkeleton />,
 });
 
 interface BillBoardClientCompProps {
