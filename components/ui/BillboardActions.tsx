@@ -19,9 +19,9 @@ interface IcellActionProps {
 }
 
 const CellAction: React.FC<IcellActionProps> = ({ data }) => {
-    useEffect(() => {
-      router.prefetch(`/${storeId}/billboards/${billboardId}`);
-    }, []);
+  useEffect(() => {
+    router.prefetch(`/${storeId}/billboards/${billboardId}`);
+  }, []);
   const { storeId } = useParams();
   const { id: billboardId } = data;
   const [loading, setLoading] = useState<boolean>(false);

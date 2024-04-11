@@ -10,9 +10,9 @@ interface HeaderProps {
 }
 
 const Header: FC<HeaderProps> = ({ categories }) => {
-    useEffect(() => {
-      router.prefetch(`/${storeId}/billboards/new`);
-    }, []);
+  useEffect(() => {
+    router.prefetch(`/${storeId}/categories/new`);
+  }, []);
   const router = useRouter();
   const { storeId } = useParams();
   return (

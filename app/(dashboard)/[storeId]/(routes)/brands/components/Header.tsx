@@ -11,9 +11,9 @@ interface HeaderProps {
 }
 
 const Header: FC<HeaderProps> = ({ brand }) => {
-    useEffect(() => {
-      router.prefetch(`/${storeId}/billboards/new`);
-    }, []);
+  useEffect(() => {
+    router.prefetch(`/${storeId}/brands/new`);
+  }, []);
   const { storeId } = useParams();
   const router = useRouter();
 
