@@ -20,16 +20,25 @@ export async function PATCH(
       return NextResponse.json({ error: "Unauthenticated" }, { status: 403 });
 
     if (!storeId)
-      return NextResponse.json({ error: "StoreId is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "StoreId is required" },
+        { status: 400 },
+      );
 
     if (!categoryId)
-      return NextResponse.json({ error: "CategoryId is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "CategoryId is required" },
+        { status: 400 },
+      );
 
     if (!name)
       return NextResponse.json({ error: "Name is required" }, { status: 400 });
 
     if (!billboardId)
-      return NextResponse.json({ error: "BillboardId is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "BillboardId is required" },
+        { status: 400 },
+      );
 
     const storeByUserId = await prisma.store.findUnique({
       where: {
@@ -52,14 +61,12 @@ export async function PATCH(
       },
     });
 
-    return NextResponse.json( category , { status: 201 });
+    return NextResponse.json(category, { status: 201 });
   } catch (error) {
     console.log(`Error in Category PATCH ${error}`);
-    return NextResponse.json(
-      error,
-      {
-        status: 500,
-      });
+    return NextResponse.json(error, {
+      status: 500,
+    });
   }
 }
 
@@ -79,10 +86,16 @@ export async function DELETE(
       return NextResponse.json({ error: "Unauthenticated" }, { status: 403 });
 
     if (!storeId)
-      return NextResponse.json({ error: "StoreId is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "StoreId is required" },
+        { status: 400 },
+      );
 
     if (!categoryId)
-      return NextResponse.json({ error: "CategoryId is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "CategoryId is required" },
+        { status: 400 },
+      );
 
     const storeByUserId = await prisma.store.findUnique({
       where: {
@@ -104,11 +117,9 @@ export async function DELETE(
     return NextResponse.json({ msg: "Category Deleted" }, { status: 200 });
   } catch (error) {
     console.log(`Error in Category PATCH ${error}`);
-    return NextResponse.json(
-      error
-      , {
-        status: 500,
-      });
+    return NextResponse.json(error, {
+      status: 500,
+    });
   }
 }
 
@@ -134,13 +145,11 @@ export async function GET(
         storeId,
       },
     });
-    return NextResponse.json(category , { status: 200 });
+    return NextResponse.json(category, { status: 200 });
   } catch (error) {
     console.log(`Error in Category GET request ${error}`);
-    return NextResponse.json(
-      error
-      , {
-        status: 500,
-      });
+    return NextResponse.json(error, {
+      status: 500,
+    });
   }
 }

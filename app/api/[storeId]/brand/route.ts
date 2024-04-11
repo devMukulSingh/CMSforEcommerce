@@ -33,13 +33,10 @@ export async function POST(
         storeId,
       },
     });
-    return NextResponse.json( brand , { status: 201 });
+    return NextResponse.json(brand, { status: 201 });
   } catch (error) {
     console.log(`Error in brand POST req ${error}`);
-    return NextResponse.json(
-       error,
-      { status: 500 },
-    );
+    return NextResponse.json(error, { status: 500 });
   }
 }
 
@@ -61,12 +58,9 @@ export async function GET(
         storeId,
       },
     });
-    return NextResponse.json( brands , { status: 200 });
+    return NextResponse.json(brands, { status: 200 });
   } catch (error) {
     console.log(`Error in brand GET req ${error}`);
-    return NextResponse.json(
-      error,
-      { status: 500 },
-    );
+    return NextResponse.json(error, { status: 500 });
   }
 }

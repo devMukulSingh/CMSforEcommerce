@@ -43,13 +43,10 @@ export async function POST(
         },
       },
     });
-    return NextResponse.json( billboard , { status: 201 });
+    return NextResponse.json(billboard, { status: 201 });
   } catch (error) {
     console.log(error);
-    return NextResponse.json(
-       error,
-      { status: 500 },
-    );
+    return NextResponse.json(error, { status: 500 });
   }
 }
 
@@ -74,12 +71,9 @@ export async function GET(
         images: true,
       },
     });
-    return NextResponse.json( billboard , { status: 200 });
+    return NextResponse.json(billboard, { status: 200 });
   } catch (error) {
     console.log(`Error in Billboard GET req ${error}`);
-    return NextResponse.json(
-      error,
-      { status: 500 },
-    );
+    return NextResponse.json(error, { status: 500 });
   }
 }

@@ -37,13 +37,10 @@ export async function POST(
         storeId,
       },
     });
-    return NextResponse.json( size , { status: 201 });
+    return NextResponse.json(size, { status: 201 });
   } catch (error) {
     console.log(`Error in size POST req ${error}`);
-    return NextResponse.json(
-       error,
-      { status: 500 },
-    );
+    return NextResponse.json(error, { status: 500 });
   }
 }
 
@@ -65,12 +62,9 @@ export async function GET(
         storeId,
       },
     });
-    return NextResponse.json( sizes , { status: 200 });
+    return NextResponse.json(sizes, { status: 200 });
   } catch (error) {
     console.log(`Error in size GET req ${error}`);
-    return NextResponse.json(
-      error,
-      { status: 500 },
-    );
+    return NextResponse.json(error, { status: 500 });
   }
 }

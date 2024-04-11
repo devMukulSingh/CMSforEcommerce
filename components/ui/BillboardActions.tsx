@@ -34,15 +34,20 @@ const CellAction: React.FC<IcellActionProps> = ({ data }) => {
     try {
       setLoading(true);
       const res = await axios.delete(
-        `/api/${storeId}/billboard/${billboardId}`,
+        `/api/${storeId}/billboard/${billboardId}`
       );
       if (res.status === 200) toast.success("Billboard Deleted");
       else if (res.status === 500) toast.error(`Something went wrong`);
       setIsOpen(false);
       router.refresh();
-    } catch (error) {
-      toast.error(`Something went wrong`);
-      console.log(`Error in handleDelete ${error}`);
+    } catch (error:any) {
+      if (error.response.data.code === "P2014") {
+        toast.error(
+          `This Billboard is in use, delete the associated Category to continue`
+        );
+      } else {
+        toast.error(`Something went wrong`);
+      }
     } finally {
       setLoading(false);
     }

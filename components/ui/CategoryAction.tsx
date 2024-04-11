@@ -36,9 +36,14 @@ const CategoryAction: React.FC<IcategoryActionsProps> = ({ data }) => {
       if (res.status === 200) toast.success("Category Deleted");
       else if (res.status === 500) toast.error(`Something went wrong`);
       router.refresh();
-    } catch (e) {
-      console.log(`Error in handleDelete ${e}`);
-      toast.error(`Something went wrong`);
+    } catch (error: any) {
+      if (error.response.data.code === "P2014") {
+        toast.error(
+          `This Category is in use, delete the associated Product to continue`
+        );
+      } else {
+        toast.error(`Something went wrong`);
+      }
     } finally {
       setLoading(false);
     }

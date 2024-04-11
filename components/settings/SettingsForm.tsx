@@ -27,8 +27,8 @@ interface IsettingsFormProps {
 }
 
 const formSchema = z.object({
-  name: z.string().trim().min(1,{
-    message:"Store name is required"
+  name: z.string().trim().min(1, {
+    message: "Store name is required",
   }),
 });
 type SettingFormValues = z.infer<typeof formSchema>;
@@ -63,11 +63,12 @@ const SettingsForm: React.FC<IsettingsFormProps> = ({ initialValues }) => {
       const res = await axios.delete(`/api/stores/${storeId}`);
       toast.success("Store Deleted");
       router.refresh();
-    } catch (e:any) {
-      if(e.response.data.code==="P2014"){
-        toast.error('Delete all Products and Billboards associated with this store to continue');
-      }
-      else{
+    } catch (e: any) {
+      if (e.response.data.code === "P2014") {
+        toast.error(
+          "Delete all Products,Billboards, and Categories associated with this store to continue",
+        );
+      } else {
         toast.error("Something went wrong");
         console.log(e.response.data);
       }
@@ -76,7 +77,6 @@ const SettingsForm: React.FC<IsettingsFormProps> = ({ initialValues }) => {
     }
   };
 
-  
   return (
     <>
       <AlertModal

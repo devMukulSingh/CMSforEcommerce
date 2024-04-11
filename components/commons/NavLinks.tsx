@@ -18,19 +18,25 @@ const NavLinks = () => {
       active: pathName === `/${storeId}/billboards`,
     },
     {
+      href: `/${storeId}/brands`,
+      label: "Brand",
+      active: pathName === `/${storeId}/brands`,
+    },
+    {
       href: `/${storeId}/categories`,
       label: "Categories",
       active: pathName === `/${storeId}/categories`,
+    },
+
+    {
+      href: `/${storeId}/colors`,
+      label: "Color",
+      active: pathName === `/${storeId}/colors`,
     },
     {
       href: `/${storeId}/sizes`,
       label: "Size",
       active: pathName === `/${storeId}/sizes`,
-    },
-    {
-      href: `/${storeId}/colors`,
-      label: "Color",
-      active: pathName === `/${storeId}/colors`,
     },
     {
       href: `/${storeId}/products`,
@@ -42,11 +48,7 @@ const NavLinks = () => {
       label: "Orders",
       active: pathName === `/${storeId}/orders`,
     },
-    {
-      href: `/${storeId}/brands`,
-      label: "Brand",
-      active: pathName === `/${storeId}/brands`,
-    },
+
     {
       href: `/${storeId}/settings`,
       label: "Settings",

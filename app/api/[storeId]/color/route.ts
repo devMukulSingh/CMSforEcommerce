@@ -36,13 +36,10 @@ export async function POST(
         storeId,
       },
     });
-    return NextResponse.json( color , { status: 201 });
+    return NextResponse.json(color, { status: 201 });
   } catch (error) {
     console.log(`Error in color POST req ${error}`);
-    return NextResponse.json(
-       error,
-      { status: 500 },
-    );
+    return NextResponse.json(error, { status: 500 });
   }
 }
 
@@ -64,12 +61,9 @@ export async function GET(
         storeId,
       },
     });
-    return NextResponse.json(color , { status: 200 });
+    return NextResponse.json(color, { status: 200 });
   } catch (error) {
     console.log(`Error in color GET req ${error}`);
-    return NextResponse.json(
-      error,
-      { status: 500 },
-    );
+    return NextResponse.json(error, { status: 500 });
   }
 }

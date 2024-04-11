@@ -27,7 +27,7 @@ model Store{
 model Billboard {
   id            String      @id@default(uuid())
   storeId       String      //foreign key to Store model
-  store         Store       @relation("StoreToBillboard",fields:[storeId],references:[id])
+  store         Store       @relation("StoreToBillboard",fields:[storeId],references:[id],onDelete: Cascade)
   label         String
   images        Image[]     @relation("ImageToBillboard")
   categories    Category[]  @relation("BillboardToCategory")  
@@ -42,8 +42,8 @@ model Category {
   id            String    @id@default(uuid())
   storeId       String    //foreign key to Store model
   name          String
-  store         Store     @relation("StoreToCategory", fields: [storeId],references: [id])
-  billboard     Billboard @relation("BillboardToCategory",fields: [billboardId],references: [id],onDelete: Cascade)
+  store         Store     @relation("StoreToCategory", fields: [storeId],references: [id],onDelete: Cascade)
+  billboard     Billboard @relation("BillboardToCategory",fields: [billboardId],references: [id])
   billboardId   String    //foreign key to Category model
   products      Product[]  @relation("CategoryToProduct")
   createdAt     DateTime  @default(now())
@@ -86,7 +86,7 @@ model Product{
   name        String        
   price       Int  
   storeId     String          //foreign key to Store model
-  store       Store           @relation("StoreToProduct",fields:[storeId],references: [id],onDelete: Restrict)
+  store       Store           @relation("StoreToProduct",fields:[storeId],references: [id])
   sizeId      String          //foreign key to Size model
   size        Size?           @relation("SizeToProduct",fields:[sizeId],references: [id])
   colorId     String          //foreign key to Color model
@@ -142,8 +142,7 @@ model OrderItem{
   order           Order           @relation("OrderItemToOrder",fields: [orderId],references: [id])
   productId       String          
   product         Product         @relation("OrderItemToProduct",fields: [productId],references: [id])
-
-
+  
   @@index([orderId]) //foreign key to Order model
   @@index([productId]) //foreign key to Product model
 }

@@ -14,19 +14,20 @@ export async function GET(
     const { colorId } = params;
 
     if (!colorId)
-      return NextResponse.json({ error: "color id is required"}, {status: 400 });
+      return NextResponse.json(
+        { error: "color id is required" },
+        { status: 400 },
+      );
 
     const color = await prisma.color.findUnique({
       where: {
         id: colorId,
       },
     });
-    return NextResponse.json( color, {status: 200 });
+    return NextResponse.json(color, { status: 200 });
   } catch (error) {
     console.log(`Error in color GET req ${error}`);
-    return NextResponse.json(
-      error , {status: 500,
-    });
+    return NextResponse.json(error, { status: 500 });
   }
 }
 
@@ -45,13 +46,22 @@ export async function PATCH(
     const { value, name } = body;
 
     if (!userId)
-      return NextResponse.json({ error: "Unauthenticated"}, {status: 403 });
+      return NextResponse.json({ error: "Unauthenticated" }, { status: 403 });
     if (!colorId)
-      return NextResponse.json({ error: "color id is required"}, {status: 400 });
+      return NextResponse.json(
+        { error: "color id is required" },
+        { status: 400 },
+      );
     if (!value)
-      return NextResponse.json({ error: "color value is required"}, {status: 400 });
+      return NextResponse.json(
+        { error: "color value is required" },
+        { status: 400 },
+      );
     if (!name)
-      return NextResponse.json({ error: "color name is required"}, {status: 400 });
+      return NextResponse.json(
+        { error: "color name is required" },
+        { status: 400 },
+      );
 
     const storeByUserId = await prisma.store.findUnique({
       where: {
@@ -60,7 +70,7 @@ export async function PATCH(
       },
     });
     if (!storeByUserId)
-      return NextResponse.json({ error: "Unauthorised"}, {status: 401 });
+      return NextResponse.json({ error: "Unauthorised" }, { status: 401 });
 
     const updatedcolor = await prisma.color.update({
       where: {
@@ -73,12 +83,10 @@ export async function PATCH(
       },
     });
 
-    return NextResponse.json( updatedcolor, {status: 200 });
+    return NextResponse.json(updatedcolor, { status: 200 });
   } catch (error) {
     console.log(`Error in color PATCH req ${error}`);
-    return NextResponse.json(
-      error, {status: 500,
-    });
+    return NextResponse.json(error, { status: 500 });
   }
 }
 
@@ -95,10 +103,13 @@ export async function DELETE(
     const { colorId, storeId } = params;
 
     if (!userId)
-      return NextResponse.json({ error: "Authenticated"}, {status: 401 });
+      return NextResponse.json({ error: "Authenticated" }, { status: 401 });
 
     if (!colorId)
-      return NextResponse.json({ error: "color id is required"}, {status: 400 });
+      return NextResponse.json(
+        { error: "color id is required" },
+        { status: 400 },
+      );
 
     const storeByUserId = await prisma.store.findUnique({
       where: {
@@ -108,7 +119,7 @@ export async function DELETE(
     });
 
     if (!storeByUserId)
-      return NextResponse.json({ error: "Unauthorised"}, {status: 401 });
+      return NextResponse.json({ error: "Unauthorised" }, { status: 401 });
 
     await prisma.color.delete({
       where: {
@@ -116,11 +127,9 @@ export async function DELETE(
         storeId,
       },
     });
-    return NextResponse.json({ msg: "color deleted"}, {status: 200 });
+    return NextResponse.json({ msg: "color deleted" }, { status: 200 });
   } catch (error) {
     console.log(`Error in color DELETE req ${error}`);
-    return NextResponse.json(
-      error,  {status: 500
-    });
+    return NextResponse.json(error, { status: 500 });
   }
 }
