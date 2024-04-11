@@ -3,7 +3,7 @@ import { Separator } from "../ui/separator";
 import ColorTable from "./ColorTable";
 
 export interface ColorClientProps {
-  storeId:string
+  storeId: string;
 }
 
 const ColorsClientComp: React.FC<ColorClientProps> = ({ storeId }) => {

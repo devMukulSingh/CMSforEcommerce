@@ -1,10 +1,10 @@
-import React, { FC } from 'react'
+import React, { FC } from "react";
 import { DataTable } from "../commons/DataTable";
 import { CategoryColumn, columns } from "../ui/CategoryColumn";
-import { prisma } from '@/lib/prisma';
-import { CategoriesClientCompProps } from './CategoriesClientComp';
+import { prisma } from "@/lib/prisma";
+import { CategoriesClientCompProps } from "./CategoriesClientComp";
 import { format } from "date-fns";
-import Header from './Header';
+import Header from "./Header";
 
 const CategoryTable: FC<CategoriesClientCompProps> = async ({ storeId }) => {
   const categories = await prisma.category.findMany({
@@ -29,4 +29,4 @@ const CategoryTable: FC<CategoriesClientCompProps> = async ({ storeId }) => {
   );
 };
 
-export default CategoryTable
+export default CategoryTable;

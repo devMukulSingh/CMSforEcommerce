@@ -1,19 +1,17 @@
-'use client'
-import React, { FC } from 'react'
+"use client";
+import React, { FC } from "react";
 import { PlusCircle } from "lucide-react";
 import { Button } from "../ui/button";
-import { Category } from '@prisma/client';
-import { useParams, useRouter } from 'next/navigation';
+import { Category } from "@prisma/client";
+import { useParams, useRouter } from "next/navigation";
 
-interface HeaderProps{
-    categories:Category[]
+interface HeaderProps {
+  categories: Category[];
 }
 
-const Header:FC<HeaderProps> = ({
-    categories
-}) => {
-    const router = useRouter();
-    const { storeId } = useParams();
+const Header: FC<HeaderProps> = ({ categories }) => {
+  const router = useRouter();
+  const { storeId } = useParams();
   return (
     <>
       <header className="flex justify-between">
@@ -33,6 +31,6 @@ const Header:FC<HeaderProps> = ({
       </header>
     </>
   );
-}
+};
 
-export default Header
+export default Header;

@@ -1,13 +1,12 @@
-import React, { FC } from 'react'
-import Header from './Header';
-import { BrandColumn, columns } from '../ui/BrandColumn';
-import { prisma } from '@/lib/prisma';
-import { format } from 'date-fns';
-import { DataTable } from '../commons/DataTable';
-import { BrandClientCompProps } from './BrandClientComp';
+import React, { FC } from "react";
+import Header from "./Header";
+import { BrandColumn, columns } from "../ui/BrandColumn";
+import { prisma } from "@/lib/prisma";
+import { format } from "date-fns";
+import { DataTable } from "../commons/DataTable";
+import { BrandClientCompProps } from "./BrandClientComp";
 
-
-const BrandTable:FC<BrandClientCompProps> = async ({ storeId }) => {
+const BrandTable: FC<BrandClientCompProps> = async ({ storeId }) => {
   const brands = await prisma.brand.findMany({
     where: {
       storeId: storeId,
@@ -26,4 +25,4 @@ const BrandTable:FC<BrandClientCompProps> = async ({ storeId }) => {
   );
 };
 
-export default BrandTable
+export default BrandTable;

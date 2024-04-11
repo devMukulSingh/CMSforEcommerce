@@ -1,27 +1,22 @@
-"use client";
-
-import { DataTable } from "../commons/DataTable";
-import { OrdersColumn, columns } from "../ui/OrdersColumn";
 import ApiList from "@/components/order/ApiList";
 import { Separator } from "../ui/separator";
+import dynamic from "next/dynamic";
+import TableSkeleton from "../commons/TableSkeleton";
+const OrderTable = dynamic( () => import("./OrderTable"),{
+  loading : () => <TableSkeleton/>
+})
 
-interface OrdersClientCompProps {
-  orders: OrdersColumn[];
+export interface OrdersClientCompProps {
+  storeId: string
 }
 
-const OrdersClientComp: React.FC<OrdersClientCompProps> = ({ orders }) => {
+const OrdersClientComp: React.FC<OrdersClientCompProps> = ({ storeId }) => {
   return (
-    <main className="flex flex-col gap-4 p-5">
-      <header className="flex justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">Orders({orders.length})</h1>
-          <p className="text-sm text-slate-500">Manage orders</p>
-        </div>
-      </header>
-      <DataTable columns={columns} data={orders} />
+    <div className="flex flex-col gap-4 p-5">
+      <OrderTable storeId={storeId} />
       <Separator />
       <ApiList entityName="order" entityIdName="{orderId}" />
-    </main>
+    </div>
   );
 };
 
