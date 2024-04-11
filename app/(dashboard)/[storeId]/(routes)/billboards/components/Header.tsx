@@ -4,6 +4,7 @@ import { PlusCircle, Router } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useParams, useRouter } from "next/navigation";
 import { Billboard } from "@prisma/client";
+import Link from "next/link";
 
 interface HeaderProps {
   billboard: Billboard[];
@@ -11,9 +12,7 @@ interface HeaderProps {
 
 const Header: FC<HeaderProps> = ({ billboard }) => {
   const router = useRouter();
-  useEffect(() => {
-    router.prefetch(`/${storeId}/billboards/new`);
-  }, []);
+
   const { storeId } = useParams();
 
   return (
@@ -25,13 +24,15 @@ const Header: FC<HeaderProps> = ({ billboard }) => {
           </h1>
           <p className="text-sm text-slate-500">Manage Billboards</p>
         </div>
-        <Button
-          onClick={() => router.push(`/${storeId}/billboards/new`)}
-          className="flex gap-2"
-        >
-          <PlusCircle />
-          Add New
-        </Button>
+        <Link 
+          href={`/${storeId}/billboards/new`}
+          prefetch={true}
+          >
+          <Button className="flex gap-2">
+            <PlusCircle />
+            Add New
+          </Button>
+        </Link>
       </header>
     </>
   );

@@ -5,17 +5,14 @@ import { Button } from "@/components/ui/button";
 import { useParams, useRouter } from "next/navigation";
 import { Brand } from "@prisma/client";
 import { FC, useEffect } from "react";
+import Link from "next/link";
 
 interface HeaderProps {
   brand: Brand[];
 }
 
 const Header: FC<HeaderProps> = ({ brand }) => {
-  useEffect(() => {
-    router.prefetch(`/${storeId}/brands/new`);
-  }, []);
   const { storeId } = useParams();
-  const router = useRouter();
 
   return (
     <>
@@ -24,13 +21,12 @@ const Header: FC<HeaderProps> = ({ brand }) => {
           <h1 className="text-2xl font-bold">Brand({brand?.length})</h1>
           <p className="text-sm text-slate-500">Manage brands</p>
         </div>
-        <Button
-          onClick={() => router.push(`/${storeId}/brands/new`)}
-          className="flex gap-2"
-        >
-          <PlusCircle />
-          Add New
-        </Button>
+        <Link href={`/${storeId}/brands/new`} prefetch={true}>
+          <Button className="flex gap-2">
+            <PlusCircle />
+            Add New
+          </Button>
+        </Link>
       </header>
     </>
   );
