@@ -1,4 +1,4 @@
-import ColorForm from "@/components/color/ColorForm";
+import ColorForm from "@/app/(dashboard)/[storeId]/(routes)/colors/[colorId]/components/ColorForm";
 import { prisma } from "@/lib/prisma";
 import { Color } from "@prisma/client";
 

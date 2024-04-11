@@ -1,4 +1,4 @@
-import SizeForm from "@/components/size/SizeForm";
+import SizeForm from "@/app/(dashboard)/[storeId]/(routes)/sizes/[sizeId]/components/SizeForm";
 import { prisma } from "@/lib/prisma";
 
 const SingleSizePage = async ({ params }: { params: { sizeId: string } }) => {

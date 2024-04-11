@@ -1,4 +1,4 @@
-import ProductClientComp from "@/components/product/ProductClientComp";
+import ProductClientComp from "@/app/(dashboard)/[storeId]/(routes)/products/components/ProductClientComp";
 
 const ProductsPage = async ({ params }: { params: { storeId: string } }) => {
   return (

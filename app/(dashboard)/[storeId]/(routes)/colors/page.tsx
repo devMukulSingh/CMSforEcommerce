@@ -1,4 +1,4 @@
-import ColorClientComp from "@/components/color/ColorClientComp";
+import ColorClientComp from "@/app/(dashboard)/[storeId]/(routes)/colors/components/ColorClientComp";
 
 const ColorPage = async ({ params }: { params: { storeId: string } }) => {
   return (

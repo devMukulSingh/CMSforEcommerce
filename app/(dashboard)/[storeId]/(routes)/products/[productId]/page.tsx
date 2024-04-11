@@ -1,4 +1,4 @@
-import ProductForm from "@/components/product/ProductForm";
+import ProductForm from "@/app/(dashboard)/[storeId]/(routes)/products/[productId]/components/ProductForm";
 import { prisma } from "@/lib/prisma";
 import { Brand, Category, Color, Size } from "@prisma/client";
 

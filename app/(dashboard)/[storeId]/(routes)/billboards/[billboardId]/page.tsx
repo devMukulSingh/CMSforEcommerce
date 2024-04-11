@@ -1,4 +1,4 @@
-import BillboardForm from "@/components/billboard/BillboardForm";
+import BillboardForm from "@/app/(dashboard)/[storeId]/(routes)/billboards/[billboardId]/components/BillboardForm";
 import { prisma } from "@/lib/prisma";
 
 const SingleBillBoardPage = async ({

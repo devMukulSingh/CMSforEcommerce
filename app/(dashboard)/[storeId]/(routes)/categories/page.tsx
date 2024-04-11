@@ -1,4 +1,4 @@
-import CategoriesClientComp from "@/components/category/CategoriesClientComp";
+import CategoriesClientComp from "@/app/(dashboard)/[storeId]/(routes)/categories/components/CategoriesClientComp";
 
 const CategoriesPage = async ({ params }: { params: { storeId: string } }) => {
   return (

@@ -1,5 +1,5 @@
-import BrandForm from "@/components/brand/BrandForm";
 import { prisma } from "@/lib/prisma";
+import BrandForm from "./components/BrandForm";
 
 const SingleBrandPage = async ({ params }: { params: { brandId: string } }) => {
   const { brandId } = params;

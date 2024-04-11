@@ -1,4 +1,4 @@
-import CategoryForm from "@/components/category/CategoryForm";
+import CategoryForm from "@/app/(dashboard)/[storeId]/(routes)/categories/[categoryId]/components/CategoryForm";
 import { prisma } from "@/lib/prisma";
 
 const SingleBillBoardPage = async ({

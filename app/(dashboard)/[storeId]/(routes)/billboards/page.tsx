@@ -1,4 +1,4 @@
-import BillBoardsClientComp from "@/components/billboard/BillBoardsClientComp";
+import BillBoardsClientComp from "@/app/(dashboard)/[storeId]/(routes)/billboards/components/BillBoardsClientComp";
 
 const BillboardsPage = async ({ params }: { params: { storeId: string } }) => {
   return (

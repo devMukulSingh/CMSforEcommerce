@@ -1,4 +1,4 @@
-import SizeClientComp from "@/components/size/SizeClientComp";
+import SizeClientComp from "@/app/(dashboard)/[storeId]/(routes)/sizes/components/SizeClientComp";
 import { SizeColumn } from "@/components/ui/SizeColumn";
 import { prisma } from "@/lib/prisma";
 import { format } from "date-fns";
