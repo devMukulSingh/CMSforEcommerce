@@ -83,7 +83,7 @@ model Color{
 
 model Product{
   id          String          @id@default(uuid())
-  name        String        
+  name        String          @db.VarChar(400)
   price       Int  
   storeId     String          //foreign key to Store model
   store       Store           @relation("StoreToProduct",fields:[storeId],references: [id])

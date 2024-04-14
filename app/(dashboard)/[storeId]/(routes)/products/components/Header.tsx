@@ -11,7 +11,6 @@ interface HeaderProps {
 }
 
 const Header: FC<HeaderProps> = ({ products }) => {
-
   const { storeId } = useParams();
 
   return (

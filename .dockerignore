@@ -2,3 +2,5 @@ node_modules
 docker-compose.yml
 .next
 .git
+.env
+.vscode

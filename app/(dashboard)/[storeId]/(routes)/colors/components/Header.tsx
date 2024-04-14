@@ -11,7 +11,6 @@ interface HeaderProps {
 }
 
 const Header: FC<HeaderProps> = ({ colors }) => {
- 
   const { storeId } = useParams();
 
   return (
