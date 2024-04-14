@@ -54,11 +54,15 @@ interface IproductFormProps {
 }
 
 const formSchema = z.object({
-  name: z.string().trim().min(1, {
-    message: "Product name is required",
-  }).max(400,{
-    message:"Max 400 charaters allowed"
-  }),
+  name: z
+    .string()
+    .trim()
+    .min(1, {
+      message: "Product name is required",
+    })
+    .max(400, {
+      message: "Max 400 charaters allowed",
+    }),
   price: z.coerce.number().positive().min(1, {
     message: "Price is required",
   }),
@@ -79,9 +83,13 @@ const formSchema = z.object({
   brandId: z.string().min(1, {
     message: "Brand is required",
   }),
-  description: z.string().trim().max(2000,{
-    message:"max 2000 characters allowed"
-  }).optional(),
+  description: z
+    .string()
+    .trim()
+    .max(2000, {
+      message: "max 2000 characters allowed",
+    })
+    .optional(),
   isFeatured: z.boolean().default(false).optional(),
   isArchived: z.boolean().default(false).optional(),
   ratings: z.coerce
@@ -93,7 +101,7 @@ const formSchema = z.object({
 type productFormValues = z.infer<typeof formSchema>;
 
 const ProductForm: React.FC<IproductFormProps> = ({
-  initialValues,
+  initialValues,  
   categories,
   colors,
   brands,

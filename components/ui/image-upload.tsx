@@ -44,6 +44,8 @@ const ImageUpload: React.FC<IimageUploadProps> = ({
               >
                 <span className="absolute left-1 top-1 z-10">
                   <Button
+                    type="button"
+                    className="bg-slate-700"
                     onClick={() => onRemove(url)}
                     variant="ghost"
                     size="icon"
