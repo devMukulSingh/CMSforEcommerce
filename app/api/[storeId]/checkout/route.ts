@@ -1,6 +1,7 @@
 import { BASE_URL_FRONTEND } from "@/lib/BASE_URL";
 import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -18,6 +19,7 @@ export async function POST(
   req: Request,
   { params }: { params: { storeId: string } },
 ) {
+  const storeId = cookies().get('storeId')?.value;
   const { data: productIds } = await req.json();
 
   if (productIds?.length < 0)
@@ -72,8 +74,8 @@ export async function POST(
     phone_number_collection: {
       enabled: true,
     },
-    success_url: `${BASE_URL_FRONTEND}/cart?sucess=1`,
-    cancel_url: `${BASE_URL_FRONTEND}/cart?canceled=1`,
+    success_url: `${BASE_URL_FRONTEND}/${storeId}/cart?sucess=1`,
+    cancel_url: `${BASE_URL_FRONTEND}/${storeId}/cart?canceled=1`,
     metadata: {
       orderId: order.id,
     },
