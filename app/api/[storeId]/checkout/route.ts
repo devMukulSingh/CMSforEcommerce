@@ -1,8 +1,7 @@
 import { BASE_URL_FRONTEND } from "@/lib/BASE_URL";
 import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
-import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
 const corsHeader = {
@@ -16,43 +15,45 @@ export async function OPTIONS() {
 }
 
 export async function POST(
-  req: Request,
+  req: NextRequest,
   { params }: { params: { storeId: string } },
 ) {
-  const storeId = cookies().get('storeId')?.value;
-  const { data: productIds } = await req.json();
+  try{
 
-  if (productIds?.length < 0)
-    return NextResponse.json(
+    const { productIds,storeId } = await req.json();
+    
+    if (productIds?.length < 0)
+      return NextResponse.json(
       { error: "ProductIds is required" },
       { status: 400 },
     );
-
-  const products = await prisma.product.findMany({
-    where: {
-      id: {
-        in: [...productIds],
-      },
-    },
-  });
-  const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
-
-  products.forEach((product) => {
-    line_items.push({
-      quantity: 1,
-      price_data: {
-        currency: "INR",
-        product_data: {
-          name: product.name,
+    
+    const products = await prisma.product.findMany({
+      where: {
+        id: {
+          in: [...productIds],
         },
-        unit_amount: product.price * 100,
+        storeId,
       },
     });
-  });
-
-  const order = await prisma.order.create({
+    const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
+    
+    products.forEach((product) => {
+      line_items.push({
+        quantity: 1,
+        price_data: {
+          currency: "INR",
+          product_data: {
+            name: product.name,
+          },
+          unit_amount: product.price * 100,
+        },
+      });
+    });
+    
+    const order = await prisma.order.create({
     data: {
-      storeId: params.storeId,
+      storeId,
       isPaid: false,
       orderItems: {
         create: productIds?.map((productId: string) => ({
@@ -66,7 +67,7 @@ export async function POST(
       },
     },
   });
-
+  
   const session = await stripe.checkout.sessions.create({
     line_items,
     mode: "payment",
@@ -82,4 +83,9 @@ export async function POST(
   });
 
   return NextResponse.json({ url: session.url }, { headers: corsHeader });
+}
+  catch(e){
+    console.log(`Error in POST checkout req ${e}`);
+    return NextResponse.json(e,{status:500});
+  }
 }

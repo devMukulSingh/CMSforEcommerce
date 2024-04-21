@@ -18,7 +18,7 @@ export async function POST(req: Request) {
       process.env.STRIPE_WEBHOOK_SECRET!,
     );
   } catch (e) {
-    return new NextResponse(`Webhook error ${e}, {status:400}`);
+    return new NextResponse(`Webhook error ${e}`,{status:500});
   }
   const session = event.data.object as Stripe.Checkout.Session;
   const address = session?.customer_details?.address;
@@ -33,8 +33,11 @@ export async function POST(req: Request) {
   ];
 
   const addressString = addressComponents.filter((c) => c !== null).join(", ");
-
+  console.log(event.type,"event.Type");
+  
   if (event.type === "checkout.session.completed") {
+    console.log("inside");
+    
     const order = await prisma.order.update({
       where: {
         id: session?.metadata?.orderId,
