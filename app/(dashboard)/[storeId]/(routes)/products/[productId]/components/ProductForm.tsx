@@ -101,7 +101,7 @@ const formSchema = z.object({
 type productFormValues = z.infer<typeof formSchema>;
 
 const ProductForm: React.FC<IproductFormProps> = ({
-  initialValues,  
+  initialValues,
   categories,
   colors,
   brands,

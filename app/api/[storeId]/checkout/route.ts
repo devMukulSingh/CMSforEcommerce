@@ -1,3 +1,4 @@
+import { BASE_URL_FRONTEND } from "@/lib/BASE_URL";
 import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
 import { NextResponse } from "next/server";
@@ -71,8 +72,8 @@ export async function POST(
     phone_number_collection: {
       enabled: true,
     },
-    success_url: `${process.env.FRONTEND_URL}/cart?sucess=1`,
-    cancel_url: `${process.env.FRONTEND_URL}/cart?canceled=1`,
+    success_url: `${BASE_URL_FRONTEND}/cart?sucess=1`,
+    cancel_url: `${BASE_URL_FRONTEND}/cart?canceled=1`,
     metadata: {
       orderId: order.id,
     },

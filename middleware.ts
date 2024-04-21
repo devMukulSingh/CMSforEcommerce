@@ -9,4 +9,5 @@ export const config = {
 };
 export default authMiddleware({
   publicRoutes: ["/api/:path*"],
+  // debug:true
 });
