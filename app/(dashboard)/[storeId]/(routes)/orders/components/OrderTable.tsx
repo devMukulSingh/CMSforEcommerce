@@ -1,10 +1,10 @@
 import React, { FC } from "react";
 import { OrdersClientCompProps } from "./OrdersClientComp";
 import { DataTable } from "@/components/commons/DataTable";
-import {   columns } from "@/components/ui/OrdersColumn";
+import { columns } from "@/components/ui/OrdersColumn";
 import { prisma } from "@/lib/prisma";
 import { OrderItem } from "@prisma/client";
-import { format} from "date-fns";
+import { format } from "date-fns";
 
 interface IorderItem extends OrderItem {
   product: {
@@ -27,14 +27,11 @@ const OrderTable: FC<OrdersClientCompProps> = async ({ storeId }) => {
         },
       },
     },
-    orderBy:{
-      updatedAt:'desc'
-    }
-    
-  },
- 
-);
-  
+    orderBy: {
+      updatedAt: "desc",
+    },
+  });
+
   const formattedOrders = orders.map((item) => ({
     id: item.id,
     phone: item.phone,
@@ -49,9 +46,9 @@ const OrderTable: FC<OrdersClientCompProps> = async ({ storeId }) => {
       },
       0,
     ),
-    createdAt: format(item.updatedAt,"dd/MMM/yyyy HH:mm a"), 
+    createdAt: format(item.updatedAt, "dd/MMM/yyyy HH:mm a"),
   }));
-  
+
   return (
     <>
       <header className="flex justify-between">

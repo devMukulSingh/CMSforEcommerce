@@ -18,16 +18,20 @@ export async function POST(
   req: NextRequest,
   { params }: { params: { storeId: string } },
 ) {
-  try{
+  try {
+    const { productIds, storeId } = await req.json();
 
-    const { productIds,storeId } = await req.json();
-    
-    if (productIds?.length < 0)
+    if (!productIds || productIds?.length < 0)
       return NextResponse.json(
-      { error: "ProductIds is required" },
-      { status: 400 },
-    );
-    
+        { error: "ProductIds is required" },
+        { status: 400 },
+      );
+      if(!storeId || storeId ==="")
+        return NextResponse.json(
+          { error: "storeId is required" },
+          { status: 400 },
+        );
+
     const products = await prisma.product.findMany({
       where: {
         id: {
@@ -37,7 +41,7 @@ export async function POST(
       },
     });
     const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
-    
+
     products.forEach((product) => {
       line_items.push({
         quantity: 1,
@@ -50,42 +54,40 @@ export async function POST(
         },
       });
     });
-    
-    const order = await prisma.order.create({
-    data: {
-      storeId,
-      isPaid: false,
-      orderItems: {
-        create: productIds?.map((productId: string) => ({
-          product: {
-            // "connect" method -> connect method to establish this relationship during the creation process
-            connect: {
-              id: productId,
-            },
-          },
-        })),
-      },
-    },
-  });
-  
-  const session = await stripe.checkout.sessions.create({
-    line_items,
-    mode: "payment",
-    billing_address_collection: "required",
-    phone_number_collection: {
-      enabled: true,
-    },
-    success_url: `${BASE_URL_FRONTEND}/${storeId}/cart?sucess=1`,
-    cancel_url: `${BASE_URL_FRONTEND}/${storeId}/cart?canceled=1`,
-    metadata: {
-      orderId: order.id,
-    },
-  });
 
-  return NextResponse.json({ url: session.url }, { headers: corsHeader });
-}
-  catch(e){
+    const order = await prisma.order.create({
+      data: {
+        storeId,
+        orderItems: {
+          create: productIds?.map((productId: string) => ({
+            product: {
+              // "connect" method -> connect method to establish this relationship during the creation process
+              connect: {
+                id: productId,
+              },
+            },
+          })),
+        },
+      },
+    });
+    
+    const session = await stripe.checkout.sessions.create({
+      line_items,
+      mode: "payment",
+      billing_address_collection: "required",
+      phone_number_collection: {
+        enabled: true,
+      },
+      success_url: `${BASE_URL_FRONTEND}/${storeId}/cart?sucess=1`,
+      cancel_url: `${BASE_URL_FRONTEND}/${storeId}/cart?canceled=1`,
+      metadata: {
+        orderId: order.id,
+      },
+    });
+    
+    return NextResponse.json({ url: session.url, session }, { headers: corsHeader });
+  } catch (e) {
     console.log(`Error in POST checkout req ${e}`);
-    return NextResponse.json(e,{status:500});
+    return NextResponse.json(e, { status: 500 });
   }
 }
