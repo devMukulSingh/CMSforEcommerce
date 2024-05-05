@@ -23,7 +23,7 @@ import { useRouter } from "next/navigation";
 import { AlertModal } from "@/components/modals/AlertModal";
 import ImageUpload from "@/components/ui/image-upload";
 import Loader from "@/components/commons/Loader";
-import { billboardSchema } from "@/lib/formSchemas"
+import { billboardSchema } from "@/lib/formSchemas";
 
 export interface IbillboardFormProps {
   initialValues: Billboard | (null & Image[]) | null;

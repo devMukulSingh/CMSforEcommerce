@@ -20,9 +20,9 @@ const SingleBillBoardPage = async ({
   });
 
   return (
-    <main>
+    <>
       <CategoryForm initialValues={category} billboards={billboards} />
-    </main>
+    </>
   );
 };
 

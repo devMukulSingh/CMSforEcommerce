@@ -48,6 +48,7 @@ export async function PATCH(
     const body = await req.json();
     const {
       name,
+      quantity,
       price,
       colorId,
       sizeId,
@@ -135,6 +136,7 @@ export async function PATCH(
         storeId,
         ratings,
         brandId,
+        quantity,
         description: descriptionArray,
         images: {
           deleteMany: {},

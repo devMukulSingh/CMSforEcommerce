@@ -22,6 +22,7 @@ export async function POST(
       description,
       ratings,
       brandId,
+      quantity
     } = body;
     const { storeId } = params;
 
@@ -69,6 +70,11 @@ export async function POST(
         { error: "brandId is required" },
         { status: 400 },
       );
+    if (!quantity)
+      return NextResponse.json(
+        { error: "quantity is required" },
+        { status: 400 },
+      );
 
     //converting the string into array
     let descriptionArray = [];
@@ -79,6 +85,7 @@ export async function POST(
     const product = await prisma.product.create({
       data: {
         name,
+        quantity,
         price,
         storeId,
         colorId,

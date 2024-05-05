@@ -41,29 +41,30 @@ const SingleProductPage = async ({
   const formattedProducts = {
     name: product?.name,
     price: product?.price,
+    quantity:product?.quantity,
     images: product?.images,
     categoryId: product?.categoryId,
     colorId: product?.colorId,
     sizeId: product?.sizeId,
     featured: product?.isFeatured,
     archived: product?.isArchived,
-    //@ts-ignore
-    description: product?.description?.map((point: string) => point).join("\n"),
     ratings: product?.ratings,
     brandId: product?.brandId,
+    //@ts-ignore
+    description: product?.description?.map((point: string) => point).join("\n"),
   };
 
   return (
-    <main>
+    <>
       <ProductForm
-        //@ts-ignore
-        initialValues={formattedProducts}
         categories={categories}
         colors={colors}
         sizes={sizes}
         brands={brands}
+        //@ts-ignore
+        initialValues={formattedProducts}
       />
-    </main>
+    </>
   );
 };
 

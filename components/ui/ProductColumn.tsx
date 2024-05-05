@@ -10,7 +10,6 @@ export type ProductColumn = {
   id: string;
   name: string;
   color: string;
-  // size: string | undefined;
   price: number;
   description: string | undefined;
   category: string;
@@ -19,6 +18,7 @@ export type ProductColumn = {
   createdAt: string;
   ratings: Decimal | null;
   brand: string;
+  quantity:number;
 };
 
 export const columns: ColumnDef<ProductColumn>[] = [
@@ -31,13 +31,21 @@ export const columns: ColumnDef<ProductColumn>[] = [
     header: "Name",
   },
   {
+    accessorKey: "quantity",
+    header: "Quantity",
+  },
+  {
+    accessorKey: "brand",
+    header: "Brand",
+  },
+  {
+    accessorKey: "ratings",
+    header: "Rating",
+  },
+  {
     accessorKey: "color",
     header: "Color",
   },
-  // {
-  //   accessorKey: "size",
-  //   header: "Size",
-  // },
   {
     accessorKey: "isFeatured",
     header: "isFeatured",
@@ -49,14 +57,6 @@ export const columns: ColumnDef<ProductColumn>[] = [
   {
     accessorKey: "createdAt",
     header: "Date",
-  },
-  {
-    accessorKey: "brand",
-    header: "Brand",
-  },
-  {
-    accessorKey: "ratings",
-    header: "Rating",
   },
   {
     id: "actions",

@@ -25,19 +25,20 @@ const ProductTable: FC<ProductClientCompProps> = async ({ storeId }) => {
     price: item.price,
     category: item.category.name,
     color: item.color.value,
-    //@ts-ignore
-    description: item?.description?.map((description: string) => description),
+    quantity:item.quantity,
     isFeatured: item.isFeatured,
     isArchived: item.isArchived,
     createdAt: format(item.createdAt, "MMMM do, yyyy"),
     ratings: item?.ratings,
     brand: item.brand.name,
+    //@ts-ignore
+    description: item?.description?.map((description: string) => description),
   }));
   return (
-    <div>
+    <>
       <Header products={products} />
       <DataTable columns={columns} data={formattedProducts} />
-    </div>
+    </>
   );
 };
 

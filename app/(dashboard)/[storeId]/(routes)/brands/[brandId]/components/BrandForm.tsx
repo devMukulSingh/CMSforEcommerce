@@ -1,15 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
+import { Form } from "@/components/ui/form";
+import { useForm, UseFormReturn } from "react-hook-form";
 import { TrashIcon } from "lucide-react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,11 +15,22 @@ import { useRouter } from "next/navigation";
 import { AlertModal } from "@/components/modals/AlertModal";
 import Loader from "@/components/commons/Loader";
 import { brandSchema } from "@/lib/formSchemas";
+import BrandField from "./formFields/BrandName";
 
 interface IclientFormProps {
-  initialValues: Brand | null;
+  initialValues?: Brand | null;
 }
 
+export interface Iform {
+  form: UseFormReturn<
+    {
+      name: string;
+    },
+    any,
+    undefined
+  >;
+  loading?: boolean;
+}
 
 type ClientFormValues = z.infer<typeof brandSchema>;
 
@@ -86,7 +89,7 @@ const BrandForm: React.FC<IclientFormProps> = ({ initialValues }) => {
         onClose={() => setOpenDeleteAlert(false)}
         onConform={handleBrandDelete}
       />
-      <main className="flex flex-col gap-6 px-10 py-2">
+      <div className="flex flex-col gap-6 px-10 py-2">
         <header className="flex justify-between ">
           <section>
             <h1 className="text-2xl font-bold">
@@ -109,25 +112,7 @@ const BrandForm: React.FC<IclientFormProps> = ({ initialValues }) => {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="flex gap-4 flex-col">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Brand name</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={loading}
-                        placeholder="brand"
-                        {...field}
-                        autoComplete="off"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              ></FormField>
-
+              <BrandField form={form} loading={loading} />
               <Button
                 type="submit"
                 className="w-32 cursor-pointer flex gap-2"
@@ -139,7 +124,7 @@ const BrandForm: React.FC<IclientFormProps> = ({ initialValues }) => {
             </div>
           </form>
         </Form>
-      </main>
+      </div>
     </>
   );
 };

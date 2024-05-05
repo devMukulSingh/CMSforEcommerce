@@ -75,7 +75,7 @@ export async function POST(
       line_items,
       mode: "payment",
       billing_address_collection: "required",
-      
+
       phone_number_collection: {
         enabled: true,
       },

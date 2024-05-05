@@ -2,14 +2,9 @@
 import { Button } from "@/components/ui/button";
 import {
   Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
+import { useForm, UseFormReturn } from "react-hook-form";
+ 
 import { TrashIcon } from "lucide-react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,21 +16,28 @@ import { useParams } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { AlertModal } from "@/components/modals/AlertModal";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import Loader from "@/components/commons/Loader";
 import { categorySchema } from "@/lib/formSchemas";
+import CategoryName from "./formFields/CategoryName";
+import Billboards from "./formFields/Billboards";
+export interface Iform {
+  form: UseFormReturn<
+    {
+      name: string;
+      billboardId: string;
+    },
+    any,
+    undefined
+  >;
+  loading: boolean;
+  billboards?:Billboard[]
+}
 
 interface IcategoryFormProps {
   initialValues: Category | null;
   billboards: Billboard[];
 }
-
 
 type CategoryFormValues = z.infer<typeof categorySchema>;
 
@@ -125,55 +127,8 @@ const CategoryForm: React.FC<IcategoryFormProps> = ({
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="flex gap-4 flex-col">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Category Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={loading}
-                        placeholder="name"
-                        {...field}
-                        autoComplete="off"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              ></FormField>
-
-              <FormField
-                control={form.control}
-                name="billboardId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Billboard</FormLabel>
-                    <Select
-                      disabled={loading}
-                      onValueChange={field.onChange}
-                      value={field.value}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select Billboard" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <FormMessage />
-
-                      <SelectContent>
-                        {billboards.map((billboard) => (
-                          <SelectItem value={billboard.id} key={billboard.id}>
-                            {billboard.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </FormItem>
-                )}
-              ></FormField>
+              <CategoryName form={form} loading={loading} />
+              <Billboards form={form} loading={loading}  billboards={billboards}/>
 
               <Button
                 type="submit"

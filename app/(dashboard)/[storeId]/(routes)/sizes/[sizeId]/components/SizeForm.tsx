@@ -28,7 +28,6 @@ interface IclientFormProps {
   initialValues: Size | null;
 }
 
-
 type ClientFormValues = z.infer<typeof sizeSchema>;
 
 const SizeForm: React.FC<IclientFormProps> = ({ initialValues }) => {

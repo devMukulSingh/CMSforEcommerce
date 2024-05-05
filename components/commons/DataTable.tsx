@@ -34,7 +34,7 @@ export function DataTable<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
   });
   return (
-    <main>
+    <div>
       <div>
         <Table>
           <TableHeader>
@@ -108,6 +108,6 @@ export function DataTable<TData, TValue>({
           Next
         </Button>
       </footer>
-    </main>
+    </div>
   );
 }

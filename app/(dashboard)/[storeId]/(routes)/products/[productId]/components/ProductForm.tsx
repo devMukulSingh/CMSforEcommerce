@@ -1,16 +1,8 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
+  Form,} from "@/components/ui/form";
+import { useForm, UseFormReturn } from "react-hook-form";
 import { TrashIcon } from "lucide-react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,21 +14,23 @@ import { useParams } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { AlertModal } from "@/components/modals/AlertModal";
-import ImageUpload from "@/components/ui/image-upload";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Textarea } from "@/components/ui/textarea";
 import Loader from "@/components/commons/Loader";
 import { productSchema } from "@/lib/formSchemas";
+import ProductName from "./formFields/ProductName";
+import ProductPrice from "./formFields/ProductPrice";
+import ProductCategory from "./formFields/ProductCategory";
+import IsFeatured from "./formFields/IsFeatured";
+import ProductDescription from "./formFields/ProductDescription";
+import IsArchived from "./formFields/IsArchived";
+import ProductImage from "./formFields/ProductImage";
+import ProductBrand from "./formFields/ProductBrand";
+import ProductColor from "./formFields/ProductColor";
+import ProductQuantity from "./formFields/ProductQuantity";
+import ProductRating from "./formFields/ProductRating";
 export interface IinitialValues {
   name: string | undefined;
   price: number | undefined;
+  quantity:number | undefined
   categoryId: string | undefined;
   colorId: string | undefined;
   images: Image[] | undefined;
@@ -53,8 +47,32 @@ interface IproductFormProps {
   sizes: Size[];
   brands: Brand[];
 }
-
-
+export interface Iform {
+  form: UseFormReturn<
+    {
+      name: string;
+      price: number;
+      colorId: string;
+      brandId: string;
+      images: {
+        url: string;
+      }[];
+      categoryId: string;
+      ratings: number;
+      sizeId?: string | undefined;
+      description?: string | undefined;
+      isFeatured?: boolean | undefined;
+      isArchived?: boolean | undefined;
+      quantity: number 
+    },
+    any,
+    undefined
+  >;
+  loading?: boolean;
+  colors?: Color[];
+  brands?: Brand[];
+  categories?: Category[];
+}
 type productFormValues = z.infer<typeof productSchema>;
 
 const ProductForm: React.FC<IproductFormProps> = ({
@@ -89,6 +107,7 @@ const ProductForm: React.FC<IproductFormProps> = ({
           isArchived: false,
           ratings: 0.0,
           brandId: "",
+          quantity:1,
         },
   });
   const onSubmit = async (data: productFormValues) => {
@@ -135,7 +154,7 @@ const ProductForm: React.FC<IproductFormProps> = ({
         onClose={() => setOpenDeleteAlert(false)}
         onConform={handleProductDelete}
       />
-      <main className="flex flex-col gap-6 px-10 py-2">
+      <div className="flex flex-col gap-6 px-10 py-2">
         <header className="flex justify-between ">
           <section>
             <h1 className="text-2xl font-bold">
@@ -158,78 +177,48 @@ const ProductForm: React.FC<IproductFormProps> = ({
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="grid grid-cols-3 gap-5">
-              {/* name */}
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>product name</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={loading}
-                        placeholder="name"
-                        {...field}
-                        autoComplete="off"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              ></FormField>
+              <ProductName form={form} />
 
-              {/* price */}
-              <FormField
-                control={form.control}
-                name="price"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Price</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={loading}
-                        placeholder="price"
-                        {...field}
-                        autoComplete="off"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              ></FormField>
+              <ProductPrice form={form} />
 
-              <FormField
-                control={form.control}
-                name="colorId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Color</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      value={field.value}
-                      disabled={loading}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="SelectColor" />
-                        </SelectTrigger>
-                      </FormControl>
+              <ProductCategory categories={categories} form={form} />
 
-                      <SelectContent>
-                        {colors.map((color) => (
-                          <SelectItem value={color.id} key={color.id}>
-                            {color.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                      <FormMessage />
-                    </Select>
-                  </FormItem>
-                )}
-              ></FormField>
+              <IsFeatured form={form} />
+      
+              <IsArchived form={form} />
+              
+              <ProductImage form={form} />
 
-              {/* size */}
-              {/* <FormField
+              <ProductBrand form={form} brands={brands} />
+
+              <ProductColor form={form} colors={colors} />
+
+              <ProductQuantity form={form}  />
+
+              <ProductRating form={form}/>
+
+              <ProductDescription form={form} />
+            </div>
+
+            <Button
+              type="submit"
+              className="w-32 cursor-pointer mt-5 flex gap-2"
+              disabled={loading}
+            >
+              {isInitalValues ? "Save Changes" : "Create"}
+              {loading && <Loader />}
+            </Button>
+          </form>
+        </Form>
+      </div>
+    </>
+  );
+};
+
+export default ProductForm;
+
+   {
+     /* <FormField
                                 control={form.control}
                                 name="sizeId"                            
                                 render = { ({field}) => (
@@ -263,190 +252,5 @@ const ProductForm: React.FC<IproductFormProps> = ({
                                 </FormItem>
                                 )}
                             >
-                            </FormField> */}
-              {/* category */}
-              <FormField
-                control={form.control}
-                name="categoryId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Category</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      value={field.value}
-                      defaultValue={field.value}
-                      disabled={loading}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select category" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {categories.map((category) => (
-                          <SelectItem value={category.id} key={category.id}>
-                            {category.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              ></FormField>
-
-              {/* isfeatured */}
-              <FormField
-                control={form.control}
-                name="isFeatured"
-                render={({ field }) => (
-                  <FormItem className="border p-3">
-                    <FormControl>
-                      <Checkbox
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                        className="mr-4"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                    <FormLabel>isFeatured</FormLabel>
-                    <FormDescription>
-                      Items checked will be shown on the home page
-                    </FormDescription>
-                  </FormItem>
-                )}
-              ></FormField>
-
-              {/* description */}
-              {/* inside field object
-                            {name: 'description', value: Array(0), onChange: ƒ, onBlur: ƒ, ref: ƒ} */}
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Description</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        {...field}
-                        className="h-60"
-                        placeholder="Add points"
-                        // onChange={ (e) => setPoint(e.target.value)  }
-                        autoComplete="off"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              ></FormField>
-
-              {/* Archived */}
-              <FormField
-                control={form.control}
-                name="isArchived"
-                render={({ field }) => (
-                  <FormItem className="border p-3 h-fit">
-                    <FormControl>
-                      <Checkbox
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                        className="mr-4"
-                      />
-                    </FormControl>
-                    <FormLabel>isArchived</FormLabel>
-                    <FormDescription>
-                      Items checked will not be show in the store
-                    </FormDescription>
-                  </FormItem>
-                )}
-              ></FormField>
-
-              <FormField
-                control={form.control}
-                name="ratings"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Add Ratings</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Ratings" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              ></FormField>
-
-              {/* image */}
-              <FormField
-                control={form.control}
-                name="images"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Add Image</FormLabel>
-                    <FormControl>
-                      <ImageUpload
-                        onRemove={(url) =>
-                          field.onChange([
-                            ...field.value.filter(
-                              (currImg) => currImg.url !== url,
-                            ),
-                          ])
-                        }
-                        disabled={loading}
-                        onChange={(url) =>
-                          field.onChange([...field.value, { url }])
-                        }
-                        value={field?.value?.map((image) => image.url)}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              ></FormField>
-
-              {/* Brand */}
-              <FormField
-                name="brandId"
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Brand</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      value={field.value}
-                    >
-                      <SelectTrigger>
-                        <FormControl>
-                          <SelectValue placeholder="Select brand" />
-                        </FormControl>
-                      </SelectTrigger>
-                      <SelectContent>
-                        {brands.map((brand) => (
-                          <SelectItem value={brand.id} key={brand.id}>
-                            {brand.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <Button
-              type="submit"
-              className="w-32 cursor-pointer mt-5 flex gap-2"
-              disabled={loading}
-            >
-              {isInitalValues ? "Save Changes" : "Create"}
-              {loading && <Loader />}
-            </Button>
-          </form>
-        </Form>
-      </main>
-    </>
-  );
-};
-
-export default ProductForm;
+                            </FormField> */
+   }
