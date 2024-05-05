@@ -1,9 +1,9 @@
 "use client";
 import * as z from "zod";
 import axios from "axios";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { Modal } from "@/components/ui/modal";
-import { setDialog } from "@/store/slice";
+import { setDialog } from "@/redux/slice";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {

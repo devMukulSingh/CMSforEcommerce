@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC } from "react";
 import {
   Form,
   FormControl,
@@ -7,12 +7,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import ImageUpload from '@/components/ui/image-upload';
-import { Iform } from '../BillboardForm';
+import ImageUpload from "@/components/ui/image-upload";
+import { Iform } from "../BillboardForm";
 
-const BillboardImage:FC<Iform> = ({
-    loading,form
-}) => {
+const BillboardImage: FC<Iform> = ({ loading, form }) => {
   return (
     <div>
       {" "}
@@ -40,6 +38,6 @@ const BillboardImage:FC<Iform> = ({
       ></FormField>
     </div>
   );
-}
+};
 
-export default BillboardImage
+export default BillboardImage;

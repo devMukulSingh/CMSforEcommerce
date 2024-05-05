@@ -1,10 +1,10 @@
 "use client";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import Menu from "./Menu";
 import { Separator } from "../ui/separator";
-import { setOpenSidebar } from "@/store/slice";
+import { setOpenSidebar } from "@/redux/slice";
 
 const Sibebar = () => {
   const dispatch = useAppDispatch();

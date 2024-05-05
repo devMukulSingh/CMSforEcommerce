@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { store } from "@/store/store";
+import { store } from "@/redux/store";
 import { auth } from "@clerk/nextjs";
 import { NextRequest, NextResponse } from "next/server";
 

@@ -5,7 +5,7 @@ import { Badge, BadgeProps } from "./badge";
 import { Button } from "./button";
 import toast from "react-hot-toast";
 import { useParams } from "next/navigation";
-import { useOrigin } from "@/hooks/useOrigin";
+import { useOrigin } from "@/lib/hooks/useOrigin";
 
 export interface IapiAlertProps {
   title: string;

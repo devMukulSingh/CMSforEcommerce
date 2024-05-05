@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
-import Providers from "@/store/Providers";
-import { ModalProvider } from "@/providers/model-provider";
+import Providers from "@/redux/Providers";
+import { ModalProvider } from "@/lib/providers/model-provider";
 import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "@/components/commons/theme-provider";
 

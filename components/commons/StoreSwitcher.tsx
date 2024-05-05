@@ -18,8 +18,8 @@ import { ChevronsUpDown, PlusCircle, Store as StoreIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import { Button } from "../ui/button";
 import { useState } from "react";
-import { setDialog } from "@/store/slice";
-import { useAppDispatch } from "@/store/hooks";
+import { setDialog } from "@/redux/slice";
+import { useAppDispatch } from "@/redux/hooks";
 import { useRouter } from "next/navigation";
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<
@@ -41,7 +41,7 @@ const StoreSwitcher: React.FC<StoreSwitcherProps> = ({ items }) => {
   }));
 
   const currentStore = formattedItems.find(
-    (item) => item.id === params.storeId,
+    (item) => item.id === params.storeId
   );
 
   const onStoreSelect = (store: { label: string; id: string }) => {

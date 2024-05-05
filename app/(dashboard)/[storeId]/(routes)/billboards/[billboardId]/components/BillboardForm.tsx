@@ -1,8 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { Loader2, TrashIcon } from "lucide-react";
 import * as z from "zod";
@@ -23,14 +21,18 @@ import BillboardImage from "./formFields/BillboardImage";
 export interface IbillboardFormProps {
   initialValues: Billboard | (null & Image[]) | null;
 }
-export interface Iform{
-  form:UseFormReturn<{
-    label: string;
-    images: {
+export interface Iform {
+  form: UseFormReturn<
+    {
+      label: string;
+      images: {
         url: string;
-    }[];
-}, any, undefined>,
-loading?:boolean
+      }[];
+    },
+    any,
+    undefined
+  >;
+  loading?: boolean;
 }
 
 type BillboardFormValues = z.infer<typeof billboardSchema>;

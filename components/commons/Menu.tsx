@@ -1,6 +1,6 @@
 "use client";
-import { useAppDispatch } from "@/store/hooks";
-import { setOpenSidebar } from "@/store/slice";
+import { useAppDispatch } from "@/redux/hooks";
+import { setOpenSidebar } from "@/redux/slice";
 import { MenuIcon } from "lucide-react";
 
 const Menu = () => {

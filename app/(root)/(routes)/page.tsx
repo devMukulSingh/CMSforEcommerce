@@ -1,8 +1,8 @@
 "use client";
 
-import { useAppDispatch } from "@/store/hooks";
+import { useAppDispatch } from "@/redux/hooks";
 import { Button } from "@/components/ui/button";
-import { setDialog } from "@/store/slice";
+import { setDialog } from "@/redux/slice";
 import { StoreModal } from "@/components/modals/StoreModal";
 import { useUser } from "@clerk/nextjs";
 
