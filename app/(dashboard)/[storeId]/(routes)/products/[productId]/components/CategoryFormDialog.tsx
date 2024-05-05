@@ -23,18 +23,20 @@ async function sendRequest(url: string, { arg }: { arg: colorFormValues }) {
 }
 type colorFormValues = z.infer<typeof categorySchema>;
 
-const CategoryFormDialog: React.FC<ICategoryFormDialogProps> = ({ onClose }) => {
+const CategoryFormDialog: React.FC<ICategoryFormDialogProps> = ({
+  onClose,
+}) => {
   const { storeId } = useParams();
   const { isMutating, error, trigger } = useSWRMutation(
     `/api/${storeId}/category`,
-    sendRequest
+    sendRequest,
   );
   const router = useRouter();
   const form = useForm<colorFormValues>({
     resolver: zodResolver(categorySchema),
     defaultValues: {
       name: "",
-      billboardId : "",
+      billboardId: "",
     },
   });
   const onSubmit = async (data: colorFormValues) => {

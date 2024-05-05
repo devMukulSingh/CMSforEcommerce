@@ -14,23 +14,27 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import useSwr from "swr"
+import useSwr from "swr";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import { Billboard } from "@prisma/client";
 import Loader from "@/components/commons/Loader";
 
-const fetcher = ( (url:string) => axios.get(url).then( res => res.data))
+const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 const Billboards: FC<Iform> = ({ form, loading, billboards }) => {
   const { storeId } = useParams();
-  const { data,error,isLoading, } = useSwr(`/api/${storeId}/billboard`,fetcher,{
-    revalidateIfStale:false,
-    revalidateOnFocus:false,
-    revalidateOnReconnect:false
-  });
-  if(error) console.log("Error in get billboards",error);
-  
+  const { data, error, isLoading } = useSwr(
+    `/api/${storeId}/billboard`,
+    fetcher,
+    {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    },
+  );
+  if (error) console.log("Error in get billboards", error);
+
   return (
     <FormField
       control={form.control}
@@ -45,14 +49,12 @@ const Billboards: FC<Iform> = ({ form, loading, billboards }) => {
             defaultValue={field.value}
           >
             <FormControl>
-              <SelectTrigger
-                disabled={isLoading}
-              >
-                {
-                  isLoading ? <Loader/> :
-                  <SelectValue
-                  placeholder="Select Billboard" />
-                }
+              <SelectTrigger disabled={isLoading}>
+                {isLoading ? (
+                  <Loader />
+                ) : (
+                  <SelectValue placeholder="Select Billboard" />
+                )}
               </SelectTrigger>
             </FormControl>
             <FormMessage />

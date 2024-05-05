@@ -1,7 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import {
-  Form,} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { TrashIcon } from "lucide-react";
 import * as z from "zod";
@@ -30,7 +29,7 @@ import ProductRating from "./formFields/ProductRating";
 export interface IinitialValues {
   name: string | undefined;
   price: number | undefined;
-  quantity:number | undefined
+  quantity: number | undefined;
   categoryId: string | undefined;
   colorId: string | undefined;
   images: Image[] | undefined;
@@ -63,7 +62,7 @@ export interface Iform {
       description?: string | undefined;
       isFeatured?: boolean | undefined;
       isArchived?: boolean | undefined;
-      quantity: number 
+      quantity: number;
     },
     any,
     undefined
@@ -107,7 +106,7 @@ const ProductForm: React.FC<IproductFormProps> = ({
           isArchived: false,
           ratings: 0.0,
           brandId: "",
-          quantity:1,
+          quantity: 1,
         },
   });
   const onSubmit = async (data: productFormValues) => {
@@ -184,18 +183,18 @@ const ProductForm: React.FC<IproductFormProps> = ({
               <ProductCategory categories={categories} form={form} />
 
               <IsFeatured form={form} />
-      
+
               <IsArchived form={form} />
-              
+
               <ProductImage form={form} />
 
               <ProductBrand form={form} brands={brands} />
 
               <ProductColor form={form} colors={colors} />
 
-              <ProductQuantity form={form}  />
+              <ProductQuantity form={form} />
 
-              <ProductRating form={form}/>
+              <ProductRating form={form} />
 
               <ProductDescription form={form} />
             </div>
@@ -217,8 +216,8 @@ const ProductForm: React.FC<IproductFormProps> = ({
 
 export default ProductForm;
 
-   {
-     /* <FormField
+{
+  /* <FormField
                                 control={form.control}
                                 name="sizeId"                            
                                 render = { ({field}) => (
@@ -253,4 +252,4 @@ export default ProductForm;
                                 )}
                             >
                             </FormField> */
-   }
+}

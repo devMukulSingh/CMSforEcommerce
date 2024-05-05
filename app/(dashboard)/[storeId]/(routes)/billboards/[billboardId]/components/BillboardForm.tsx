@@ -2,14 +2,8 @@
 import { Button } from "@/components/ui/button";
 import {
   Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
+import { useForm, UseFormReturn } from "react-hook-form";
 import { Loader2, TrashIcon } from "lucide-react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,12 +15,22 @@ import { useParams } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { AlertModal } from "@/components/modals/AlertModal";
-import ImageUpload from "@/components/ui/image-upload";
 import Loader from "@/components/commons/Loader";
 import { billboardSchema } from "@/lib/formSchemas";
+import BillboardName from "./formFields/BillboardName";
+import BillboardImage from "./formFields/BillboardImage";
 
 export interface IbillboardFormProps {
   initialValues: Billboard | (null & Image[]) | null;
+}
+export interface Iform{
+  form:UseFormReturn<{
+    label: string;
+    images: {
+        url: string;
+    }[];
+}, any, undefined>,
+loading?:boolean
 }
 
 type BillboardFormValues = z.infer<typeof billboardSchema>;
@@ -115,48 +119,8 @@ const BillboardForm: React.FC<IbillboardFormProps> = ({ initialValues }) => {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <div className="flex gap-4 flex-col">
-                <FormField
-                  control={form.control}
-                  name="images"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Add Image</FormLabel>
-                      <FormControl>
-                        <ImageUpload
-                          onRemove={(url) =>
-                            field.onChange([
-                              ...field.value.filter((img) => img.url !== url),
-                            ])
-                          }
-                          disabled={loading}
-                          onChange={(url) =>
-                            field.onChange([...field.value, { url }])
-                          }
-                          value={field?.value?.map((img) => img.url)}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                ></FormField>
-
-                <FormField
-                  control={form.control}
-                  name="label"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Billboard name</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="name"
-                          {...field}
-                          disabled={loading}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                ></FormField>
+                <BillboardName form={form} loading={loading} />
+                <BillboardImage form={form} loading={loading} />
 
                 <Button
                   type="submit"

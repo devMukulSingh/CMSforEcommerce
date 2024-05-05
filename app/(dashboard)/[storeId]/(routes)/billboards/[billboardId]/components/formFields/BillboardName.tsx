@@ -1,35 +1,31 @@
 import React, { FC } from "react";
 import {
+  Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Iform } from "../CategoryForm";
-
+import { Iform } from "../BillboardForm";
 import { Input } from "@/components/ui/input";
-const CategoryName: FC<Iform> = ({ form, loading }) => {
+
+const BillboardName: FC<Iform> = ({ loading, form }) => {
   return (
     <FormField
       control={form.control}
-      name="name"
+      name="label"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Category Name</FormLabel>
+          <FormLabel>Billboard name</FormLabel>
           <FormControl>
-            <Input
-              disabled={loading}
-              placeholder="name"
-              {...field}
-              autoComplete="off"
-            />
+            <Input placeholder="name" {...field} disabled={loading} />
           </FormControl>
           <FormMessage />
         </FormItem>
       )}
-    ></FormField>
+    />
   );
 };
 
-export default CategoryName;
+export default BillboardName;

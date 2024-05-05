@@ -5,13 +5,12 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormDescription
+  FormDescription,
 } from "@/components/ui/form";
 
 import { Checkbox } from "@/components/ui/checkbox";
 
-const IsArchived: FC<Iform> = ({ form, loading}) => {
-
+const IsArchived: FC<Iform> = ({ form, loading }) => {
   return (
     <>
       <FormField
@@ -32,7 +31,7 @@ const IsArchived: FC<Iform> = ({ form, loading}) => {
             </FormDescription>
           </FormItem>
         )}
-        />
+      />
     </>
   );
 };

@@ -27,7 +27,7 @@ const ProductCategory: FC<Iform> = ({ form, loading, categories }) => {
   };
   return (
     <>
-      <AddCategoryModal isOpen={isOpen} onClose={handleOnClose}/>
+      <AddCategoryModal isOpen={isOpen} onClose={handleOnClose} />
       <FormField
         control={form.control}
         name="categoryId"

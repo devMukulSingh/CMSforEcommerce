@@ -37,7 +37,7 @@ const BrandFormDialog: React.FC<BrandFormDialogProps> = ({ onClose }) => {
   const { storeId } = useParams();
   const { isMutating, error, trigger } = useSWRMutation(
     `/api/${storeId}/brand`,
-    sendRequest
+    sendRequest,
   );
   const router = useRouter();
 

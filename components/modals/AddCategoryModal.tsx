@@ -1,10 +1,10 @@
-import CategoryFormDialog from '@/app/(dashboard)/[storeId]/(routes)/products/[productId]/components/CategoryFormDialog';
-import React, { FC } from 'react'
-import { Modal } from '../ui/modal';
+import CategoryFormDialog from "@/app/(dashboard)/[storeId]/(routes)/products/[productId]/components/CategoryFormDialog";
+import React, { FC } from "react";
+import { Modal } from "../ui/modal";
 
-interface AddCategoryModalProps{
-    isOpen:boolean,
-    onClose : () => void
+interface AddCategoryModalProps {
+  isOpen: boolean;
+  onClose: () => void;
 }
 
 const AddCategoryModal: FC<AddCategoryModalProps> = ({ isOpen, onClose }) => {
@@ -22,4 +22,4 @@ const AddCategoryModal: FC<AddCategoryModalProps> = ({ isOpen, onClose }) => {
   );
 };
 
-export default AddCategoryModal
+export default AddCategoryModal;

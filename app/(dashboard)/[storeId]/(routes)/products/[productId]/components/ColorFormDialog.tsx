@@ -31,7 +31,7 @@ const ColorFormDialog: React.FC<IcolorFormDialogProps> = ({ onClose }) => {
   const { storeId } = useParams();
   const { isMutating, error, trigger } = useSWRMutation(
     `/api/${storeId}/color`,
-    sendRequest
+    sendRequest,
   );
   const router = useRouter();
   const form = useForm<colorFormValues>({

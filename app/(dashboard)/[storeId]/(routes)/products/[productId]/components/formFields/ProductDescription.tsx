@@ -10,7 +10,6 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 
 const ProductDescription: FC<Iform> = ({ form, loading, brands }) => {
-
   return (
     <>
       <FormField

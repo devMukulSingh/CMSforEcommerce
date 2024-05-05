@@ -41,7 +41,7 @@ const SingleProductPage = async ({
   const formattedProducts = {
     name: product?.name,
     price: product?.price,
-    quantity:product?.quantity,
+    quantity: product?.quantity,
     images: product?.images,
     categoryId: product?.categoryId,
     colorId: product?.colorId,

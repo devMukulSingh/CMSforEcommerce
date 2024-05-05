@@ -18,7 +18,7 @@ export type ProductColumn = {
   createdAt: string;
   ratings: Decimal | null;
   brand: string;
-  quantity:number;
+  quantity: number;
 };
 
 export const columns: ColumnDef<ProductColumn>[] = [

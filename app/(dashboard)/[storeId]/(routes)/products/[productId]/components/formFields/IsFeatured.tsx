@@ -1,4 +1,4 @@
-import React, { FC, } from "react";
+import React, { FC } from "react";
 import { Iform } from "../ProductForm";
 import {
   FormControl,
@@ -10,9 +10,7 @@ import {
 } from "@/components/ui/form";
 import { Checkbox } from "@/components/ui/checkbox";
 
-
 const IsFeatured: FC<Iform> = ({ form, loading }) => {
-
   return (
     <>
       <FormField

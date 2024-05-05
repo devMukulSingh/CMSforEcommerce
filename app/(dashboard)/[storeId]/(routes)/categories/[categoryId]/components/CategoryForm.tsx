@@ -1,10 +1,8 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { useForm, UseFormReturn } from "react-hook-form";
- 
+
 import { TrashIcon } from "lucide-react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -31,7 +29,7 @@ export interface Iform {
     undefined
   >;
   loading: boolean;
-  billboards?:Billboard[]
+  billboards?: Billboard[];
 }
 
 interface IcategoryFormProps {
@@ -128,7 +126,11 @@ const CategoryForm: React.FC<IcategoryFormProps> = ({
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="flex gap-4 flex-col">
               <CategoryName form={form} loading={loading} />
-              <Billboards form={form} loading={loading}  billboards={billboards}/>
+              <Billboards
+                form={form}
+                loading={loading}
+                billboards={billboards}
+              />
 
               <Button
                 type="submit"

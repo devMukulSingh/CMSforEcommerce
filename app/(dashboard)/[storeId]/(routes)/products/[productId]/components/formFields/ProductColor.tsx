@@ -18,7 +18,6 @@ import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import AddColorModal from "@/components/modals/AddColorModal";
 
-
 const ProductColor: FC<Iform> = ({ form, loading, colors }) => {
   const [isOpen, setIsOpen] = useState(false);
   const handleOnClose = () => {

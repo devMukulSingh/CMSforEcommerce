@@ -10,8 +10,7 @@ import {
 
 import { Input } from "@/components/ui/input";
 
-const ProductRating: FC<Iform> = ({ form}) => {
-
+const ProductRating: FC<Iform> = ({ form }) => {
   return (
     <>
       <FormField

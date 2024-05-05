@@ -22,7 +22,7 @@ export async function POST(
       description,
       ratings,
       brandId,
-      quantity
+      quantity,
     } = body;
     const { storeId } = params;
 
