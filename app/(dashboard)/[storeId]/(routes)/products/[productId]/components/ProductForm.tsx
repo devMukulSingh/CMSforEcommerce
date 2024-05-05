@@ -33,6 +33,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import Loader from "@/components/commons/Loader";
+import { productSchema } from "@/lib/formSchemas";
 export interface IinitialValues {
   name: string | undefined;
   price: number | undefined;
@@ -53,52 +54,8 @@ interface IproductFormProps {
   brands: Brand[];
 }
 
-const formSchema = z.object({
-  name: z
-    .string()
-    .trim()
-    .min(1, {
-      message: "Product name is required",
-    })
-    .max(400, {
-      message: "Max 400 charaters allowed",
-    }),
-  price: z.coerce.number().positive().min(1, {
-    message: "Price is required",
-  }),
-  images: z
-    .object({
-      url: z.string().min(1, {
-        message: "Product image is required",
-      }),
-    })
-    .array(),
-  categoryId: z.string().min(1, {
-    message: "Category is required",
-  }),
-  colorId: z.string().min(1, {
-    message: "Product color is required",
-  }),
-  sizeId: z.string().trim().optional(),
-  brandId: z.string().min(1, {
-    message: "Brand is required",
-  }),
-  description: z
-    .string()
-    .trim()
-    .max(2000, {
-      message: "max 2000 characters allowed",
-    })
-    .optional(),
-  isFeatured: z.boolean().default(false).optional(),
-  isArchived: z.boolean().default(false).optional(),
-  ratings: z.coerce
-    .number()
-    .positive()
-    .min(1, "Enter between 1 and 5")
-    .max(5, "Enter between 1 and 5"),
-});
-type productFormValues = z.infer<typeof formSchema>;
+
+type productFormValues = z.infer<typeof productSchema>;
 
 const ProductForm: React.FC<IproductFormProps> = ({
   initialValues,
@@ -114,7 +71,7 @@ const ProductForm: React.FC<IproductFormProps> = ({
   const isInitalValues = Object.keys(initialValues).length > 0;
 
   const form = useForm<productFormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(productSchema),
     defaultValues: isInitalValues
       ? {
           ...initialValues,

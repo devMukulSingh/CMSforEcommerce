@@ -22,20 +22,14 @@ import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { AlertModal } from "@/components/modals/AlertModal";
 import Loader from "@/components/commons/Loader";
+import { sizeSchema } from "@/lib/formSchemas";
 
 interface IclientFormProps {
   initialValues: Size | null;
 }
 
-const formSchema = z.object({
-  name: z.string().trim().min(1, {
-    message: "Name is required",
-  }),
-  value: z.string().min(1, {
-    message: "Size value is required",
-  }),
-});
-type ClientFormValues = z.infer<typeof formSchema>;
+
+type ClientFormValues = z.infer<typeof sizeSchema>;
 
 const SizeForm: React.FC<IclientFormProps> = ({ initialValues }) => {
   const [openDeleteAlert, setOpenDeleteAlert] = useState<boolean>(false);
@@ -45,7 +39,7 @@ const SizeForm: React.FC<IclientFormProps> = ({ initialValues }) => {
   const [loading, setLoading] = useState(false);
 
   const form = useForm<ClientFormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(sizeSchema),
     defaultValues: initialValues || {
       name: "",
       value: "",

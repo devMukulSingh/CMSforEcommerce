@@ -22,17 +22,14 @@ import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { AlertModal } from "@/components/modals/AlertModal";
 import Loader from "@/components/commons/Loader";
+import { brandSchema } from "@/lib/formSchemas";
 
 interface IclientFormProps {
   initialValues: Brand | null;
 }
 
-const formSchema = z.object({
-  name: z.string().trim().min(1, {
-    message: "Brand name is required",
-  }),
-});
-type ClientFormValues = z.infer<typeof formSchema>;
+
+type ClientFormValues = z.infer<typeof brandSchema>;
 
 const BrandForm: React.FC<IclientFormProps> = ({ initialValues }) => {
   const [openDeleteAlert, setOpenDeleteAlert] = useState<boolean>(false);
@@ -42,7 +39,7 @@ const BrandForm: React.FC<IclientFormProps> = ({ initialValues }) => {
   const [loading, setLoading] = useState(false);
 
   const form = useForm<ClientFormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(brandSchema),
     defaultValues: initialValues || {
       name: "",
     },

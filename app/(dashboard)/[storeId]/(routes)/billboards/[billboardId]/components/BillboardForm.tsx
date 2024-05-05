@@ -23,24 +23,13 @@ import { useRouter } from "next/navigation";
 import { AlertModal } from "@/components/modals/AlertModal";
 import ImageUpload from "@/components/ui/image-upload";
 import Loader from "@/components/commons/Loader";
+import { billboardSchema } from "@/lib/formSchemas"
 
 export interface IbillboardFormProps {
   initialValues: Billboard | (null & Image[]) | null;
 }
 
-const formSchema = z.object({
-  label: z.string().trim().min(1, {
-    message: "Billboard name is required",
-  }),
-  images: z
-    .object({
-      url: z.string().min(1, {
-        message: "Image is required",
-      }),
-    })
-    .array(),
-});
-type BillboardFormValues = z.infer<typeof formSchema>;
+type BillboardFormValues = z.infer<typeof billboardSchema>;
 
 const BillboardForm: React.FC<IbillboardFormProps> = ({ initialValues }) => {
   const [openDeleteAlert, setOpenDeleteAlert] = useState<boolean>(false);
@@ -50,7 +39,7 @@ const BillboardForm: React.FC<IbillboardFormProps> = ({ initialValues }) => {
   const [loading, setLoading] = useState(false);
 
   const form = useForm<BillboardFormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(billboardSchema),
     defaultValues: initialValues || {
       label: "",
       images: [],

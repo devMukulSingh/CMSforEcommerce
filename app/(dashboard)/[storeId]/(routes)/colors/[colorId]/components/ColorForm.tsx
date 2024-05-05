@@ -22,20 +22,13 @@ import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { AlertModal } from "@/components/modals/AlertModal";
 import Loader from "@/components/commons/Loader";
+import { colorSchema } from "@/lib/formSchemas";
 
 interface IcolorFormProps {
   initialValues: Color | null;
 }
 
-const formSchema = z.object({
-  value: z.string().trim().min(1, {
-    message: "Color value is required",
-  }),
-  name: z.string().trim().min(1, {
-    message: "Color name is required",
-  }),
-});
-type colorFormValues = z.infer<typeof formSchema>;
+type colorFormValues = z.infer<typeof colorSchema>;
 
 const ColorForm: React.FC<IcolorFormProps> = ({ initialValues }) => {
   const [openDeleteAlert, setOpenDeleteAlert] = useState<boolean>(false);
@@ -45,7 +38,7 @@ const ColorForm: React.FC<IcolorFormProps> = ({ initialValues }) => {
   const [loading, setLoading] = useState(false);
 
   const form = useForm<colorFormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(colorSchema),
     defaultValues: initialValues || {
       name: "",
       value: "",

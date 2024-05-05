@@ -26,11 +26,11 @@ export async function POST(
         { error: "ProductIds is required" },
         { status: 400 },
       );
-      if(!storeId || storeId ==="")
-        return NextResponse.json(
-          { error: "storeId is required" },
-          { status: 400 },
-        );
+    if (!storeId || storeId === "")
+      return NextResponse.json(
+        { error: "storeId is required" },
+        { status: 400 },
+      );
 
     const products = await prisma.product.findMany({
       where: {
@@ -70,11 +70,12 @@ export async function POST(
         },
       },
     });
-    
+
     const session = await stripe.checkout.sessions.create({
       line_items,
       mode: "payment",
       billing_address_collection: "required",
+      
       phone_number_collection: {
         enabled: true,
       },
@@ -84,8 +85,11 @@ export async function POST(
         orderId: order.id,
       },
     });
-    
-    return NextResponse.json({ url: session.url, session }, { headers: corsHeader });
+
+    return NextResponse.json(
+      { url: session.url, session },
+      { headers: corsHeader },
+    );
   } catch (e) {
     console.log(`Error in POST checkout req ${e}`);
     return NextResponse.json(e, { status: 500 });

@@ -29,21 +29,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Loader from "@/components/commons/Loader";
+import { categorySchema } from "@/lib/formSchemas";
 
 interface IcategoryFormProps {
   initialValues: Category | null;
   billboards: Billboard[];
 }
 
-const formSchema = z.object({
-  name: z.string().trim().min(1, {
-    message: "Category name is required",
-  }),
-  billboardId: z.string().min(1, {
-    message: "Billboard is required",
-  }),
-});
-type CategoryFormValues = z.infer<typeof formSchema>;
+
+type CategoryFormValues = z.infer<typeof categorySchema>;
 
 const CategoryForm: React.FC<IcategoryFormProps> = ({
   initialValues,
@@ -55,7 +49,7 @@ const CategoryForm: React.FC<IcategoryFormProps> = ({
   const [loading, setLoading] = useState(false);
 
   const form = useForm<CategoryFormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(categorySchema),
     defaultValues: initialValues || {
       name: "",
       billboardId: "",
