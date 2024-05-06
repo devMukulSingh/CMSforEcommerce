@@ -6,9 +6,10 @@ import { useParams, useRouter } from "next/navigation";
 import { Brand } from "@prisma/client";
 import { FC, useEffect } from "react";
 import Link from "next/link";
+import { BrandColumn } from "@/components/ui/BrandColumn";
 
 interface HeaderProps {
-  brand: Brand[];
+  brand: BrandColumn[];
 }
 
 const Header: FC<HeaderProps> = ({ brand }) => {

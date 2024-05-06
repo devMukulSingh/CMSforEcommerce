@@ -5,9 +5,10 @@ import { Button } from "@/components/ui/button";
 import { useParams, useRouter } from "next/navigation";
 import { Billboard } from "@prisma/client";
 import Link from "next/link";
+import { BillboardColumn } from "@/components/ui/BillboardColumn";
 
 interface HeaderProps {
-  billboard: Billboard[];
+  billboard: BillboardColumn[];
 }
 
 const Header: FC<HeaderProps> = ({ billboard }) => {

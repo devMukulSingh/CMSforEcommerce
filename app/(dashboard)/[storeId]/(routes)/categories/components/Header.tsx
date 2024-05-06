@@ -4,9 +4,10 @@ import { PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Category } from "@prisma/client";
 import { useParams, useRouter } from "next/navigation";
+import { CategoryColumn } from "@/components/ui/CategoryColumn";
 
 interface HeaderProps {
-  categories: Category[];
+  categories: CategoryColumn[];
 }
 
 const Header: FC<HeaderProps> = ({ categories }) => {

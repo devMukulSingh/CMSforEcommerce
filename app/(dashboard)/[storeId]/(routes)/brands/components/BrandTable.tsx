@@ -1,26 +1,16 @@
 import React, { FC } from "react";
 import Header from "./Header";
-import { BrandColumn, columns } from "@/components/ui/BrandColumn";
-import { prisma } from "@/lib/prisma";
-import { format } from "date-fns";
+import {  columns } from "@/components/ui/BrandColumn";
 import { DataTable } from "@/components/commons/DataTable";
 import { BrandClientCompProps } from "./BrandClientComp";
+import { getBrands } from "@/actions/get-brands";
 
 const BrandTable: FC<BrandClientCompProps> = async ({ storeId }) => {
-  const brands = await prisma.brand.findMany({
-    where: {
-      storeId: storeId,
-    },
-  });
-  const formattedbrands: BrandColumn[] = brands.map((item) => ({
-    id: item.id,
-    name: item.name,
-    createdAt: format(item.createdAt, "MMMM do, yyyy"),
-  }));
+  const brands = await getBrands(storeId)
   return (
     <>
       <Header brand={brands} />
-      <DataTable columns={columns} data={formattedbrands} />
+      <DataTable columns={columns} data={brands} />
     </>
   );
 };

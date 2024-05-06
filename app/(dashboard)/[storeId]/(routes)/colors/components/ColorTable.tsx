@@ -5,23 +5,14 @@ import { ColorColumn, columns } from "@/components/ui/ColorColumn";
 import { prisma } from "@/lib/prisma";
 import { format } from "date-fns";
 import { ColorClientProps } from "./ColorClientComp";
+import { getColors } from "@/actions/get-colors";
 
 const ColorTable: FC<ColorClientProps> = async ({ storeId }) => {
-  const colors = await prisma.color.findMany({
-    where: {
-      storeId: storeId,
-    },
-  });
-  const formattedcolors: ColorColumn[] = colors.map((item) => ({
-    id: item.id,
-    value: item.value,
-    name: item.name,
-    createdAt: format(item.createdAt, "MMMM do, yyyy"),
-  }));
+  const colors = await getColors(storeId);
   return (
     <>
       <Header colors={colors} />
-      <DataTable columns={columns} data={formattedcolors} />
+      <DataTable columns={columns} data={colors} />
     </>
   );
 };

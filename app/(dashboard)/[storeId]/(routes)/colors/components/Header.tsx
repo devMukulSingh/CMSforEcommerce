@@ -5,9 +5,10 @@ import { Button } from "@/components/ui/button";
 import { useParams, useRouter } from "next/navigation";
 import { Color } from "@prisma/client";
 import Link from "next/link";
+import { ColorColumn } from "@/components/ui/ColorColumn";
 
 interface HeaderProps {
-  colors: Color[];
+  colors: ColorColumn[];
 }
 
 const Header: FC<HeaderProps> = ({ colors }) => {

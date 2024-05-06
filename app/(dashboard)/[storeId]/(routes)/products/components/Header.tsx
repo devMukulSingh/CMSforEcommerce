@@ -5,9 +5,10 @@ import { Button } from "@/components/ui/button";
 import { useParams, useRouter } from "next/navigation";
 import { Product } from "@prisma/client";
 import Link from "next/link";
+import { ProductColumn } from "@/components/ui/ProductColumn";
 
 interface HeaderProps {
-  products: Product[];
+  products: ProductColumn[];
 }
 
 const Header: FC<HeaderProps> = ({ products }) => {

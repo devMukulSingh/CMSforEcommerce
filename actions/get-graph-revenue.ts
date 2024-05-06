@@ -1,11 +1,12 @@
 import { prisma } from "@/lib/prisma";
+import { cache } from "react";
 
 export interface IgraphData {
   name: string;
   total: number;
 }
 
-export const getGraphRevenue = async (storeId: string) => {
+export const getGraphRevenue = cache(async (storeId: string) => {
   try {
     const orders = await prisma.order.findMany({
       where: {
@@ -61,4 +62,4 @@ export const getGraphRevenue = async (storeId: string) => {
     console.log(`Error in getGraphRevenue ${e}`);
     return [];
   }
-};
+});

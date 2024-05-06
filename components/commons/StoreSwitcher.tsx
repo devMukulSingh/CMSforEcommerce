@@ -41,7 +41,7 @@ const StoreSwitcher: React.FC<StoreSwitcherProps> = ({ items }) => {
   }));
 
   const currentStore = formattedItems.find(
-    (item) => item.id === params.storeId
+    (item) => item.id === params.storeId,
   );
 
   const onStoreSelect = (store: { label: string; id: string }) => {
