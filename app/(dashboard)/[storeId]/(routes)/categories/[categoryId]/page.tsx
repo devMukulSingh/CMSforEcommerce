@@ -7,17 +7,20 @@ const SingleBillBoardPage = async ({
   params: { storeId: string; categoryId: string };
 }) => {
   const { categoryId, storeId } = params;
-
-  const category = await prisma.category.findUnique({
-    where: {
-      id: categoryId,
-    },
-  });
-  const billboards = await prisma.billboard.findMany({
-    where: {
-      storeId,
-    },
-  });
+  
+  let category = null;
+  if(categoryId!=='new')
+    category = await prisma.category.findUnique({
+      where: {
+        id: categoryId,
+      },
+    });
+    
+    const billboards = await prisma.billboard.findMany({
+      where: {
+        storeId,
+      },
+    });
 
   return (
     <>

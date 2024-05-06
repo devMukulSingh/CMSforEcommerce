@@ -1,4 +1,5 @@
 "use client";
+import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useForm, UseFormReturn } from "react-hook-form";
@@ -6,7 +7,7 @@ import { TrashIcon } from "lucide-react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Brand, Category, Color, Image, Product, Size } from "@prisma/client";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import axios from "axios";
 import { useParams } from "next/navigation";
@@ -17,15 +18,16 @@ import Loader from "@/components/commons/Loader";
 import { productSchema } from "@/lib/formSchemas";
 import ProductName from "./formFields/ProductName";
 import ProductPrice from "./formFields/ProductPrice";
-import ProductCategory from "./formFields/ProductCategory";
 import IsFeatured from "./formFields/IsFeatured";
 import ProductDescription from "./formFields/ProductDescription";
 import IsArchived from "./formFields/IsArchived";
 import ProductImage from "./formFields/ProductImage";
-import ProductBrand from "./formFields/ProductBrand";
-import ProductColor from "./formFields/ProductColor";
 import ProductQuantity from "./formFields/ProductQuantity";
 import ProductRating from "./formFields/ProductRating";
+const ProductCategory = dynamic( () => import("./formFields/ProductCategory"))
+const ProductBrand = dynamic( () => import("./formFields/ProductBrand"))
+const ProductColor = dynamic(() => import("./formFields/ProductColor"))
+
 export interface IinitialValues {
   name: string | undefined;
   price: number | undefined;
@@ -39,57 +41,31 @@ export interface IinitialValues {
   description: string | undefined;
   ratings: number | undefined;
 }
+type productFormValues = z.infer<typeof productSchema>;
+
 interface IproductFormProps {
   initialValues: IinitialValues;
-  categories: Category[];
-  colors: Color[];
-  sizes: Size[];
-  brands: Brand[];
 }
 export interface Iform {
-  form: UseFormReturn<
-    {
-      name: string;
-      price: number;
-      colorId: string;
-      brandId: string;
-      images: {
-        url: string;
-      }[];
-      categoryId: string;
-      ratings: number;
-      sizeId?: string | undefined;
-      description?: string | undefined;
-      isFeatured?: boolean | undefined;
-      isArchived?: boolean | undefined;
-      quantity: number;
-    },
-    any,
-    undefined
-  >;
+  form: UseFormReturn<productFormValues, any, undefined>;
   loading?: boolean;
   colors?: Color[];
   brands?: Brand[];
   categories?: Category[];
 }
-type productFormValues = z.infer<typeof productSchema>;
 
 const ProductForm: React.FC<IproductFormProps> = ({
   initialValues,
-  categories,
-  colors,
-  brands,
 }) => {
   const [openDeleteAlert, setOpenDeleteAlert] = useState<boolean>(false);
   const params = useParams();
   const router = useRouter();
   const { storeId, productId } = params;
   const [loading, setLoading] = useState(false);
-  const isInitalValues = Object.keys(initialValues).length > 0;
 
   const form = useForm<productFormValues>({
     resolver: zodResolver(productSchema),
-    defaultValues: isInitalValues
+    defaultValues: initialValues
       ? {
           ...initialValues,
           ratings: parseFloat(String(initialValues?.ratings)),
@@ -112,7 +88,7 @@ const ProductForm: React.FC<IproductFormProps> = ({
   const onSubmit = async (data: productFormValues) => {
     try {
       setLoading(true);
-      if (isInitalValues) {
+      if (initialValues) {
         await axios.patch(`/api/${storeId}/product/${productId}`, data);
         toast.success("product updated");
         router.push(`/${storeId}/products`);
@@ -157,12 +133,12 @@ const ProductForm: React.FC<IproductFormProps> = ({
         <header className="flex justify-between ">
           <section>
             <h1 className="text-2xl font-bold">
-              {isInitalValues ? `Edit product` : `Create product`}
+              {initialValues ? `Edit product` : `Create product`}
             </h1>
             <p className="text-sm">Manage Product Preferences</p>
           </section>
           <Button
-            className={`${Object.keys(initialValues).length === 0 ? "hidden" : ""}`}
+            className={` ${!initialValues ? "hidden" : ""}` }
             onClick={() => setOpenDeleteAlert(true)}
             disabled={loading}
             variant="destructive"
@@ -180,7 +156,7 @@ const ProductForm: React.FC<IproductFormProps> = ({
 
               <ProductPrice form={form} />
 
-              <ProductCategory categories={categories} form={form} />
+              <ProductCategory  form={form} />
 
               <IsFeatured form={form} />
 
@@ -188,9 +164,9 @@ const ProductForm: React.FC<IproductFormProps> = ({
 
               <ProductImage form={form} />
 
-              <ProductBrand form={form} brands={brands} />
+              <ProductBrand form={form}  />
 
-              <ProductColor form={form} colors={colors} />
+              <ProductColor form={form} />
 
               <ProductQuantity form={form} />
 
@@ -204,7 +180,7 @@ const ProductForm: React.FC<IproductFormProps> = ({
               className="w-32 cursor-pointer mt-5 flex gap-2"
               disabled={loading}
             >
-              {isInitalValues ? "Save Changes" : "Create"}
+              {initialValues ? "Save Changes" : "Create"}
               {loading && <Loader />}
             </Button>
           </form>

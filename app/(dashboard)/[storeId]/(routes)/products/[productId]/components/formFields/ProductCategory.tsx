@@ -16,15 +16,31 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
-import { Modal } from "@/components/ui/modal";
-import CategoryFormDialog from "../CategoryFormDialog";
 import AddCategoryModal from "@/components/modals/AddCategoryModal";
+import useSWR from "swr";
+import { useParams } from "next/navigation";
+import { fetcher } from "@/lib/utils";
+import { Category } from "@prisma/client";
+import Loader from "@/components/commons/Loader";
 
-const ProductCategory: FC<Iform> = ({ form, loading, categories }) => {
+
+const ProductCategory: FC<Iform> = ({ form, loading }) => {
+  const  { storeId } = useParams();
   const [isOpen, setIsOpen] = useState(false);
   const handleOnClose = () => {
     setIsOpen(false);
   };
+  const { data, error, isLoading } = useSWR(
+    `/api/${storeId}/category`,
+    fetcher,
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      revalidateIfStale: false,
+    }
+  );
+  if(error) console.log(`Error in getCategories`,error);
+  
   return (
     <>
       <AddCategoryModal isOpen={isOpen} onClose={handleOnClose} />
@@ -38,15 +54,18 @@ const ProductCategory: FC<Iform> = ({ form, loading, categories }) => {
               onValueChange={field.onChange}
               value={field.value}
               defaultValue={field.value}
-              disabled={loading}
+              disabled={loading || isLoading}
             >
               <FormControl>
                 <SelectTrigger>
+                  {
+                  isLoading ? <Loader/>:
                   <SelectValue placeholder="Select category" />
+                }
                 </SelectTrigger>
               </FormControl>
               <SelectContent>
-                {categories?.map((category) => (
+                {data?.map((category: Category) => (
                   <SelectItem value={category.id} key={category.id}>
                     {category.name}
                   </SelectItem>

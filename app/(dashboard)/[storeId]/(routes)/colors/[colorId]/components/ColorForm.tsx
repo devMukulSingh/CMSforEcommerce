@@ -14,9 +14,10 @@ import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { AlertModal } from "@/components/modals/AlertModal";
 import Loader from "@/components/commons/Loader";
-import ColorName from "./formFields/ColorName";
-import ColorValue from "./formFields/ColorValue";
 import { colorSchema } from "@/lib/formSchemas";
+import dynamic from "next/dynamic";
+const  ColorValue = dynamic( () => import ("./formFields/ColorValue"))
+const ColorName = dynamic( () => import("./formFields/ColorName"))
 
 interface IcolorFormProps {
   initialValues: Color | null;

@@ -1,9 +1,7 @@
 import React, { FC, useState } from "react";
 import { Iform } from "../ProductForm";
 import {
-  Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -17,15 +15,31 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { Plus, PlusCircle } from "lucide-react";
 import AddBrandModal from "@/components/modals/AddBrandModal";
+import { useParams } from "next/navigation";
+import useSWR from "swr";
+import { Brand } from "@prisma/client";
+import Loader from "@/components/commons/Loader";
+import { fetcher } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
-const ProductBrand: FC<Iform> = ({ form, loading, brands }) => {
+const ProductBrand: FC<Iform> = ({ form, loading }) => {
+  const { storeId } = useParams();
   const [isOpen, setIsOpen] = useState(false);
   const handleOnClose = () => {
     setIsOpen(false);
   };
+    const { data, error, isLoading } = useSWR(
+      `/api/${storeId}/brand`,
+      fetcher,
+      {
+        revalidateOnFocus:false,
+        revalidateOnReconnect:false,
+        revalidateIfStale:false,
+      }
+    );
+    if (error) console.log(`Error in getCategories`, error);
   return (
     <>
       <AddBrandModal isOpen={isOpen} onClose={handleOnClose} />
@@ -36,18 +50,21 @@ const ProductBrand: FC<Iform> = ({ form, loading, brands }) => {
           <FormItem>
             <FormLabel>Brand</FormLabel>
             <Select
-              disabled={loading}
+              disabled={loading || isLoading}
               onValueChange={field.onChange}
               defaultValue={field.value}
               value={field.value}
             >
-              <SelectTrigger>
                 <FormControl>
+              <SelectTrigger>
+                {
+                  isLoading ? <Loader/> : 
                   <SelectValue placeholder="Select brand" />
-                </FormControl>
+                }
               </SelectTrigger>
+                </FormControl>
               <SelectContent>
-                {brands?.map((brand) => (
+                {data?.map((brand: Brand) => (
                   <SelectItem value={brand.id} key={brand.id}>
                     {brand.name}
                   </SelectItem>

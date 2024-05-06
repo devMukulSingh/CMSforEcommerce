@@ -4,10 +4,7 @@ import { DataTable } from "@/components/commons/DataTable";
 import { columns } from "@/components/ui/OrdersColumn";
 import { getFormattedOrders } from "@/actions/get-formatted-orders";
 
-
-
 const OrderTable: FC<OrdersClientCompProps> = async ({ storeId }) => {
-  
   const orders = await getFormattedOrders(storeId);
   return (
     <>

@@ -3,22 +3,22 @@ import { prisma } from "@/lib/prisma";
 
 const SingleBillBoardPage = async ({
   params,
-
 }: {
   params: { billboardId: string };
 }) => {
   const { billboardId } = params;
 
   let billboard = null;
-  if(billboardId !== 'new')
-  billboard = await prisma.billboard.findUnique({
-    where: {
-      id: billboardId,
-    },
-    include: {
-      images: true,
-    },
-  });
+  
+  if (billboardId !== "new")
+    billboard = await prisma.billboard.findUnique({
+      where: {
+        id: billboardId,
+      },
+      include: {
+        images: true,
+      },
+    });
 
   return (
     <>

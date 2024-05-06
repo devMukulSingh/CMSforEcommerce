@@ -1,6 +1,5 @@
 import ProductForm from "@/app/(dashboard)/[storeId]/(routes)/products/[productId]/components/ProductForm";
 import { prisma } from "@/lib/prisma";
-import { Brand, Category, Color, Size } from "@prisma/client";
 
 const SingleProductPage = async ({
   params,
@@ -9,36 +8,18 @@ const SingleProductPage = async ({
 }) => {
   const { productId, storeId } = params;
 
-  const product = await prisma.product.findUnique({
-    where: {
-      id: productId,
-    },
-    include: {
+  let formattedProducts = null;
+
+  if(productId!=='new'){
+    const product = await prisma.product.findUnique({
+      where: {
+        id: productId,
+      },
+      include: {
       images: true,
     },
   });
-  const categories: Category[] = await prisma.category.findMany({
-    where: {
-      storeId,
-    },
-  });
-  const colors: Color[] = await prisma.color.findMany({
-    where: {
-      storeId,
-    },
-  });
-  const sizes: Size[] = await prisma.size.findMany({
-    where: {
-      storeId,
-    },
-  });
-  const brands: Brand[] = await prisma.brand.findMany({
-    where: {
-      storeId,
-    },
-  });
-
-  const formattedProducts = {
+   formattedProducts = {
     name: product?.name,
     price: product?.price,
     quantity: product?.quantity,
@@ -53,14 +34,12 @@ const SingleProductPage = async ({
     //@ts-ignore
     description: product?.description?.map((point: string) => point).join("\n"),
   };
+}
 
+  
   return (
     <>
       <ProductForm
-        categories={categories}
-        colors={colors}
-        sizes={sizes}
-        brands={brands}
         //@ts-ignore
         initialValues={formattedProducts}
       />

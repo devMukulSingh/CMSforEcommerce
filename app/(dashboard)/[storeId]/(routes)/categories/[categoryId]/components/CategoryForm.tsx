@@ -2,7 +2,6 @@
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useForm, UseFormReturn } from "react-hook-form";
-
 import { TrashIcon } from "lucide-react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,7 +13,6 @@ import { useParams } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { AlertModal } from "@/components/modals/AlertModal";
-
 import Loader from "@/components/commons/Loader";
 import { categorySchema } from "@/lib/formSchemas";
 import CategoryName from "./formFields/CategoryName";
