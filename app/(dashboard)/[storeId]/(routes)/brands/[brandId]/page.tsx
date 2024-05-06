@@ -5,7 +5,7 @@ const SingleBrandPage = async ({ params }: { params: { brandId: string } }) => {
   const { brandId } = params;
   let brand = null;
   if (brandId !== "new")
-  brand = await prisma.brand.findUnique({
+    brand = await prisma.brand.findUnique({
       where: {
         id: brandId,
       },

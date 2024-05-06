@@ -9,7 +9,7 @@ const SingleBillBoardPage = async ({
   const { billboardId } = params;
 
   let billboard = null;
-  
+
   if (billboardId !== "new")
     billboard = await prisma.billboard.findUnique({
       where: {

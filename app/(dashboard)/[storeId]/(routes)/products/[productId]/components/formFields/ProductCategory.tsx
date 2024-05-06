@@ -23,9 +23,8 @@ import { fetcher } from "@/lib/utils";
 import { Category } from "@prisma/client";
 import Loader from "@/components/commons/Loader";
 
-
 const ProductCategory: FC<Iform> = ({ form, loading }) => {
-  const  { storeId } = useParams();
+  const { storeId } = useParams();
   const [isOpen, setIsOpen] = useState(false);
   const handleOnClose = () => {
     setIsOpen(false);
@@ -36,11 +35,11 @@ const ProductCategory: FC<Iform> = ({ form, loading }) => {
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
-      revalidateIfStale: false,
-    }
+
+    },
   );
-  if(error) console.log(`Error in getCategories`,error);
-  
+  if (error) console.log(`Error in getCategories`, error);
+
   return (
     <>
       <AddCategoryModal isOpen={isOpen} onClose={handleOnClose} />
@@ -58,10 +57,11 @@ const ProductCategory: FC<Iform> = ({ form, loading }) => {
             >
               <FormControl>
                 <SelectTrigger>
-                  {
-                  isLoading ? <Loader/>:
-                  <SelectValue placeholder="Select category" />
-                }
+                  {isLoading ? (
+                    <Loader />
+                  ) : (
+                    <SelectValue placeholder="Select category" />
+                  )}
                 </SelectTrigger>
               </FormControl>
               <SelectContent>

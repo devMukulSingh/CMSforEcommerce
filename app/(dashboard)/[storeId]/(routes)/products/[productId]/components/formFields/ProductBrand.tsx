@@ -30,16 +30,11 @@ const ProductBrand: FC<Iform> = ({ form, loading }) => {
   const handleOnClose = () => {
     setIsOpen(false);
   };
-    const { data, error, isLoading } = useSWR(
-      `/api/${storeId}/brand`,
-      fetcher,
-      {
-        revalidateOnFocus:false,
-        revalidateOnReconnect:false,
-        revalidateIfStale:false,
-      }
-    );
-    if (error) console.log(`Error in getCategories`, error);
+  const { data, error, isLoading } = useSWR(`/api/${storeId}/brand`, fetcher, {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  });
+  if (error) console.log(`Error in getCategories`, error);
   return (
     <>
       <AddBrandModal isOpen={isOpen} onClose={handleOnClose} />
@@ -55,14 +50,15 @@ const ProductBrand: FC<Iform> = ({ form, loading }) => {
               defaultValue={field.value}
               value={field.value}
             >
-                <FormControl>
-              <SelectTrigger>
-                {
-                  isLoading ? <Loader/> : 
-                  <SelectValue placeholder="Select brand" />
-                }
-              </SelectTrigger>
-                </FormControl>
+              <FormControl>
+                <SelectTrigger>
+                  {isLoading ? (
+                    <Loader />
+                  ) : (
+                    <SelectValue placeholder="Select brand" />
+                  )}
+                </SelectTrigger>
+              </FormControl>
               <SelectContent>
                 {data?.map((brand: Brand) => (
                   <SelectItem value={brand.id} key={brand.id}>

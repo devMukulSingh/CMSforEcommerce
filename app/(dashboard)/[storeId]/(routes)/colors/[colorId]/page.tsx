@@ -5,12 +5,12 @@ const SingleColorPage = async ({ params }: { params: { colorId: string } }) => {
   const { colorId } = params;
 
   let colors = null;
-  if(colorId !=='new')
-  colors = await prisma.color.findUnique({
-    where: {
-      id: colorId,
-    },
-  });
+  if (colorId !== "new")
+    colors = await prisma.color.findUnique({
+      where: {
+        id: colorId,
+      },
+    });
 
   return (
     <>

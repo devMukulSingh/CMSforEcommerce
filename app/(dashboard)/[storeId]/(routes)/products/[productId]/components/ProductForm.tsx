@@ -24,9 +24,9 @@ import IsArchived from "./formFields/IsArchived";
 import ProductImage from "./formFields/ProductImage";
 import ProductQuantity from "./formFields/ProductQuantity";
 import ProductRating from "./formFields/ProductRating";
-const ProductCategory = dynamic( () => import("./formFields/ProductCategory"))
-const ProductBrand = dynamic( () => import("./formFields/ProductBrand"))
-const ProductColor = dynamic(() => import("./formFields/ProductColor"))
+const ProductCategory = dynamic(() => import("./formFields/ProductCategory"));
+const ProductBrand = dynamic(() => import("./formFields/ProductBrand"));
+const ProductColor = dynamic(() => import("./formFields/ProductColor"));
 
 export interface IinitialValues {
   name: string | undefined;
@@ -54,9 +54,7 @@ export interface Iform {
   categories?: Category[];
 }
 
-const ProductForm: React.FC<IproductFormProps> = ({
-  initialValues,
-}) => {
+const ProductForm: React.FC<IproductFormProps> = ({ initialValues }) => {
   const [openDeleteAlert, setOpenDeleteAlert] = useState<boolean>(false);
   const params = useParams();
   const router = useRouter();
@@ -138,7 +136,7 @@ const ProductForm: React.FC<IproductFormProps> = ({
             <p className="text-sm">Manage Product Preferences</p>
           </section>
           <Button
-            className={` ${!initialValues ? "hidden" : ""}` }
+            className={` ${!initialValues ? "hidden" : ""}`}
             onClick={() => setOpenDeleteAlert(true)}
             disabled={loading}
             variant="destructive"
@@ -156,7 +154,7 @@ const ProductForm: React.FC<IproductFormProps> = ({
 
               <ProductPrice form={form} />
 
-              <ProductCategory  form={form} />
+              <ProductCategory form={form} />
 
               <IsFeatured form={form} />
 
@@ -164,7 +162,7 @@ const ProductForm: React.FC<IproductFormProps> = ({
 
               <ProductImage form={form} />
 
-              <ProductBrand form={form}  />
+              <ProductBrand form={form} />
 
               <ProductColor form={form} />
 

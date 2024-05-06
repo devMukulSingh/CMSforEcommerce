@@ -28,7 +28,6 @@ const Billboards: FC<Iform> = ({ form, loading, billboards }) => {
     `/api/${storeId}/billboard`,
     fetcher,
     {
-      revalidateIfStale: false,
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
     },
