@@ -32,7 +32,7 @@ const SingleProductPage = async ({
       ratings: product?.ratings,
       brandId: product?.brandId,
       description: product?.description
-      //@ts-ignore
+        //@ts-ignore
         ?.map((point: string) => point)
         .join("\n"),
     };

@@ -3,17 +3,13 @@ import { OrdersClientCompProps } from "./OrdersClientComp";
 import { DataTable } from "@/components/commons/DataTable";
 import { columns } from "@/components/ui/OrdersColumn";
 import { getFormattedOrders } from "@/actions/get-formatted-orders";
+import Header from "./Header";
 
 const OrderTable: FC<OrdersClientCompProps> = async ({ storeId }) => {
   const orders = await getFormattedOrders(storeId);
   return (
     <>
-      <header className="flex justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">Orders({orders.length})</h1>
-          <p className="text-sm text-slate-500">Manage orders</p>
-        </div>
-      </header>
+      <Header orders={orders}/>
       <DataTable columns={columns} data={orders} />
     </>
   );

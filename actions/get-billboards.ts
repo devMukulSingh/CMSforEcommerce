@@ -10,7 +10,7 @@ export const getBillboards = cache(async (storeId: string) => {
   });
   const formattedBillboards = billboard.map((item) => ({
     id: item.id,
-    label: item.label,
+    name: item.label,
     createdAt: format(item.createdAt, "MMMM do, yyyy"),
   }));
   return formattedBillboards;

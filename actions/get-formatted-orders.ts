@@ -33,6 +33,7 @@ export const getFormattedOrders = cache(async (storeId: string) => {
     phone: item.phone,
     address: item.address,
     isPaid: item.isPaid,
+    customerName:item.customerName,
     products: item.orderItems
       .map((orderItem: IorderItem) => orderItem.product.name)
       .join(","),

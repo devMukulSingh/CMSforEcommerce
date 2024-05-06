@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Category } from "@prisma/client";
 import { useParams, useRouter } from "next/navigation";
 import { CategoryColumn } from "@/components/ui/CategoryColumn";
+import SearchBar from "@/components/commons/SearchBar";
 
 interface HeaderProps {
   categories: CategoryColumn[];
@@ -25,6 +26,7 @@ const Header: FC<HeaderProps> = ({ categories }) => {
           </h1>
           <p className="text-sm text-slate-500">Manage Categories</p>
         </div>
+        <SearchBar tableData={categories} />
         <Button
           onClick={() => router.push(`/${storeId}/categories/new`)}
           className="flex gap-2"

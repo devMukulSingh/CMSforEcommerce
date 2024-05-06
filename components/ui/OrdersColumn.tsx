@@ -12,12 +12,17 @@ export type OrdersColumn = {
   isPaid: boolean;
   totalPrice: number;
   createdAt: string;
+  customerName:string 
 };
 
 export const columns: ColumnDef<OrdersColumn>[] = [
   {
     accessorKey: "id",
     header: "Id",
+  },
+  {
+    accessorKey: "customerName",
+    header: "Customer name",
   },
   {
     accessorKey: "phone",

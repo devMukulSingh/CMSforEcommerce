@@ -6,6 +6,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Product } from "@prisma/client";
 import Link from "next/link";
 import { ProductColumn } from "@/components/ui/ProductColumn";
+import SearchBar from "@/components/commons/SearchBar";
 
 interface HeaderProps {
   products: ProductColumn[];
@@ -21,6 +22,7 @@ const Header: FC<HeaderProps> = ({ products }) => {
           <h1 className="text-2xl font-bold">Products({products.length})</h1>
           <p className="text-sm text-slate-500">Manage Products</p>
         </div>
+        <SearchBar tableData={products} />
         <Link href={`/${storeId}/products/new`} prefetch={true}>
           <Button className="flex gap-2">
             <PlusCircle />

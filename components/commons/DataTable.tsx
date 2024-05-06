@@ -15,20 +15,27 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "../ui/button";
-import { Suspense } from "react";
+import { Suspense, useCallback, useEffect } from "react";
 import TableSkeleton from "./TableSkeleton";
+import { setTableData } from "@/redux/slice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
 interface IdataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+  data: TData[] ;
 }
 
 export function DataTable<TData, TValue>({
   data,
   columns,
 }: IdataTableProps<TData, TValue>) {
+  const dispatch = useAppDispatch();
+  useEffect( () => {
+    dispatch(setTableData(data))
+  },[]);
+  const tableData = useAppSelector( state => state.adminSlice.tableData);
   const table = useReactTable({
-    data,
+    data: tableData,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),

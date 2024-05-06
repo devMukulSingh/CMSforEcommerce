@@ -35,7 +35,6 @@ const ProductCategory: FC<Iform> = ({ form, loading }) => {
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
-
     },
   );
   if (error) console.log(`Error in getCategories`, error);

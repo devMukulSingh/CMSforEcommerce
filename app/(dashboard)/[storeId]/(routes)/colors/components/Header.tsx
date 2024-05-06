@@ -6,6 +6,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Color } from "@prisma/client";
 import Link from "next/link";
 import { ColorColumn } from "@/components/ui/ColorColumn";
+import SearchBar from "@/components/commons/SearchBar";
 
 interface HeaderProps {
   colors: ColorColumn[];
@@ -20,6 +21,7 @@ const Header: FC<HeaderProps> = ({ colors }) => {
         <h1 className="text-2xl font-bold">Colors({colors.length})</h1>
         <p className="text-sm text-slate-500">Manage colors</p>
       </div>
+      <SearchBar tableData={colors} />
       <Link href={`/${storeId}/colors/new`} prefetch={true}>
         <Button className="flex gap-2">
           <PlusCircle />

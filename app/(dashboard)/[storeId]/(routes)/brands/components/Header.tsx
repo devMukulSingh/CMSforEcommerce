@@ -7,6 +7,7 @@ import { Brand } from "@prisma/client";
 import { FC, useEffect } from "react";
 import Link from "next/link";
 import { BrandColumn } from "@/components/ui/BrandColumn";
+import SearchBar from "@/components/commons/SearchBar";
 
 interface HeaderProps {
   brand: BrandColumn[];
@@ -22,6 +23,7 @@ const Header: FC<HeaderProps> = ({ brand }) => {
           <h1 className="text-2xl font-bold">Brand({brand?.length})</h1>
           <p className="text-sm text-slate-500">Manage brands</p>
         </div>
+        <SearchBar tableData={brand}/>
         <Link href={`/${storeId}/brands/new`} prefetch={true}>
           <Button className="flex gap-2">
             <PlusCircle />
