@@ -23,9 +23,7 @@ const Header: FC<HeaderProps> = ({ billboard }) => {
           </h1>
           <p className="text-sm text-slate-500">Manage Billboards</p>
         </div>
-        <SearchBar
-          tableData={billboard}
-        />
+        <SearchBar tableData={billboard} />
         <Link href={`/${storeId}/billboards/new`} prefetch={true}>
           <Button className="flex gap-2">
             <PlusCircle />

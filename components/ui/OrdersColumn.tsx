@@ -12,7 +12,7 @@ export type OrdersColumn = {
   isPaid: boolean;
   totalPrice: number;
   createdAt: string;
-  customerName:string 
+  customerName: string;
 };
 
 export const columns: ColumnDef<OrdersColumn>[] = [

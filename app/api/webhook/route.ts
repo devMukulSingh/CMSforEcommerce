@@ -45,7 +45,7 @@ export async function POST(req: Request, res: Response) {
         data: {
           isPaid: true,
           address: addressString,
-          customerName:session.customer_details?.name || "",
+          customerName: session.customer_details?.name || "",
           phone: session?.customer_details?.phone || "",
         },
         include: {

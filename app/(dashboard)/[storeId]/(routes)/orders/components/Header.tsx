@@ -1,14 +1,12 @@
-import SearchBar from '@/components/commons/SearchBar';
-import { OrdersColumn } from '@/components/ui/OrdersColumn';
-import React, { FC } from 'react'
+import SearchBar from "@/components/commons/SearchBar";
+import { OrdersColumn } from "@/components/ui/OrdersColumn";
+import React, { FC } from "react";
 
-interface HeaderProps{
-    orders:OrdersColumn[]
+interface HeaderProps {
+  orders: OrdersColumn[];
 }
 
-const Header:FC<HeaderProps> = ({
-    orders
-}) => {
+const Header: FC<HeaderProps> = ({ orders }) => {
   return (
     <>
       <header className="grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3 gap-20">
@@ -17,11 +15,10 @@ const Header:FC<HeaderProps> = ({
           <p className="text-sm text-slate-500">Manage orders</p>
         </div>
 
-        <SearchBar tableData={orders}/>
-
+        <SearchBar tableData={orders} />
       </header>
     </>
   );
-}
+};
 
-export default Header
+export default Header;

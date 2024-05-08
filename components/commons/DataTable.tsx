@@ -22,7 +22,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
 interface IdataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  data: TData[] ;
+  data: TData[];
 }
 
 export function DataTable<TData, TValue>({
@@ -30,10 +30,10 @@ export function DataTable<TData, TValue>({
   columns,
 }: IdataTableProps<TData, TValue>) {
   const dispatch = useAppDispatch();
-  useEffect( () => {
-    dispatch(setTableData(data))
-  },[]);
-  const tableData = useAppSelector( state => state.adminSlice.tableData);
+  useEffect(() => {
+    dispatch(setTableData(data));
+  }, []);
+  const tableData = useAppSelector((state) => state.adminSlice.tableData);
   const table = useReactTable({
     data: tableData,
     columns,

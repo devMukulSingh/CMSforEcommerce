@@ -4,13 +4,13 @@ interface IinitialState {
   isOpen: boolean;
   loading: boolean;
   openSidebar: boolean;
-  tableData: any[] 
+  tableData: any[];
 }
 const initialState: IinitialState = {
   isOpen: false,
   loading: false,
   openSidebar: false,
-  tableData:[]
+  tableData: [],
 };
 
 export const adminSlice = createSlice({
@@ -26,11 +26,12 @@ export const adminSlice = createSlice({
     setOpenSidebar: (state) => {
       state.openSidebar = !state.openSidebar;
     },
-    setTableData : (state,action) => {
+    setTableData: (state, action) => {
       state.tableData = action.payload;
-    }
+    },
   },
 });
 
 export default adminSlice.reducer;
-export const { setDialog, setLoading, setOpenSidebar, setTableData } = adminSlice.actions;
+export const { setDialog, setLoading, setOpenSidebar, setTableData } =
+  adminSlice.actions;

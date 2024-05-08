@@ -19,7 +19,8 @@ export async function POST(
   { params }: { params: { storeId: string } },
 ) {
   try {
-    const { productIds, storeId } = await req.json();
+    const { storeId } = params;
+    const { productIds } = await req.json();
 
     if (!productIds || productIds?.length < 0)
       return NextResponse.json(
@@ -32,14 +33,15 @@ export async function POST(
         { status: 400 },
       );
 
-    const products = await prisma.product.findMany({
-      where: {
-        id: {
-          in: [...productIds],
+      const products = await prisma.product.findMany({
+        where: {
+          id: {
+            in: [...productIds]
+          },
+          storeId
         },
-        storeId,
-      },
-    });
+      });
+
     const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 
     products.forEach((product) => {
@@ -69,10 +71,13 @@ export async function POST(
           })),
         },
       },
-    });
+    }); 
+    console.log(line_items,"line_items");
+    console.log(order,"order");
 
-    const session = await stripe.checkout.sessions.create({
-      line_items,
+
+      const session = await stripe.checkout.sessions.create({
+        line_items,
       mode: "payment",
       billing_address_collection: "required",
 

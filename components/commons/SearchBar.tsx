@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { FC, useState } from "react";
 import { Input } from "../ui/input";
 import { Search, X } from "lucide-react";
@@ -20,7 +20,7 @@ export function SearchBar({ tableData }: SearchBarProps) {
           item?.customerName?.toLowerCase()?.includes(query),
       );
       dispatch(setTableData(filterdData));
-    } else dispatch(setTableData(tableData))
+    } else dispatch(setTableData(tableData));
   };
 
   const handleClearSearch = () => {

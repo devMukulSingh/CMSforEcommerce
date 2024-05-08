@@ -9,7 +9,7 @@ const OrderTable: FC<OrdersClientCompProps> = async ({ storeId }) => {
   const orders = await getFormattedOrders(storeId);
   return (
     <>
-      <Header orders={orders}/>
+      <Header orders={orders} />
       <DataTable columns={columns} data={orders} />
     </>
   );
