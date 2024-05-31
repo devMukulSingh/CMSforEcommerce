@@ -8,5 +8,7 @@ export const getAllProducts = cache(async (storeId: string) => {
       isArchived: false,
     },
   });
+  // const totalProducts = products.reduce( (prev,acc) => prev + acc.quantity , 0)
+  // return totalProducts;
   return products.length;
 });

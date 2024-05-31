@@ -22,10 +22,6 @@ export const getGraphRevenue = cache(async (storeId: string) => {
       },
     });
 
-    const totalOrders = orders
-      ?.map((item) => item.orderItems.map((item) => item.product))
-      .flat();
-
     const graphData: IgraphData[] = [
       { name: "Jan", total: 0 },
       { name: "Feb", total: 0 },
@@ -41,22 +37,21 @@ export const getGraphRevenue = cache(async (storeId: string) => {
       { name: "Dec", total: 0 },
     ];
 
-    let i = 1;
-    if (totalOrders.length > 0) {
+    let i = 0;
+    if (orders.length > 0) {
       for (let obj of graphData) {
         let totalMonthlyRevenue = 0;
         //getting totalRevenue of a particular month
-        totalMonthlyRevenue = totalOrders
-          .filter((item) => item.updatedAt.getMonth() === i)
-          .map((item) => item.price)
-          .reduce((acc, next) => {
-            return acc + next;
-          }, 0);
+        totalMonthlyRevenue = orders
+          .filter( order => order.createdAt.getMonth()===i)
+          .map( order => order.orderItems.map(orderItem => orderItem.product)).flat()
+          .reduce( (prev,acc) => prev+acc.price,0);
         //inserting total revenue of particular month in the graphData array
         obj.total = totalMonthlyRevenue;
         i++;
       }
     }
+    
     return graphData;
   } catch (e) {
     console.log(`Error in getGraphRevenue ${e}`);

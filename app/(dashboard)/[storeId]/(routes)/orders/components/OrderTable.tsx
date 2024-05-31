@@ -6,7 +6,7 @@ import { getFormattedOrders } from "@/actions/get-formatted-orders";
 import Header from "./Header";
 
 const OrderTable: FC<OrdersClientCompProps> = async ({ storeId }) => {
-  const orders = await getFormattedOrders(storeId);
+  const orders = await getFormattedOrders(storeId) || [];
   return (
     <>
       <Header orders={orders} />

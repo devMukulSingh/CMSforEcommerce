@@ -14,7 +14,7 @@ interface IorderItem extends OrderItem {
 export const getFormattedOrders = cache(async (storeId: string) => {
   const orders = await prisma.order.findMany({
     where: {
-      storeId: storeId,
+      storeId
     },
     include: {
       orderItems: {

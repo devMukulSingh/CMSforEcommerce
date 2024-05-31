@@ -25,7 +25,7 @@ export const getTotalRevenue = async (storeId: string) => {
     );
 
     //calculating total revenue
-    const totalRevenue = orders
+    const totalRevenue = currMonthOrders
       .map((item) => item.orderItems.map((item) => item.product.price))
       .flat()
       .reduce((acc, curr) => {

@@ -66,7 +66,9 @@ export async function POST(req: Request, res: Response) {
           },
         },
         data: {
-          isArchived: true,
+          quantity:{
+            decrement:1
+          }
         },
       });
       return NextResponse.json(null, { status: 200 });

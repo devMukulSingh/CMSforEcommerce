@@ -5,7 +5,7 @@ import { Skeleton } from "../../../../../components/ui/skeleton";
 const CardSkeleton = () => {
   return (
     <>
-      <Skeleton className="w-[20rem] h-[10rem] " />
+      <Skeleton className="w-[20rem] h-[8rem] " />
     </>
   );
 };
