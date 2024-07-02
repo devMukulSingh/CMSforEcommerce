@@ -16,18 +16,22 @@ const Header: FC<HeaderProps> = ({ colors }) => {
   const { storeId } = useParams();
 
   return (
-    <header className="flex justify-between">
-      <div>
-        <h1 className="text-2xl font-bold">Colors({colors.length})</h1>
+    <header className="md:flex-row flex flex-col gap-5 md:gap-10 items-start md:items-center justify-between">
+      <div className="w-fit">
+        <h1 className="text-xl md:text-2xl font-bold">
+          Colors({colors?.length || 0})
+        </h1>
         <p className="text-sm text-slate-500">Manage colors</p>
       </div>
-      <SearchBar tableData={colors} />
-      <Link href={`/${storeId}/colors/new`} prefetch={true}>
-        <Button className="flex gap-2">
-          <PlusCircle />
-          Add New
-        </Button>
-      </Link>
+      <div className="flex items-center w-full md:gap-5 gap-3">
+        <SearchBar tableData={colors} />
+        <Link href={`/${storeId}/colors/new`} prefetch={true}>
+          <Button className="flex gap-2 ">
+            <PlusCircle />
+            <h1 className="hidden md:block"> Add New</h1>
+          </Button>
+        </Link>
+      </div>
     </header>
   );
 };

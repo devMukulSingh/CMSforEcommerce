@@ -9,13 +9,16 @@ interface HeaderProps {
 const Header: FC<HeaderProps> = ({ orders }) => {
   return (
     <>
-      <header className="grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3 gap-20">
-        <div>
-          <h1 className="text-2xl font-bold">Orders({orders.length})</h1>
+      <header className="md:flex-row flex flex-col gap-5 md:gap-10 items-start md:items-center ">
+        <div className="w-fit">
+          <h1 className="text-xl md:text-2xl font-bold">
+            Orders({orders?.length || 0})
+          </h1>
           <p className="text-sm text-slate-500">Manage orders</p>
         </div>
-
-        <SearchBar tableData={orders} />
+        <div className="flex items-center md:w-2/3 w-full md:gap-5 gap-3">
+          <SearchBar tableData={orders} />
+        </div>
       </header>
     </>
   );
