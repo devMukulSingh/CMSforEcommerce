@@ -6,7 +6,7 @@ interface SalesProps {
   selectedMonthOrders: number;
 }
 
-const Sales: FC<SalesProps> = ({ selectedMonthOrders=0 }) => {
+const Sales: FC<SalesProps> = ({ selectedMonthOrders = 0 }) => {
   return (
     <>
       <Card>

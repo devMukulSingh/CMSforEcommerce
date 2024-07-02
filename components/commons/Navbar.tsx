@@ -35,7 +35,7 @@ const Navbar = async ({ storeId }: { storeId: string }) => {
         <StoreSwitcher items={store} />
 
         <NavLinks />
-        <div className="flex gap-5">
+        <div className="flex gap-5 items-center">
           <ThemeToggler />
           <UserButton afterSignOutUrl="/" />
         </div>

@@ -12,8 +12,12 @@ import { fetcher, months } from "@/lib/utils";
 import { Order, OrderItem, Product } from "@prisma/client";
 import CardSkeleton from "./CardSkeleton";
 import dynamic from "next/dynamic";
-const TotalRevenue = lazy(() => import("@/app/(dashboard)/[storeId]/(routes)/components/TotalRevenue"));
-const Sales =  lazy(() => import("@/app/(dashboard)/[storeId]/(routes)/components/Sales"));
+const TotalRevenue = lazy(
+  () => import("@/app/(dashboard)/[storeId]/(routes)/components/TotalRevenue"),
+);
+const Sales = lazy(
+  () => import("@/app/(dashboard)/[storeId]/(routes)/components/Sales"),
+);
 const ProductInStock = lazy(() => import("./ProductInStock"));
 
 interface TExtededOrderItem extends OrderItem {
@@ -41,7 +45,7 @@ const DashboardData: FC<DashboardDataProps> = ({ storeId }) => {
           ?.filter(
             (order) =>
               order.isPaid === true &&
-              new Date(order.createdAt).getMonth() === Number(currentMonth)
+              new Date(order.createdAt).getMonth() === Number(currentMonth),
           )
           .map((order: IextendedOrder) => order.orderItems)
           .flat() || [];
@@ -68,7 +72,7 @@ const DashboardData: FC<DashboardDataProps> = ({ storeId }) => {
       ?.filter(
         (order: IextendedOrder) =>
           order.isPaid === true &&
-          new Date(order.createdAt).getMonth() === Number(selectedMonth)
+          new Date(order.createdAt).getMonth() === Number(selectedMonth),
       )
       .map((order: IextendedOrder) => order.orderItems)
       .flat();

@@ -9,10 +9,15 @@ interface ProductInStockProps {
 }
 
 const ProductInStock: FC<ProductInStockProps> = async ({ storeId }) => {
-
-  const { data:products , isLoading} = useSWR(`/api/${storeId}/product`,fetcher,{
-    onError(e) { console.log(`Error in getProductsInstock`,e) }
-  })
+  const { data: products, isLoading } = useSWR(
+    `/api/${storeId}/product`,
+    fetcher,
+    {
+      onError(e) {
+        console.log(`Error in getProductsInstock`, e);
+      },
+    },
+  );
 
   return (
     <>

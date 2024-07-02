@@ -13,6 +13,9 @@ export const getFormattedProducts = cache(async (storeId: string) => {
       color: true,
       brand: true,
     },
+    orderBy:{
+      createdAt:'desc'
+    }
   });
 
   const formattedProducts = products.map((item) => ({

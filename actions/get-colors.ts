@@ -8,6 +8,9 @@ export const getColors = cache(async (storeId: string) => {
     where: {
       storeId: storeId,
     },
+    orderBy:{
+      createdAt:'desc'
+    }
   });
   const formattedcolors: ColorColumn[] = colors.map((item) => ({
     id: item.id,

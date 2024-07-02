@@ -66,9 +66,9 @@ export async function POST(req: Request, res: Response) {
           },
         },
         data: {
-          quantity:{
-            decrement:1
-          }
+          quantity: {
+            decrement: 1,
+          },
         },
       });
       return NextResponse.json(null, { status: 200 });

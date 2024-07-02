@@ -43,15 +43,18 @@ export const getGraphRevenue = cache(async (storeId: string) => {
         let totalMonthlyRevenue = 0;
         //getting totalRevenue of a particular month
         totalMonthlyRevenue = orders
-          .filter( order => order.createdAt.getMonth()===i)
-          .map( order => order.orderItems.map(orderItem => orderItem.product)).flat()
-          .reduce( (prev,acc) => prev+acc.price,0);
+          .filter((order) => order.createdAt.getMonth() === i)
+          .map((order) =>
+            order.orderItems.map((orderItem) => orderItem.product),
+          )
+          .flat()
+          .reduce((prev, acc) => prev + acc.price, 0);
         //inserting total revenue of particular month in the graphData array
         obj.total = totalMonthlyRevenue;
         i++;
       }
     }
-    
+
     return graphData;
   } catch (e) {
     console.log(`Error in getGraphRevenue ${e}`);

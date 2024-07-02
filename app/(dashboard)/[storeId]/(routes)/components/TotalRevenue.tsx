@@ -3,10 +3,10 @@ import { DollarSign } from "lucide-react";
 import { FC } from "react";
 
 interface TotalRevenueProps {
-  selectedMonthRevenue:number
+  selectedMonthRevenue: number;
 }
 
-const TotalRevenue: FC<TotalRevenueProps> = ({ selectedMonthRevenue=0 }) => {
+const TotalRevenue: FC<TotalRevenueProps> = ({ selectedMonthRevenue = 0 }) => {
   return (
     <>
       <Card>

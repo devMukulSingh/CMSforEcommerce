@@ -50,7 +50,7 @@ const StoreSwitcher: React.FC<StoreSwitcherProps> = ({ items }) => {
   };
 
   return (
-    <main>
+    <>
       <Popover open={open}>
         <PopoverTrigger asChild>
           <Button
@@ -59,7 +59,7 @@ const StoreSwitcher: React.FC<StoreSwitcherProps> = ({ items }) => {
             role="combobox"
             aria-expanded={open}
             aria-label="Select a store"
-            className="w-52 justify-between "
+            className="max-w-52 justify-between "
             onClick={() => setOpen((prev) => !prev)}
           >
             <StoreIcon className="mr-2" />
@@ -100,7 +100,7 @@ const StoreSwitcher: React.FC<StoreSwitcherProps> = ({ items }) => {
           </Command>
         </PopoverContent>
       </Popover>
-    </main>
+    </>
   );
 };
 
