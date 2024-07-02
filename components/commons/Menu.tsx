@@ -8,7 +8,8 @@ const Menu = () => {
 
   return (
     <MenuIcon
-      className="lg:hidden"
+      size={20}
+      className="lg:hidden flex-shrink-0"
       onClick={() => dispatch(setOpenSidebar())}
     />
   );

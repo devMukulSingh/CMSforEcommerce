@@ -16,20 +16,22 @@ const Header: FC<HeaderProps> = ({ billboard }) => {
   const { storeId } = useParams();
   return (
     <>
-      <header className="flex gap-5 sm:gap-10 items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">
+      <header className="md:flex-row flex flex-col gap-5 md:gap-10 items-start md:items-center justify-between">
+        <div className="w-fit">
+          <h1 className="text-xl md:text-2xl font-bold">
             BillBoards({billboard?.length || 0})
           </h1>
           <p className="text-sm text-slate-500">Manage Billboards</p>
         </div>
-        <SearchBar tableData={billboard} />
-        <Link href={`/${storeId}/billboards/new`} prefetch={true}>
-          <Button className="flex gap-2">
-            <PlusCircle />
-            Add New
-          </Button>
-        </Link>
+        <div className="flex items-center w-full md:gap-5 gap-3">
+          <SearchBar tableData={billboard} />
+          <Link href={`/${storeId}/billboards/new`} prefetch={true}>
+            <Button className="flex gap-2 ">
+              <PlusCircle />
+              <h1 className="hidden md:block"> Add New</h1>
+            </Button>
+          </Link>
+        </div>
       </header>
     </>
   );

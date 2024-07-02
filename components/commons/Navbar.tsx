@@ -24,8 +24,10 @@ const Navbar = async ({ storeId }: { storeId: string }) => {
         className="
             h-24
             flex
-            px-5
-            gap-5
+            px-3
+            sm:px-5
+            gap-3
+            sm:gap-5
             justify-between
             items-center
             "

@@ -14,7 +14,7 @@ const BillBoardsClientComp: React.FC<BillBoardClientCompProps> = ({
   storeId,
 }) => {
   return (
-    <div className="flex flex-col gap-4 p-5">
+    <div className="flex flex-col gap-4 p-3 sm:p-5">
       <BillboardsTable storeId={storeId} />
       <Separator />
       <ApiList entityName="billboard" entityIdName="{billboardId}" />

@@ -39,16 +39,32 @@ export const ApiAlert: React.FC<IapiAlertProps> = ({
   };
   return (
     <main>
-      <Alert className="space-y-4">
+      <Alert className="space-y-4 sm:px-3 px-2">
         <AlertTitle className="flex gap-4 items-center">
           <Server className="h-4 w-4" />
           {title}
           <Badge variant={variantMap[variant]}>{textMap[variant]}</Badge>
         </AlertTitle>
-        <AlertDescription className="flex justify-between bg-slate-100 dark:bg-slate-800 items-center rounded-md px-2">
+        <AlertDescription
+          className="
+          flex 
+          justify-between 
+          bg-slate-100 
+          py-2 
+          dark:bg-slate-800 
+          items-center 
+          rounded-md 
+          px-2
+          gap-2
+          "
+        >
           {url}
-          <Button variant="ghost" onClick={() => handleCopy()}>
-            <Copy className="" />
+          <Button
+            className="min-w-5 flex-shrink"
+            variant="ghost"
+            onClick={() => handleCopy()}
+          >
+            <Copy className="size-5 flex-shrink-0" />
           </Button>
         </AlertDescription>
       </Alert>

@@ -28,11 +28,12 @@ export function SearchBar({ tableData }: SearchBarProps) {
     dispatch(setTableData(tableData));
   };
   return (
-    <div className="flex w-[40rem] ">
+    <div className="flex w-full ">
       <div
         className="
         flex 
-        px-5 
+        px-3
+        sm:px-5 
         py-1 
         rounded-md 
         items-center 

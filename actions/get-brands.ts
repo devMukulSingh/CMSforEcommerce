@@ -8,9 +8,9 @@ export const getBrands = cache(async (storeId: string) => {
     where: {
       storeId: storeId,
     },
-    orderBy:{
-      createdAt:'desc'
-    }
+    orderBy: {
+      createdAt: "desc",
+    },
   });
   const formattedbrands: BrandColumn[] = brands.map((item) => ({
     id: item.id,
