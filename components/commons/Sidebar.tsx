@@ -1,14 +1,20 @@
 "use client";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
-import Menu from "./Menu";
-import { Separator } from "../ui/separator";
-import { setOpenSidebar } from "@/redux/slice";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { Menu, MenuIcon } from "lucide-react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { Button } from "../ui/button";
 
 const Sibebar = () => {
-  const dispatch = useAppDispatch();
-  const openSidebar = useAppSelector((state) => state.adminSlice.openSidebar);
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect( () => {
+    setIsMounted(true)
+  },[]);
   const pathName = usePathname();
   const { storeId } = useParams();
   const routes = [
@@ -53,33 +59,34 @@ const Sibebar = () => {
       active: pathName === `/${storeId}/settings`,
     },
   ];
-  const handleSidebar = () => {
-    if (openSidebar) {
-      dispatch(setOpenSidebar());
-    }
-  };
-  if (!openSidebar) return null;
-
+  const [open, setOpen] = useState(false);
+  if(!isMounted) return null;
   return (
     <>
-      <main className="flex flex-col gap-5 w-52 h-[100vh] absolute top-0 z-10 px-5 py-8 transition-transform ease-in-out bg-white border ">
-        <Menu />
-        <div className="flex flex-col gap-3 ">
-          {routes.map((route) => (
-            <>
+      <div className="block lg:hidden">
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetTrigger>
+            <Button variant="outline">
+            <MenuIcon />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side={"left"}>
+            <ul className=" flex flex-col gap-5">
+            {routes?.map((route, index) => (
               <Link
+                onClick={() => setOpen(false)}
+                prefetch={true}
                 href={route.href}
-                key={route.href}
-                className={` ${route.active ? "font-bold" : ""} text-xl md:text-lg sm:text-md`}
-                onClick={handleSidebar}
-              >
+                key={index}
+                className={` ${route.active ? "font-bold" : ""} text-lg `}
+                >
                 {route.label}
               </Link>
-              <Separator />
-            </>
-          ))}
-        </div>
-      </main>
+            ))}
+            </ul>
+          </SheetContent>
+        </Sheet>
+      </div>
     </>
   );
 };

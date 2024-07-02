@@ -4,8 +4,8 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { Separator } from "../ui/separator";
 import NavLinks from "./NavLinks";
-import Menu from "./Menu";
 import { ThemeToggler } from "./ThemeToggler";
+import Sidebar from "@/components/commons/Sidebar"
 
 const Navbar = async ({ storeId }: { storeId: string }) => {
   const { userId } = auth();
@@ -32,7 +32,7 @@ const Navbar = async ({ storeId }: { storeId: string }) => {
             items-center
             "
       >
-        <Menu />
+        <Sidebar />
 
         <StoreSwitcher items={store} />
 

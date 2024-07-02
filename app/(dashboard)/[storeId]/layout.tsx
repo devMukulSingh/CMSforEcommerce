@@ -2,7 +2,6 @@ import Navbar from "@/components/commons/Navbar";
 import { prisma } from "@/lib/prisma";
 import { auth, useAuth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
-import Sidebar from "@/components/commons/Sidebar";
 
 export default async function DashboardLayout({
   children,
@@ -29,7 +28,6 @@ export default async function DashboardLayout({
   return (
     <>
       <Navbar storeId={storeId} />
-      <Sidebar />
       {children}
     </>
   );
